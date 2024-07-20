@@ -1,4 +1,4 @@
-# Wing Ping - Chat App
+# 3-Body Problem
 
 Create the Android and iOS projects
 
@@ -35,4 +35,11 @@ Run the app on iOS
 
 ```bash
 pnpm exec cap run ios
+```
+
+Live reloading using ionic
+
+```bash
+ionic cap run android -l --external
+ionic cap run ios -l --external
 ```
