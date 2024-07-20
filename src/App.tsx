@@ -1,3 +1,8 @@
 export const App = () => {
-  return <div>Wing Ping</div>;
+  return (
+    <>
+      <img src="logo.png" alt="logo" height={100} width={100} />
+      <span>Wing Ping</span>
+    </>
+  );
 };
