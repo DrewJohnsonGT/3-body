@@ -1,8 +1,22 @@
+import P5 from 'p5';
 import { Body } from '~/Body';
-import { G } from '~/constants';
+import { CANVAS_CONTAINER_ID, G } from '~/constants';
 import { SYSTEM_1 } from '~/utils/systems';
 
-import P5 from 'p5';
+const getCanvasSize = () => {
+  const element = document.getElementById(CANVAS_CONTAINER_ID);
+  if (!element) {
+    return { height: 0, width: 0 };
+  }
+  const { height, width } = element.getBoundingClientRect();
+  return { height, width };
+};
+
+const setCanvasSize = (P: P5) => {
+  const { height, width } = getCanvasSize();
+  console.log('Setting canvas size:', height, width);
+  P.resizeCanvas(width || P.windowWidth, height || P.windowHeight);
+};
 
 const addRandomBody = (P: P5, pos: P5.Vector) => {
   return new Body({
@@ -17,13 +31,13 @@ export const simulation = (P: P5) => {
   let bodies: Body[];
 
   P.setup = () => {
-    P.createCanvas(P.windowWidth, P.windowHeight);
+    setCanvasSize(P);
     P.frameRate(60);
     bodies = SYSTEM_1(P);
   };
 
   P.windowResized = () => {
-    P.resizeCanvas(P.windowWidth, P.windowHeight);
+    setCanvasSize(P);
   };
 
   P.mouseClicked = (event: PointerEvent) => {

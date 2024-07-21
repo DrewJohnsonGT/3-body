@@ -1,5 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { IonContent } from '@ionic/react';
 import P5 from 'p5';
+import { useEffect, useRef } from 'react';
+import { CANVAS_CONTAINER_ID } from '~/constants';
 
 type Sketch = (p: P5) => void;
 
@@ -22,5 +24,16 @@ export const P5Wrapper = ({ sketch }: P5WrapperProps) => {
     };
   }, [sketch]);
 
-  return <div ref={sketchRef}></div>;
+  return (
+    <IonContent>
+      <div
+        id={CANVAS_CONTAINER_ID}
+        ref={sketchRef}
+        style={{
+          height: '100%',
+          overflow: 'hidden',
+        }}
+      />
+    </IonContent>
+  );
 };

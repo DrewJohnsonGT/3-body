@@ -9,7 +9,7 @@
     "plugin:react/jsx-runtime",
     "plugin:@typescript-eslint/strict-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
-    "plugin:sort/recommended",
+    "plugin:sort/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -31,7 +31,6 @@
   "plugins": ["react", "sort"],
   "rules": {
     "indent": "off",
-    "import/no-default-export": "error",
     "sort/imports": "off",
     "react/react-in-jsx-scope": "off",
     "semi": "off",

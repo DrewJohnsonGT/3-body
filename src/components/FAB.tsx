@@ -1,13 +1,4 @@
-import {
-  IonContent,
-  IonFab,
-  IonFabButton,
-  IonFabList,
-  IonHeader,
-  IonIcon,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react';
+import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
 import {
   chevronDownCircle,
   chevronUpCircle,
@@ -16,12 +7,12 @@ import {
   globe,
   pauseCircle,
 } from 'ionicons/icons';
-import { useAppContext, ActionType } from '~/Context';
+import { ActionType, useAppContext } from '~/Context';
 
 export const FAB = () => {
   const {
-    state: { isRunning },
     dispatch,
+    state: { isRunning },
   } = useAppContext();
   return (
     <>
@@ -29,12 +20,12 @@ export const FAB = () => {
         <IonFabButton>
           <IonIcon
             icon={pauseCircle}
-            onClick={() =>
+            onClick={() => {
               dispatch({
-                type: ActionType.SetIsRunning,
                 payload: !isRunning,
-              })
-            }></IonIcon>
+                type: ActionType.SetIsRunning,
+              });
+            }}></IonIcon>
         </IonFabButton>
         <IonFabList side="end">
           <IonFabButton>
