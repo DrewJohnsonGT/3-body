@@ -3,7 +3,7 @@ import { CANVAS_CONTAINER_ID, G } from '~/constants';
 import { Body } from '~/utils/Body';
 import { getRandomColor } from '~/utils/color';
 import { Particle } from '~/utils/Particle';
-import { SYSTEM_1 } from '~/utils/systems';
+import { SYSTEM_FIGURE_EIGHT } from '~/utils/systems';
 
 const getCanvasSize = () => {
   const element = document.getElementById(CANVAS_CONTAINER_ID);
@@ -46,7 +46,7 @@ export const simulation = (P: P5) => {
   P.setup = () => {
     setCanvasSize(P);
     P.frameRate(60);
-    bodies.push(...SYSTEM_1(P));
+    bodies.push(...SYSTEM_FIGURE_EIGHT(P));
   };
 
   P.windowResized = () => {

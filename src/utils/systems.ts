@@ -19,24 +19,24 @@ export const SYSTEM_1 = (P: P5) => {
   });
 
   return [
-    // new Body({
-    //   color: getRandomColor(P),
-    //   mass,
-    //   pos: positions[0],
-    //   vel: P.createVector(
-    //     velocityMagnitude * Math.sin(0),
-    //     -velocityMagnitude * Math.cos(0),
-    //   ),
-    // }),
-    // new Body({
-    //   color: getRandomColor(P),
-    //   mass,
-    //   pos: positions[2],
-    //   vel: P.createVector(
-    //     velocityMagnitude * Math.sin(-P.TWO_PI / 3),
-    //     -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
-    //   ),
-    // }),
+    new Body({
+      color: getRandomColor(P),
+      mass,
+      pos: positions[0],
+      vel: P.createVector(
+        velocityMagnitude * Math.sin(0),
+        -velocityMagnitude * Math.cos(0),
+      ),
+    }),
+    new Body({
+      color: getRandomColor(P),
+      mass,
+      pos: positions[2],
+      vel: P.createVector(
+        velocityMagnitude * Math.sin(-P.TWO_PI / 3),
+        -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
+      ),
+    }),
     new Body({
       color: getRandomColor(P),
       mass,
@@ -45,6 +45,45 @@ export const SYSTEM_1 = (P: P5) => {
         velocityMagnitude * Math.sin(P.TWO_PI / 3),
         -velocityMagnitude * Math.cos(P.TWO_PI / 3),
       ),
+    }),
+  ];
+};
+
+export const SYSTEM_FIGURE_EIGHT = (P: P5) => {
+  const mass = 5;
+  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const scale = Math.min(P.windowWidth, P.windowHeight) * 0.1; // Adjusted scale
+
+  const positions = [
+    P.createVector(-1, 0).mult(scale).add(center),
+    P.createVector(1, 0).mult(scale).add(center),
+    P.createVector(0, 0).mult(scale).add(center),
+  ];
+
+  const velocities = [
+    P.createVector(0.347111, 0.532728).mult(scale / 178),
+    P.createVector(0.347111, 0.532728).mult(scale / 178),
+    P.createVector(-0.694222, -1.065456).mult(scale / 178),
+  ];
+
+  return [
+    new Body({
+      color: getRandomColor(P),
+      mass,
+      pos: positions[0],
+      vel: velocities[0],
+    }),
+    new Body({
+      color: getRandomColor(P),
+      mass,
+      pos: positions[1],
+      vel: velocities[1],
+    }),
+    new Body({
+      color: getRandomColor(P),
+      mass,
+      pos: positions[2],
+      vel: velocities[2],
     }),
   ];
 };
