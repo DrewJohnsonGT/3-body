@@ -10,8 +10,6 @@ PODS:
     - Capacitor
   - CapacitorStatusBar (6.0.0):
     - Capacitor
-  - CapacitorTranceeNearby (3.3.4):
-    - Capacitor
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/.pnpm/@capacitor+ios@6.1.1_@capacitor+core@6.1.1/node_modules/@capacitor/ios`)"
@@ -20,7 +18,6 @@ DEPENDENCIES:
   - "CapacitorHaptics (from `../../node_modules/.pnpm/@capacitor+haptics@6.0.0_@capacitor+core@6.1.1/node_modules/@capacitor/haptics`)"
   - "CapacitorKeyboard (from `../../node_modules/.pnpm/@capacitor+keyboard@6.0.1_@capacitor+core@6.1.1/node_modules/@capacitor/keyboard`)"
   - "CapacitorStatusBar (from `../../node_modules/.pnpm/@capacitor+status-bar@6.0.0_@capacitor+core@6.1.1/node_modules/@capacitor/status-bar`)"
-  - "CapacitorTranceeNearby (from `../../node_modules/.pnpm/@capacitor-trancee+nearby@3.3.4_@capacitor+core@6.1.1/node_modules/@capacitor-trancee/nearby`)"
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -35,8 +32,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/.pnpm/@capacitor+keyboard@6.0.1_@capacitor+core@6.1.1/node_modules/@capacitor/keyboard"
   CapacitorStatusBar:
     :path: "../../node_modules/.pnpm/@capacitor+status-bar@6.0.0_@capacitor+core@6.1.1/node_modules/@capacitor/status-bar"
-  CapacitorTranceeNearby:
-    :path: "../../node_modules/.pnpm/@capacitor-trancee+nearby@3.3.4_@capacitor+core@6.1.1/node_modules/@capacitor-trancee/nearby"
 
 SPEC CHECKSUMS:
   Capacitor: 8941aba4364ba9d1b22188569001f2ce45cc2b00
@@ -45,8 +40,7 @@ SPEC CHECKSUMS:
   CapacitorHaptics: 9ebc9363f0e9b8eb4295088a0b474530acf1859b
   CapacitorKeyboard: 5f32a712adf41e07a61caafb82cf29fb6d8ba123
   CapacitorStatusBar: 2e4369f99166125435641b1908d05f561eaba6f6
-  CapacitorTranceeNearby: 270a5a465ab2a1c4aca17f62419eeb4e350f4846
 
-PODFILE CHECKSUM: 8915467ca592fbe90e9e5e9689f620a451b75be3
+PODFILE CHECKSUM: f78090297135eb9ea091429e48d6789dcdaa43d6
 
 COCOAPODS: 1.15.2
