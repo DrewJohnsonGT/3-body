@@ -29,21 +29,21 @@ export const SYSTEM_1 = (P: P5) => {
       ),
     }),
     new Body({
-      color: P.color(0, 255, 0),
-      mass,
-      pos: positions[1],
-      vel: P.createVector(
-        velocityMagnitude * Math.sin(P.TWO_PI / 3),
-        -velocityMagnitude * Math.cos(P.TWO_PI / 3),
-      ),
-    }),
-    new Body({
       color: P.color(0, 0, 255),
       mass,
       pos: positions[2],
       vel: P.createVector(
         velocityMagnitude * Math.sin(-P.TWO_PI / 3),
         -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
+      ),
+    }),
+    new Body({
+      color: P.color(0, 255, 0),
+      mass,
+      pos: positions[1],
+      vel: P.createVector(
+        velocityMagnitude * Math.sin(P.TWO_PI / 3),
+        -velocityMagnitude * Math.cos(P.TWO_PI / 3),
       ),
     }),
   ];

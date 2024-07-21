@@ -10,7 +10,6 @@
     "plugin:@typescript-eslint/strict-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:sort/recommended",
-    "eslint-config-standard"
   ],
   "parserOptions": {
     "ecmaVersion": "latest",

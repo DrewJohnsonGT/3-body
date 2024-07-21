@@ -45,9 +45,24 @@ export class Body {
   }
 
   display(P: P5) {
-    P.stroke(P.lerpColor(this.color, P.color(0, 0, 0), 0.4));
+    // Glow effect
+    const glowSize = 15; // Adjust size for more/less glow
+    const glowAlpha = 30; // Adjust alpha for more/less intensity
 
-    // Draw the trail first
+    P.noStroke(); // No border for the glow to ensure smoothness
+    for (let i = glowSize; i > 0; i -= 5) {
+      // Gradual decrease in size
+      P.fill(
+        P.red(this.color),
+        P.green(this.color),
+        P.blue(this.color),
+        glowAlpha,
+      );
+      P.ellipse(this.pos.x, this.pos.y, 20 + i); // Increase size for glow
+    }
+
+    // Trail display
+    P.stroke(this.color);
     P.noFill();
     P.beginShape();
     for (const vector of this.trail) {
@@ -55,6 +70,8 @@ export class Body {
     }
     P.endShape();
 
+    // Main body
+    P.stroke(P.lerpColor(this.color, P.color(0, 0, 0), 0.4));
     P.fill(this.color);
     P.ellipse(this.pos.x, this.pos.y, 20);
   }
