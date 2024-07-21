@@ -1,6 +1,7 @@
 import P5 from 'p5';
 
-const MAX_TRAIL_LENGTH = 100;
+const MAX_TRAIL_LENGTH = 10000;
+const SIZE_MULTIPLIER = 4;
 
 export class Body {
   public mass: number;
@@ -37,6 +38,10 @@ export class Body {
     this.updateTrail();
   }
 
+  getSize() {
+    return Math.cbrt(this.mass) * SIZE_MULTIPLIER;
+  }
+
   updateTrail() {
     this.trail.push(this.pos.copy());
     if (this.trail.length > MAX_TRAIL_LENGTH) {
@@ -46,26 +51,32 @@ export class Body {
 
   display(P: P5) {
     // Glow effect
-    const glowSize = 15; // Adjust size for more/less glow
-    const glowAlpha = 30; // Adjust alpha for more/less intensity
+    const glowSize = 15;
+    const glowAlpha = 30;
 
-    P.noStroke(); // No border for the glow to ensure smoothness
+    P.noStroke();
     for (let i = glowSize; i > 0; i -= 5) {
-      // Gradual decrease in size
       P.fill(
         P.red(this.color),
         P.green(this.color),
         P.blue(this.color),
         glowAlpha,
       );
-      P.ellipse(this.pos.x, this.pos.y, 20 + i); // Increase size for glow
+      P.ellipse(this.pos.x, this.pos.y, this.getSize() + i);
     }
 
-    // Trail display
-    P.stroke(this.color);
+    // Trail display with fading effect
     P.noFill();
     P.beginShape();
-    for (const vector of this.trail) {
+    for (let i = 0; i < this.trail.length; i++) {
+      const alpha = P.map(i, 0, this.trail.length, 0, 255);
+      const vector = this.trail[i];
+      P.stroke(
+        P.red(this.color),
+        P.green(this.color),
+        P.blue(this.color),
+        alpha,
+      );
       P.vertex(vector.x, vector.y);
     }
     P.endShape();
@@ -73,6 +84,6 @@ export class Body {
     // Main body
     P.stroke(P.lerpColor(this.color, P.color(0, 0, 0), 0.4));
     P.fill(this.color);
-    P.ellipse(this.pos.x, this.pos.y, 20);
+    P.ellipse(this.pos.x, this.pos.y, this.getSize());
   }
 }

@@ -1,6 +1,6 @@
 import { IonContent, IonPage } from '@ionic/react';
 import { useEffect } from 'react';
-import { P5Wrapper } from '~/components/P5Wrapper';
+import { P5Wrapper } from '~/components';
 import { simulation } from '~/utils/simulation';
 
 export const HomePage = () => {
