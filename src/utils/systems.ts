@@ -19,24 +19,24 @@ export const SYSTEM_1 = (P: P5) => {
   });
 
   return [
-    new Body({
-      color: getRandomColor(P),
-      mass,
-      pos: positions[0],
-      vel: P.createVector(
-        velocityMagnitude * Math.sin(0),
-        -velocityMagnitude * Math.cos(0),
-      ),
-    }),
-    new Body({
-      color: getRandomColor(P),
-      mass,
-      pos: positions[2],
-      vel: P.createVector(
-        velocityMagnitude * Math.sin(-P.TWO_PI / 3),
-        -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
-      ),
-    }),
+    // new Body({
+    //   color: getRandomColor(P),
+    //   mass,
+    //   pos: positions[0],
+    //   vel: P.createVector(
+    //     velocityMagnitude * Math.sin(0),
+    //     -velocityMagnitude * Math.cos(0),
+    //   ),
+    // }),
+    // new Body({
+    //   color: getRandomColor(P),
+    //   mass,
+    //   pos: positions[2],
+    //   vel: P.createVector(
+    //     velocityMagnitude * Math.sin(-P.TWO_PI / 3),
+    //     -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
+    //   ),
+    // }),
     new Body({
       color: getRandomColor(P),
       mass,

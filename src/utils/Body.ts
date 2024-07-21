@@ -9,7 +9,6 @@ export class Body {
   public pos: P5.Vector;
   public vel: P5.Vector;
   public color: P5.Color;
-  e
   public trail: P5.Vector[];
 
   constructor({
@@ -68,19 +67,19 @@ export class Body {
 
     // Trail display with fading effect
     P.noFill();
-    P.beginShape();
-    for (let i = 0; i < this.trail.length; i++) {
-      const alpha = P.map(i, 0, this.trail.length, 0, 255, true);
+    for (let i = 1; i < this.trail.length; i++) {
+      const alpha = P.map(i, 0, this.trail.length, 0, 255);
       const vector = this.trail[i];
+      const prevVector = this.trail[i - 1];
 
       const r = P.red(this.color);
       const g = P.green(this.color);
       const b = P.blue(this.color);
 
       P.stroke(r, g, b, alpha);
-      P.vertex(vector.x, vector.y);
+      P.strokeWeight(this.getSize() / 4);
+      P.line(prevVector.x, prevVector.y, vector.x, vector.y);
     }
-    P.endShape();
 
     // Main body
     P.strokeWeight(2);
