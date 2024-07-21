@@ -1,7 +1,8 @@
-import { G, WINDOW_SCALE } from '~/constants';
-import { SYSTEM_1 } from '~/utils/systems';
-import P5 from 'p5';
 import { Body } from '~/Body';
+import { G } from '~/constants';
+import { SYSTEM_1 } from '~/utils/systems';
+
+import P5 from 'p5';
 
 const addRandomBody = (P: P5, pos: P5.Vector) => {
   return new Body({
@@ -16,13 +17,13 @@ export const simulation = (P: P5) => {
   let bodies: Body[];
 
   P.setup = () => {
-    P.createCanvas(P.windowWidth * WINDOW_SCALE, P.windowHeight * WINDOW_SCALE);
+    P.createCanvas(P.windowWidth, P.windowHeight);
     P.frameRate(60);
     bodies = SYSTEM_1(P);
   };
 
   P.windowResized = () => {
-    P.resizeCanvas(P.windowWidth * WINDOW_SCALE, P.windowHeight * WINDOW_SCALE);
+    P.resizeCanvas(P.windowWidth, P.windowHeight);
   };
 
   P.mouseClicked = (event: PointerEvent) => {
