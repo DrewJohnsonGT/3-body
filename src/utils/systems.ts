@@ -1,6 +1,7 @@
 import P5 from 'p5';
 import { G } from '~/constants';
 import { Body } from '~/utils/Body';
+import { getRandomColor } from '~/utils/color';
 
 export const SYSTEM_1 = (P: P5) => {
   const mass = 52;
@@ -19,7 +20,7 @@ export const SYSTEM_1 = (P: P5) => {
 
   return [
     new Body({
-      color: P.color(255, 0, 0),
+      color: getRandomColor(P),
       mass,
       pos: positions[0],
       vel: P.createVector(
@@ -28,7 +29,7 @@ export const SYSTEM_1 = (P: P5) => {
       ),
     }),
     new Body({
-      color: P.color(0, 0, 255),
+      color: getRandomColor(P),
       mass,
       pos: positions[2],
       vel: P.createVector(
@@ -37,7 +38,7 @@ export const SYSTEM_1 = (P: P5) => {
       ),
     }),
     new Body({
-      color: P.color(0, 255, 0),
+      color: getRandomColor(P),
       mass,
       pos: positions[1],
       vel: P.createVector(

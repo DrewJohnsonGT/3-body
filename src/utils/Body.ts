@@ -1,6 +1,7 @@
 import P5 from 'p5';
+import { getDarkerColor } from '~/utils/color';
 
-const MAX_TRAIL_LENGTH = 10000;
+const MAX_TRAIL_LENGTH = 500;
 const SIZE_MULTIPLIER = 4;
 
 export class Body {
@@ -8,6 +9,7 @@ export class Body {
   public pos: P5.Vector;
   public vel: P5.Vector;
   public color: P5.Color;
+  e
   public trail: P5.Vector[];
 
   constructor({
@@ -53,7 +55,6 @@ export class Body {
     // Glow effect
     const glowSize = 15;
     const glowAlpha = 30;
-
     P.noStroke();
     for (let i = glowSize; i > 0; i -= 5) {
       P.fill(
@@ -69,20 +70,21 @@ export class Body {
     P.noFill();
     P.beginShape();
     for (let i = 0; i < this.trail.length; i++) {
-      const alpha = P.map(i, 0, this.trail.length, 0, 255);
+      const alpha = P.map(i, 0, this.trail.length, 0, 255, true);
       const vector = this.trail[i];
-      P.stroke(
-        P.red(this.color),
-        P.green(this.color),
-        P.blue(this.color),
-        alpha,
-      );
+
+      const r = P.red(this.color);
+      const g = P.green(this.color);
+      const b = P.blue(this.color);
+
+      P.stroke(r, g, b, alpha);
       P.vertex(vector.x, vector.y);
     }
     P.endShape();
 
     // Main body
-    P.stroke(P.lerpColor(this.color, P.color(0, 0, 0), 0.4));
+    P.strokeWeight(2);
+    P.stroke(getDarkerColor(P, this.color, 0.4));
     P.fill(this.color);
     P.ellipse(this.pos.x, this.pos.y, this.getSize());
   }

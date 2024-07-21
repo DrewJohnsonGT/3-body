@@ -1,6 +1,7 @@
 import P5 from 'p5';
 import { CANVAS_CONTAINER_ID, G } from '~/constants';
 import { Body } from '~/utils/Body';
+import { getRandomColor } from '~/utils/color';
 import { Particle } from '~/utils/Particle';
 import { SYSTEM_1 } from '~/utils/systems';
 
@@ -19,7 +20,7 @@ const setCanvasSize = (P: P5) => {
 };
 
 const addRandomBody = (P: P5, pos: P5.Vector) => {
-  const newBodyColor = P.color(P.random(255), P.random(255), P.random(255));
+  const newBodyColor = getRandomColor(P);
   const newBody = new Body({
     color: newBodyColor,
     mass: P.random(10, 100),
