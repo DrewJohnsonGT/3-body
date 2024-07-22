@@ -1,11 +1,11 @@
 import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
 import {
-  chevronDownCircle,
-  chevronUpCircle,
   colorPalette,
   document,
   globe,
   pauseCircle,
+  playCircle,
+  settings,
 } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
 
@@ -15,64 +15,41 @@ export const FAB = () => {
     state: { isRunning },
   } = useAppContext();
   return (
-    <>
-      <IonFab slot="fixed" vertical="top" horizontal="start">
-        <IonFabButton>
-          <IonIcon
-            icon={pauseCircle}
-            onClick={() => {
-              dispatch({
-                payload: !isRunning,
-                type: ActionType.SetIsRunning,
-              });
-            }}></IonIcon>
+    <IonFab
+      slot="fixed"
+      vertical="top"
+      horizontal="end"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
+      <IonFabButton>
+        <IonIcon icon={settings} />
+      </IonFabButton>
+      <IonFabList side="start">
+        <IonFabButton
+          color="primary"
+          onClick={() => {
+            dispatch({
+              payload: !isRunning,
+              type: ActionType.SetIsRunning,
+            });
+          }}
+        >
+          <IonIcon icon={isRunning ? pauseCircle : playCircle}></IonIcon>
         </IonFabButton>
-        <IonFabList side="end">
-          <IonFabButton>
-            <IonIcon icon={document}></IonIcon>
-          </IonFabButton>
-          <IonFabButton>
-            <IonIcon icon={colorPalette}></IonIcon>
-          </IonFabButton>
-          <IonFabButton>
-            <IonIcon icon={globe}></IonIcon>
-          </IonFabButton>
-        </IonFabList>
-      </IonFab>
-
-      <IonFab slot="fixed" vertical="top" horizontal="end" edge={true}>
+      </IonFabList>
+      <IonFabList side="bottom">
         <IonFabButton>
-          <IonIcon icon={chevronDownCircle}></IonIcon>
+          <IonIcon icon={document}></IonIcon>
         </IonFabButton>
-        <IonFabList side="bottom">
-          <IonFabButton>
-            <IonIcon icon={document}></IonIcon>
-          </IonFabButton>
-          <IonFabButton>
-            <IonIcon icon={colorPalette}></IonIcon>
-          </IonFabButton>
-          <IonFabButton>
-            <IonIcon icon={globe}></IonIcon>
-          </IonFabButton>
-        </IonFabList>
-      </IonFab>
-
-      <IonFab slot="fixed" vertical="bottom" horizontal="end">
         <IonFabButton>
-          <IonIcon icon={chevronUpCircle}></IonIcon>
+          <IonIcon icon={colorPalette}></IonIcon>
         </IonFabButton>
-        <IonFabList side="top">
-          <IonFabButton>
-            <IonIcon icon={document}></IonIcon>
-          </IonFabButton>
-          <IonFabButton>
-            <IonIcon icon={colorPalette}></IonIcon>
-          </IonFabButton>
-          <IonFabButton>
-            <IonIcon icon={globe}></IonIcon>
-          </IonFabButton>
-        </IonFabList>
-      </IonFab>
-    </>
+        <IonFabButton>
+          <IonIcon icon={globe}></IonIcon>
+        </IonFabButton>
+      </IonFabList>
+    </IonFab>
   );
 };

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -5,7 +6,6 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { useEffect } from 'react';
 
 export const SettingsPage = () => {
   useEffect(() => {

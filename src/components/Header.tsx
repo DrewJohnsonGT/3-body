@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import {
   IonAvatar,
   IonButton,
@@ -13,7 +14,6 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { useRef, useState } from 'react';
 
 export const SettingsModal = () => {
   const modal = useRef<HTMLIonModalElement>(null);
@@ -36,18 +36,21 @@ export const SettingsModal = () => {
             alignItems: 'center',
             display: 'flex',
             justifyContent: 'space-between',
-          }}>
+          }}
+        >
           <IonButton
             onClick={() => {
               setCount(count - 1);
-            }}>
+            }}
+          >
             -
           </IonButton>
           <p>{count}</p>
           <IonButton
             onClick={() => {
               setCount(count + 1);
-            }}>
+            }}
+          >
             +
           </IonButton>
         </div>
@@ -58,11 +61,13 @@ export const SettingsModal = () => {
           initialBreakpoint={0.25}
           breakpoints={[0.25, 0.5, 0.75]}
           backdropDismiss={false}
-          backdropBreakpoint={0.5}>
+          backdropBreakpoint={0.5}
+        >
           <IonContent className="ion-padding">
             <IonSearchbar
               onClick={() => modal.current?.setCurrentBreakpoint(0.75)}
-              placeholder="Search"></IonSearchbar>
+              placeholder="Search"
+            ></IonSearchbar>
             <IonList>
               <IonItem>
                 <IonAvatar slot="start">
@@ -106,6 +111,6 @@ export const SettingsModal = () => {
       </IonContent>
     </IonPage>
   );
-}
+};
 
 export default Example;

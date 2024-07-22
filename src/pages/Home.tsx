@@ -1,7 +1,6 @@
-import { IonContent, IonPage } from '@ionic/react';
 import { useEffect } from 'react';
+import { IonContent, IonPage } from '@ionic/react';
 import { P5Wrapper } from '~/components';
-import { simulation } from '~/utils/simulation';
 
 export const HomePage = () => {
   useEffect(() => {
@@ -13,7 +12,7 @@ export const HomePage = () => {
   return (
     <IonPage>
       <IonContent>
-        <P5Wrapper sketch={simulation} />
+        <P5Wrapper />
       </IonContent>
     </IonPage>
   );

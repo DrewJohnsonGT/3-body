@@ -1,5 +1,6 @@
 import P5 from 'p5';
 import { CANVAS_CONTAINER_ID, G } from '~/constants';
+import { ActionType, Dispatch, State } from '~/Context';
 import { Body } from '~/utils/Body';
 import { getRandomColor } from '~/utils/color';
 import { Particle } from '~/utils/Particle';
@@ -39,10 +40,17 @@ const addRandomBody = (P: P5, pos: P5.Vector) => {
   return { newBody, newParticles };
 };
 
-export const simulation = (P: P5) => {
-  const bodies: Body[] = [];
-  const particles: Particle[] = [];
+const calculateGravity = (P: P5, b1: Body, b2: Body) => {
+  const force = P5.Vector.sub(b2.pos, b1.pos);
+  const distance = P.constrain(force.mag(), 50, 10000);
+  force.normalize();
+  const strength = (G * b1.mass * b2.mass) / (distance * distance);
+  force.mult(strength);
+  return force;
+};
 
+export const simulation = (P: P5, state: State, dispatch: Dispatch) => {
+  const { bodies, particles } = state;
   P.setup = () => {
     setCanvasSize(P);
     P.frameRate(60);
@@ -56,17 +64,11 @@ export const simulation = (P: P5) => {
   P.mouseClicked = (event: PointerEvent) => {
     const pos = P.createVector(event.offsetX, event.offsetY);
     const { newBody, newParticles } = addRandomBody(P, pos);
-    bodies.push(newBody);
+    dispatch({
+      payload: newBody,
+      type: ActionType.AddBody,
+    });
     particles.push(...newParticles);
-  };
-
-  const calculateGravity = (b1: Body, b2: Body) => {
-    const force = P5.Vector.sub(b2.pos, b1.pos);
-    const distance = P.constrain(force.mag(), 50, 10000);
-    force.normalize();
-    const strength = (G * b1.mass * b2.mass) / (distance * distance);
-    force.mult(strength);
-    return force;
   };
 
   P.draw = () => {
@@ -78,7 +80,7 @@ export const simulation = (P: P5) => {
     // Calculate all forces
     for (let i = 0; i < bodies.length; i++) {
       for (let j = i + 1; j < bodies.length; j++) {
-        const force = calculateGravity(bodies[i], bodies[j]);
+        const force = calculateGravity(P, bodies[i], bodies[j]);
         forces[i].add(force);
         forces[j].sub(force); // Equivalent to force.mult(-1) and then adding to j
       }

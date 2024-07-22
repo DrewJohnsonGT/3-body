@@ -11,6 +11,8 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { help, home, planet, settings } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
+import { FAB } from '~/components';
+import { AppContextProvider } from '~/Context';
 import { ExamplesPage, HelpPage, HomePage, SettingsPage } from '~/pages';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
@@ -47,29 +49,32 @@ const TABS = [
 export const App = () => {
   return (
     <IonApp>
-      <IonReactRouter forceRefresh>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Redirect exact path="/" to="/home" />
-            {TABS.map((tab, index) => (
-              <Route key={index} path={`/${tab.label.toLowerCase()}`} exact>
-                <tab.page />
-              </Route>
-            ))}
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            {TABS.map((tab, index) => (
-              <IonTabButton
-                key={index}
-                tab={tab.label.toLowerCase()}
-                href={`/${tab.label.toLowerCase()}`}>
-                <IonIcon icon={tab.icon} />
-                <IonLabel>{tab.label}</IonLabel>
-              </IonTabButton>
-            ))}
-          </IonTabBar>
-        </IonTabs>
-      </IonReactRouter>
+      <AppContextProvider>
+        <FAB />
+        <IonReactRouter forceRefresh>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Redirect exact path="/" to="/home" />
+              {TABS.map((tab, index) => (
+                <Route key={index} path={`/${tab.label.toLowerCase()}`} exact>
+                  <tab.page />
+                </Route>
+              ))}
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              {TABS.map((tab, index) => (
+                <IonTabButton
+                  key={index}
+                  tab={tab.label.toLowerCase()}
+                  href={`/${tab.label.toLowerCase()}`}>
+                  <IonIcon icon={tab.icon} />
+                  <IonLabel>{tab.label}</IonLabel>
+                </IonTabButton>
+              ))}
+            </IonTabBar>
+          </IonTabs>
+        </IonReactRouter>
+      </AppContextProvider>
     </IonApp>
   );
 };
