@@ -8,22 +8,24 @@ export class Particle {
 
   constructor({
     color,
+    lifespan,
     pos,
     vel,
   }: {
     pos: P5.Vector;
     vel: P5.Vector;
     color: P5.Color;
+    lifespan: number;
   }) {
     this.pos = pos.copy();
     this.vel = vel.copy();
     this.color = color;
-    this.lifespan = 255;
+    this.lifespan = lifespan;
   }
 
   update() {
     this.pos.add(this.vel);
-    this.lifespan -= 4;
+    this.lifespan -= 1;
   }
 
   display(P: P5) {

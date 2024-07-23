@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { Body } from '~/utils/Body';
 import { Particle } from '~/utils/Particle';
+import { System } from '~/utils/systems';
 
 const DEFAULT_STATE = {
   bodies: [] as Body[],
   isRunning: true,
   particles: [] as Particle[],
+  selectedSystem: System.FIGURE_EIGHT,
 };
 
 export type State = typeof DEFAULT_STATE;
@@ -16,6 +18,7 @@ export enum ActionType {
   AddBody = 'ADD_BODY',
   SetBodies = 'SET_BODIES',
   SetParticles = 'SET_PARTICLES',
+  SetSelectedSystem = 'SET_SELECTED_SYSTEM',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -23,6 +26,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.AddBody]: Body;
   [ActionType.SetParticles]: Particle[];
   [ActionType.SetBodies]: Body[];
+  [ActionType.SetSelectedSystem]: System;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -44,6 +48,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         isRunning: action.payload,
+      };
+    case ActionType.SetSelectedSystem:
+      return {
+        ...state,
+        selectedSystem: action.payload,
       };
     case ActionType.AddBody:
       return {

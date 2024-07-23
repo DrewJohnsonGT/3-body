@@ -21,6 +21,7 @@ const setCanvasSize = (P: P5) => {
 };
 
 const addRandomBody = (P: P5, pos: P5.Vector) => {
+  console.log('addRandomBody');
   const newBodyColor = getRandomColor(P);
   const newBody = new Body({
     color: newBodyColor,
@@ -34,8 +35,12 @@ const addRandomBody = (P: P5, pos: P5.Vector) => {
     const angle = P.random(P.TWO_PI);
     const speed = P.random(1, 3);
     const vel = P.createVector(P.cos(angle) * speed, P.sin(angle) * speed);
-    const color = newBodyColor;
-    return new Particle({ color, pos, vel });
+    return new Particle({
+      color: newBodyColor,
+      lifespan: P.random(10, 100),
+      pos,
+      vel,
+    });
   });
   return { newBody, newParticles };
 };

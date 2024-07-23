@@ -3,7 +3,7 @@ import { G } from '~/constants';
 import { Body } from '~/utils/Body';
 import { getRandomColor } from '~/utils/color';
 
-export const SYSTEM_1 = (P: P5) => {
+const CIRCLE = (P: P5) => {
   const mass = 52;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
   const size = Math.min(P.windowWidth, P.windowHeight) * 0.3; // Length of the side of the equilateral triangle
@@ -49,7 +49,7 @@ export const SYSTEM_1 = (P: P5) => {
   ];
 };
 
-export const SYSTEM_FIGURE_EIGHT = (P: P5) => {
+const FIGURE_EIGHT = (P: P5) => {
   const mass = 5;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
   const scale = Math.min(P.windowWidth, P.windowHeight) * 0.1; // Adjusted scale
@@ -86,4 +86,14 @@ export const SYSTEM_FIGURE_EIGHT = (P: P5) => {
       vel: velocities[2],
     }),
   ];
+};
+
+export enum System {
+  CIRCLE = 'Circle',
+  FIGURE_EIGHT = 'Figure Eight',
+}
+
+export const SYSTEMS_MAP: Record<System, (P: P5) => Body[]> = {
+  [System.CIRCLE]: CIRCLE,
+  [System.FIGURE_EIGHT]: FIGURE_EIGHT,
 };
