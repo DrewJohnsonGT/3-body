@@ -20,12 +20,10 @@ const getCanvasSize = () => {
 
 export const setCanvasSize = (P: P5) => {
   const { height, width } = getCanvasSize();
-  console.log('resizeCanvas', width, height);
   P.resizeCanvas(width || P.windowWidth, height || P.windowHeight);
 };
 
 const addRandomBody = (P: P5, pos: P5.Vector) => {
-  console.log('addRandomBody');
   const newBodyColor = getRandomColor(P);
   const newBody = new Body({
     color: newBodyColor,
@@ -68,6 +66,28 @@ export const P5Wrapper = () => {
 
   const canvasRef = useRef<HTMLDivElement>(null);
 
+  const setup = (P: P5) => {
+    setCanvasSize(P);
+    P.frameRate(60);
+    dispatch({
+      payload: SYSTEMS_MAP[selectedSystem](P),
+      type: ActionType.SetBodies,
+    });
+  };
+
+  const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {
+    const pos = P.createVector(event.offsetX, event.offsetY);
+    const { newBody, newParticles } = addRandomBody(P, pos);
+    dispatch({
+      payload: newBody,
+      type: ActionType.AddBody,
+    });
+    dispatch({
+      payload: newParticles,
+      type: ActionType.SetParticles,
+    });
+  }, 50);
+
   const draw = (P: P5) => {
     P.background(0);
     if (!isRunning) {
@@ -108,30 +128,6 @@ export const P5Wrapper = () => {
     }
   };
 
-  const setup = (P: P5) => {
-    console.log('setup');
-    setCanvasSize(P);
-    P.frameRate(60);
-    dispatch({
-      payload: SYSTEMS_MAP[selectedSystem](P),
-      type: ActionType.SetBodies,
-    });
-  };
-
-  const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {
-    console.log('mouseClicked');
-    const pos = P.createVector(event.offsetX, event.offsetY);
-    const { newBody, newParticles } = addRandomBody(P, pos);
-    dispatch({
-      payload: newBody,
-      type: ActionType.AddBody,
-    });
-    dispatch({
-      payload: newParticles,
-      type: ActionType.SetParticles,
-    });
-  }, 50);
-
   // Re-draw when drawing state changes
   useEffect(() => {
     p.draw = () => {
@@ -149,7 +145,6 @@ export const P5Wrapper = () => {
   // Initialize P5
   useLayoutEffect(() => {
     if (canvasRef.current) {
-      console.log('mount P5');
       const myP5 = new P5((P: P5) => {
         P.setup = () => {
           setup(P);
@@ -164,7 +159,6 @@ export const P5Wrapper = () => {
       p = myP5;
       return () => {
         p.remove();
-        console.log('unmount P5');
       };
     }
   }, []);
