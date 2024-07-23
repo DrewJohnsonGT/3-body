@@ -75,3 +75,14 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+html {
+  --ion-safe-area-left: 25px;
+  --ion-safe-area-right: 15px;
+  --ion-safe-area-top: 30px;
+  --ion-safe-area-bottom: 25px;
+}
+
+ion-fab {
+  margin-top: var(--ion-safe-area-top, 0);
+}

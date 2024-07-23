@@ -93,6 +93,7 @@ export const P5Wrapper = () => {
     if (!isRunning) {
       P.fill(255);
       P.text('Paused', 50, 50);
+      P.text(`Bodies: ${String(bodies.length)}`, 50, 70);
     }
     // Initialize force accumulators
     const forces = bodies.map(() => P.createVector(0, 0));
@@ -154,6 +155,9 @@ export const P5Wrapper = () => {
         };
         P.mouseClicked = (event: PointerEvent) => {
           mouseClicked(event, P);
+        };
+        P.windowResized = () => {
+          setCanvasSize(P);
         };
       }, canvasRef.current);
       p = myP5;
