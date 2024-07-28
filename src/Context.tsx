@@ -14,6 +14,7 @@ export type State = typeof DEFAULT_STATE;
 export type Dispatch = React.Dispatch<Actions>;
 
 export enum ActionType {
+  Restart = 'RESTART',
   SetIsRunning = 'SET_IS_RUNNING',
   AddBody = 'ADD_BODY',
   SetBodies = 'SET_BODIES',
@@ -27,6 +28,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetParticles]: Particle[];
   [ActionType.SetBodies]: Body[];
   [ActionType.SetSelectedSystem]: System;
+  [ActionType.Restart]: undefined;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -48,6 +50,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         isRunning: action.payload,
+      };
+    case ActionType.Restart:
+      return {
+        ...DEFAULT_STATE,
+        selectedSystem: state.selectedSystem,
       };
     case ActionType.SetSelectedSystem:
       return {

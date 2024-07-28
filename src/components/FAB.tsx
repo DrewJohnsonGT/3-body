@@ -1,10 +1,10 @@
 import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
 import {
   colorPalette,
-  document,
   globe,
   pauseCircle,
   playCircle,
+  refreshCircle,
   settings,
 } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
@@ -21,8 +21,7 @@ export const FAB = () => {
       horizontal="end"
       onClick={(e) => {
         e.stopPropagation();
-      }}
-    >
+      }}>
       <IonFabButton>
         <IonIcon icon={settings} />
       </IonFabButton>
@@ -34,19 +33,20 @@ export const FAB = () => {
               payload: !isRunning,
               type: ActionType.SetIsRunning,
             });
-          }}
-        >
+          }}>
           <IonIcon icon={isRunning ? pauseCircle : playCircle}></IonIcon>
         </IonFabButton>
       </IonFabList>
       <IonFabList side="bottom">
-        <IonFabButton>
-          <IonIcon icon={document}></IonIcon>
+        <IonFabButton color="primary" onClick={() => [
+          dispatch({ type: ActionType.Restart }),
+        ]}>
+          <IonIcon icon={refreshCircle}></IonIcon>
         </IonFabButton>
-        <IonFabButton>
+        <IonFabButton color="primary">
           <IonIcon icon={colorPalette}></IonIcon>
         </IonFabButton>
-        <IonFabButton>
+        <IonFabButton color="primary">
           <IonIcon icon={globe}></IonIcon>
         </IonFabButton>
       </IonFabList>

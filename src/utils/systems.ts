@@ -52,7 +52,7 @@ const CIRCLE = (P: P5) => {
 const FIGURE_EIGHT = (P: P5) => {
   const mass = 5;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
-  const scale = Math.min(P.windowWidth, P.windowHeight) * 0.1; // Adjusted scale
+  const scale = Math.min(P.windowWidth, P.windowHeight) * 0.1;
 
   const positions = [
     P.createVector(-1, 0).mult(scale).add(center),
@@ -60,10 +60,13 @@ const FIGURE_EIGHT = (P: P5) => {
     P.createVector(0, 0).mult(scale).add(center),
   ];
 
+  const velocityScale =
+    (scale / Math.sqrt(P.windowWidth * P.windowHeight)) * 6.92;
+
   const velocities = [
-    P.createVector(0.347111, 0.532728).mult(scale / 178),
-    P.createVector(0.347111, 0.532728).mult(scale / 178),
-    P.createVector(-0.694222, -1.065456).mult(scale / 178),
+    P.createVector(0.347111, 0.532728).mult(velocityScale),
+    P.createVector(0.347111, 0.532728).mult(velocityScale),
+    P.createVector(-0.694222, -1.065456).mult(velocityScale),
   ];
 
   return [
