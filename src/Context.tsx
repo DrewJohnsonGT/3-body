@@ -5,9 +5,10 @@ import { System } from '~/utils/systems';
 
 const DEFAULT_STATE = {
   bodies: [] as Body[],
+  gravityMultiplier: 1,
   isRunning: true,
   particles: [] as Particle[],
-  selectedSystem: System.FIGURE_EIGHT,
+  selectedSystem: System.CENTRAL_BODY_ORBIT,
 };
 
 export type State = typeof DEFAULT_STATE;
@@ -20,6 +21,7 @@ export enum ActionType {
   SetBodies = 'SET_BODIES',
   SetParticles = 'SET_PARTICLES',
   SetSelectedSystem = 'SET_SELECTED_SYSTEM',
+  SetGravityMultiplier = 'SET_GRAVITY_MULTIPLIER',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -29,6 +31,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetBodies]: Body[];
   [ActionType.SetSelectedSystem]: System;
   [ActionType.Restart]: undefined;
+  [ActionType.SetGravityMultiplier]: number;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -75,6 +78,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         particles: action.payload,
+      };
+    case ActionType.SetGravityMultiplier:
+      return {
+        ...state,
+        gravityMultiplier: action.payload,
       };
     default:
       return state;

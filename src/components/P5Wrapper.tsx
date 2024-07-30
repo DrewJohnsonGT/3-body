@@ -32,7 +32,7 @@ const addRandomBody = (P: P5, pos: P5.Vector) => {
     vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
   });
 
-  const numParticles = 20;
+  const numParticles = 30;
   const newParticles = Array.from({ length: numParticles }, () => {
     const angle = P.random(P.TWO_PI);
     const speed = P.random(1, 3);
@@ -47,12 +47,18 @@ const addRandomBody = (P: P5, pos: P5.Vector) => {
   return { newBody, newParticles };
 };
 
-const calculateGravity = (P: P5, b1: Body, b2: Body) => {
+const calculateGravity = (
+  P: P5,
+  b1: Body,
+  b2: Body,
+  gravityMultiplier: number,
+) => {
   const force = P5.Vector.sub(b2.pos, b1.pos);
   const distance = P.constrain(force.mag(), 50, 10000);
   force.normalize();
   const strength = (G * b1.mass * b2.mass) / (distance * distance);
   force.mult(strength);
+  force.mult(gravityMultiplier);
   return force;
 };
 
@@ -61,7 +67,7 @@ let p: P5;
 export const P5Wrapper = () => {
   const {
     dispatch,
-    state: { bodies, isRunning, particles, selectedSystem },
+    state: { bodies, gravityMultiplier, isRunning, particles, selectedSystem },
   } = useAppContext();
 
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -101,7 +107,12 @@ export const P5Wrapper = () => {
     // Calculate all forces
     for (let i = 0; i < bodies.length; i++) {
       for (let j = i + 1; j < bodies.length; j++) {
-        const force = calculateGravity(P, bodies[i], bodies[j]);
+        const force = calculateGravity(
+          P,
+          bodies[i],
+          bodies[j],
+          gravityMultiplier,
+        );
         forces[i].add(force);
         forces[j].sub(force); // Equivalent to force.mult(-1) and then adding to j
       }

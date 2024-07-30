@@ -40,7 +40,7 @@ export class Body {
   }
 
   getSize() {
-    return Math.cbrt(this.mass) * SIZE_MULTIPLIER;
+    return Math.sqrt(this.mass) * SIZE_MULTIPLIER;
   }
 
   updateTrail() {
