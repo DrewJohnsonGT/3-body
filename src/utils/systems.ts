@@ -51,7 +51,6 @@ const CIRCLE = (P: P5) => {
 
 const FIGURE_EIGHT = (P: P5) => {
   const aspectRatio = P.windowWidth / P.windowHeight;
-  console.log('aspectRatio: ', aspectRatio);
 
   const baseAspectRatio = 1;
   const baseMass = 79;
