@@ -1,7 +1,7 @@
 import P5 from 'p5';
 import { getDarkerColor } from '~/utils/color';
 
-const MAX_TRAIL_LENGTH = 500;
+const MAX_TRAIL_LENGTH = 2500;
 const SIZE_MULTIPLIER = 4;
 
 export class Body {

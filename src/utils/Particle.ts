@@ -30,7 +30,7 @@ export class Particle {
 
   display(P: P5) {
     P.push();
-    P.strokeWeight(2);
+    P.strokeWeight(4);
     P.stroke(
       P.red(this.color),
       P.green(this.color),

@@ -50,23 +50,29 @@ const CIRCLE = (P: P5) => {
 };
 
 const FIGURE_EIGHT = (P: P5) => {
-  const mass = 5;
+  const aspectRatio = P.windowWidth / P.windowHeight;
+  console.log('aspectRatio: ', aspectRatio);
+
+  const baseAspectRatio = 1;
+  const baseMass = 79;
+  const baseVelocity = 1;
+
+  const mass = baseMass * (aspectRatio / baseAspectRatio);
+  const velocityScale = baseVelocity * (aspectRatio / baseAspectRatio);
+
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
-  const scale = Math.min(P.windowWidth, P.windowHeight) * 0.1;
+  const positionScale = (aspectRatio / baseAspectRatio) * 350;
 
   const positions = [
-    P.createVector(-1, 0).mult(scale).add(center),
-    P.createVector(1, 0).mult(scale).add(center),
-    P.createVector(0, 0).mult(scale).add(center),
+    P.createVector(0.97000436, -0.24308753).mult(positionScale).add(center),
+    P.createVector(-0.97000436, 0.24308753).mult(positionScale).add(center),
+    P.createVector(0, 0).mult(positionScale).add(center),
   ];
 
-  const velocityScale =
-    (scale / Math.sqrt(P.windowWidth * P.windowHeight)) * 6.92;
-
   const velocities = [
-    P.createVector(0.347111, 0.532728).mult(velocityScale),
-    P.createVector(0.347111, 0.532728).mult(velocityScale),
-    P.createVector(-0.694222, -1.065456).mult(velocityScale),
+    P.createVector(0.466203685, 0.43236573).mult(velocityScale),
+    P.createVector(0.466203685, 0.43236573).mult(velocityScale),
+    P.createVector(-0.93240737, -0.86473146).mult(velocityScale),
   ];
 
   return [

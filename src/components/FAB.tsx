@@ -38,9 +38,11 @@ export const FAB = () => {
         </IonFabButton>
       </IonFabList>
       <IonFabList side="bottom">
-        <IonFabButton color="primary" onClick={() => [
-          dispatch({ type: ActionType.Restart }),
-        ]}>
+        <IonFabButton
+          color="primary"
+          onClick={() => {
+            dispatch({ type: ActionType.Restart });
+          }}>
           <IonIcon icon={refreshCircle}></IonIcon>
         </IonFabButton>
         <IonFabButton color="primary">
