@@ -1,68 +1,54 @@
 import { useRef } from 'react';
 import {
-  IonAvatar,
   IonContent,
-  IonImg,
   IonItem,
-  IonLabel,
   IonList,
   IonModal,
-  IonSearchbar,
+  IonRange,
+  IonToggle,
 } from '@ionic/react';
+import { ActionType, useAppContext } from '~/Context';
 
 export const SheetModal = () => {
   const modal = useRef<HTMLIonModalElement>(null);
-
+  const {
+    dispatch,
+    state: { showTrails },
+  } = useAppContext();
   return (
     <IonModal
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
       ref={modal}
       trigger="open-modal"
       initialBreakpoint={0.25}
       breakpoints={[0, 0.25, 0.5, 0.75]}>
       <IonContent className="ion-padding">
-        <IonSearchbar
-          onClick={() => {
-            modal.current?.setCurrentBreakpoint(0.75).catch(() => {
-              console.log('error setting breakpoint');
-            });
-          }}
-          placeholder="Search"></IonSearchbar>
         <IonList>
           <IonItem>
-            <IonAvatar slot="start">
-              <IonImg src="https://i.pravatar.cc/300?u=b" />
-            </IonAvatar>
-            <IonLabel>
-              <h2>Connor Smith</h2>
-              <p>Sales Rep</p>
-            </IonLabel>
+            <IonToggle
+              enableOnOffLabels={true}
+              labelPlacement="start"
+              checked={showTrails}
+              onIonChange={() => {
+                dispatch({
+                  payload: !showTrails,
+                  type: ActionType.SetShowTrails,
+                });
+              }}>
+              Show Trails
+            </IonToggle>
           </IonItem>
           <IonItem>
-            <IonAvatar slot="start">
-              <IonImg src="https://i.pravatar.cc/300?u=a" />
-            </IonAvatar>
-            <IonLabel>
-              <h2>Daniel Smith</h2>
-              <p>Product Designer</p>
-            </IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonAvatar slot="start">
-              <IonImg src="https://i.pravatar.cc/300?u=d" />
-            </IonAvatar>
-            <IonLabel>
-              <h2>Greg Smith</h2>
-              <p>Director of Operations</p>
-            </IonLabel>
-          </IonItem>
-          <IonItem>
-            <IonAvatar slot="start">
-              <IonImg src="https://i.pravatar.cc/300?u=e" />
-            </IonAvatar>
-            <IonLabel>
-              <h2>Zoey Smith</h2>
-              <p>CEO</p>
-            </IonLabel>
+            <IonRange
+              onIonChange={({ detail }) => {
+                console.log('ionChange emitted value: ' + detail.value);
+              }}
+              labelPlacement="start"
+              label="Trail length"
+            />
           </IonItem>
         </IonList>
       </IonContent>

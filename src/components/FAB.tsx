@@ -1,7 +1,6 @@
 import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
 import {
-  colorPalette,
-  globe,
+  menu,
   pauseCircle,
   playCircle,
   refreshCircle,
@@ -23,7 +22,7 @@ export const FAB = () => {
         e.stopPropagation();
       }}>
       <IonFabButton>
-        <IonIcon icon={settings} />
+        <IonIcon icon={menu} />
       </IonFabButton>
       <IonFabList side="start">
         <IonFabButton
@@ -36,8 +35,6 @@ export const FAB = () => {
           }}>
           <IonIcon icon={isRunning ? pauseCircle : playCircle}></IonIcon>
         </IonFabButton>
-      </IonFabList>
-      <IonFabList side="bottom">
         <IonFabButton
           color="primary"
           onClick={() => {
@@ -45,11 +42,10 @@ export const FAB = () => {
           }}>
           <IonIcon icon={refreshCircle}></IonIcon>
         </IonFabButton>
-        <IonFabButton color="primary">
-          <IonIcon icon={colorPalette}></IonIcon>
-        </IonFabButton>
-        <IonFabButton color="primary">
-          <IonIcon icon={globe}></IonIcon>
+      </IonFabList>
+      <IonFabList side="bottom">
+        <IonFabButton color="primary" id="open-modal">
+          <IonIcon icon={settings}></IonIcon>
         </IonFabButton>
       </IonFabList>
     </IonFab>

@@ -1,3 +1,4 @@
+import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -10,8 +11,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { help, home, planet, settings } from 'ionicons/icons';
-import { Redirect, Route } from 'react-router-dom';
-import { FAB } from '~/components';
+import { FAB, SheetModal } from '~/components';
 import { AppContextProvider } from '~/Context';
 import { ExamplesPage, HelpPage, HomePage, SettingsPage } from '~/pages';
 import '@ionic/react/css/core.css';
@@ -51,6 +51,7 @@ export const App = () => {
     <IonApp>
       <AppContextProvider>
         <FAB />
+        <SheetModal />
         <IonReactRouter forceRefresh>
           <IonTabs>
             <IonRouterOutlet>
