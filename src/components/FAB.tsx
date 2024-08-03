@@ -1,9 +1,11 @@
 import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
 import {
+  addCircle,
   menu,
   pauseCircle,
   playCircle,
   refreshCircle,
+  removeCircle,
   settings,
 } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
@@ -41,6 +43,24 @@ export const FAB = () => {
             dispatch({ type: ActionType.Restart });
           }}>
           <IonIcon icon={refreshCircle}></IonIcon>
+        </IonFabButton>
+        <IonFabButton
+          color="primary"
+          onClick={() => {
+            dispatch({
+              type: ActionType.ZoomIn,
+            });
+          }}>
+          <IonIcon icon={addCircle}></IonIcon>
+        </IonFabButton>
+        <IonFabButton
+          color="primary"
+          onClick={() => {
+            dispatch({
+              type: ActionType.ZoomOut,
+            });
+          }}>
+          <IonIcon icon={removeCircle}></IonIcon>
         </IonFabButton>
       </IonFabList>
       <IonFabList side="bottom">

@@ -11,6 +11,7 @@ const DEFAULT_STATE = {
   selectedSystem: System.CENTRAL_BODY_ORBIT,
   showTrails: true,
   trailLength: 5,
+  zoom: 1
 };
 
 export type State = typeof DEFAULT_STATE;
@@ -26,6 +27,8 @@ export enum ActionType {
   SetGravityMultiplier = 'SET_GRAVITY_MULTIPLIER',
   SetShowTrails = 'SET_SHOW_TRAILS',
   SetTrailLength = 'SET_TRAIL_LENGTH',
+  ZoomIn = 'ZOOM_IN',
+  ZoomOut = 'ZOOM_OUT',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -38,6 +41,8 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetGravityMultiplier]: number;
   [ActionType.SetShowTrails]: boolean;
   [ActionType.SetTrailLength]: number;
+  [ActionType.ZoomIn]: undefined;
+  [ActionType.ZoomOut]: undefined;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -99,6 +104,16 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         trailLength: action.payload,
+      };
+    case ActionType.ZoomIn:
+      return {
+        ...state,
+        zoom: state.zoom * 2,
+      };
+    case ActionType.ZoomOut:
+      return {
+        ...state,
+        zoom: state.zoom / 2,
       };
     default:
       return state;

@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import {
   IonContent,
   IonItem,
+  IonLabel,
   IonList,
   IonModal,
   IonRange,
@@ -57,6 +58,7 @@ export const SheetModal = () => {
                 labelPlacement="start"
                 label="Trail length"
               />
+              <IonLabel slot="end">{trailLength}</IonLabel>
             </IonItem>
           )}
           <IonItem>
@@ -73,6 +75,7 @@ export const SheetModal = () => {
               labelPlacement="start"
               label="Gravity Multiplier"
             />
+            <IonLabel slot="end">{gravityMultiplier}</IonLabel>
           </IonItem>
         </IonList>
       </IonContent>

@@ -75,6 +75,7 @@ export const P5Wrapper = () => {
       selectedSystem,
       showTrails,
       trailLength,
+      zoom,
     },
   } = useAppContext();
 
@@ -90,7 +91,11 @@ export const P5Wrapper = () => {
   };
 
   const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {
-    const pos = P.createVector(event.offsetX, event.offsetY);
+    // Calculate the adjusted position based on the zoom factor
+    const adjustedX = (event.offsetX - P.width / 2) / zoom + P.width / 2;
+    const adjustedY = (event.offsetY - P.height / 2) / zoom + P.height / 2;
+    const pos = P.createVector(adjustedX, adjustedY);
+
     const { newBody, newParticles } = addRandomBody(P, pos);
     dispatch({
       payload: newBody,
@@ -104,6 +109,9 @@ export const P5Wrapper = () => {
 
   const draw = (P: P5) => {
     P.background(0);
+    P.translate(P.width / 2, P.height / 2); // Move origin to center
+    P.scale(zoom); // Apply zoom factor
+    P.translate(-P.width / 2, -P.height / 2); // Move origin back
     if (!isRunning) {
       P.fill(255);
       P.text('Paused', 50, 50);
@@ -153,7 +161,11 @@ export const P5Wrapper = () => {
     p.draw = () => {
       draw(p);
     };
-  }, [isRunning, bodies, particles]);
+    p.mouseClicked = (event: PointerEvent) => {
+      console.log(event);
+      mouseClicked(event, p);
+    };
+  }, [isRunning, bodies, particles, gravityMultiplier, zoom]);
 
   // Re-initialize when selected system changes
   useEffect(() => {
