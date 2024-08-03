@@ -6,7 +6,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonModal,
   IonNote,
   IonRange,
   IonRow,
@@ -55,7 +54,7 @@ const RangeSettingsItem = ({
   </IonItem>
 );
 
-export const SheetModal = () => {
+export const Settings = () => {
   const {
     dispatch,
     state: {
@@ -70,14 +69,6 @@ export const SheetModal = () => {
   } = useAppContext();
 
   return (
-    <IonModal
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      }}
-      trigger="open-modal"
-      initialBreakpoint={0.5}
-      breakpoints={[0, 0.25, 0.5, 0.95]}>
       <IonContent>
         <IonList lines="full">
           <IonItem>
@@ -239,6 +230,5 @@ export const SheetModal = () => {
           )}
         </IonList>
       </IonContent>
-    </IonModal>
   );
 };

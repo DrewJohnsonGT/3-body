@@ -1,11 +1,6 @@
 import { useEffect } from 'react';
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react';
+import { IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { Settings } from '~/components';
 
 export const SettingsPage = () => {
   useEffect(() => {
@@ -21,7 +16,7 @@ export const SettingsPage = () => {
           <IonTitle>Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>Settings List</IonContent>
+      <Settings />
     </IonPage>
   );
 };

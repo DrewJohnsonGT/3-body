@@ -40,9 +40,6 @@ const addNewBody = ({
   newBodyMass: number;
   newBodyColor: string;
 }) => {
-  console.log('newBodyType', newBodyType);
-  console.log('newBodyMass', newBodyMass);
-  console.log('newBodyColor', newBodyColor);
   const color =
     newBodyType === 'random'
       ? getRandomColor(P)

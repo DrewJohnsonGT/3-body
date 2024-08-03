@@ -3,6 +3,7 @@ import {
   IonApp,
   IonIcon,
   IonLabel,
+  IonModal,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -11,7 +12,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { help, home, planet, settings } from 'ionicons/icons';
-import { FAB, SheetModal } from '~/components';
+import { FAB, Settings } from '~/components';
 import { AppContextProvider } from '~/Context';
 import { ExamplesPage, HelpPage, HomePage, SettingsPage } from '~/pages';
 import '@ionic/react/css/core.css';
@@ -54,7 +55,16 @@ export const App = () => {
     <IonApp>
       <AppContextProvider>
         <FAB />
-        <SheetModal />
+        <IonModal
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          trigger="open-modal"
+          initialBreakpoint={0.5}
+          breakpoints={[0, 0.25, 0.5, 0.95]}>
+          <Settings />
+        </IonModal>
         <IonReactRouter forceRefresh>
           <IonTabs>
             <IonRouterOutlet>
@@ -65,7 +75,12 @@ export const App = () => {
                 </Route>
               ))}
             </IonRouterOutlet>
-            <IonTabBar slot="bottom">
+            <IonTabBar
+              slot="bottom"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}>
               {TABS.map((tab, index) => (
                 <IonTabButton
                   key={index}
