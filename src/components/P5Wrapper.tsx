@@ -67,7 +67,15 @@ let p: P5;
 export const P5Wrapper = () => {
   const {
     dispatch,
-    state: { bodies, gravityMultiplier, isRunning, particles, selectedSystem },
+    state: {
+      bodies,
+      gravityMultiplier,
+      isRunning,
+      particles,
+      selectedSystem,
+      showTrails,
+      trailLength,
+    },
   } = useAppContext();
 
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -153,6 +161,14 @@ export const P5Wrapper = () => {
       setup(p);
     };
   }, [selectedSystem]);
+
+  // Alter bodies when trail length changes
+  useEffect(() => {
+    bodies.forEach((body) => {
+      body.setTrailLength(trailLength);
+      body.setTrailVisibility(showTrails);
+    });
+  }, [trailLength, showTrails]);
 
   // Initialize P5
   useLayoutEffect(() => {

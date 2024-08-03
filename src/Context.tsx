@@ -9,7 +9,8 @@ const DEFAULT_STATE = {
   isRunning: true,
   particles: [] as Particle[],
   selectedSystem: System.CENTRAL_BODY_ORBIT,
-  showTrails: true
+  showTrails: true,
+  trailLength: 5,
 };
 
 export type State = typeof DEFAULT_STATE;
@@ -23,7 +24,8 @@ export enum ActionType {
   SetParticles = 'SET_PARTICLES',
   SetSelectedSystem = 'SET_SELECTED_SYSTEM',
   SetGravityMultiplier = 'SET_GRAVITY_MULTIPLIER',
-  SetShowTrails = 'SET_SHOW_TRAILS'
+  SetShowTrails = 'SET_SHOW_TRAILS',
+  SetTrailLength = 'SET_TRAIL_LENGTH',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -35,6 +37,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.Restart]: undefined;
   [ActionType.SetGravityMultiplier]: number;
   [ActionType.SetShowTrails]: boolean;
+  [ActionType.SetTrailLength]: number;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -90,8 +93,13 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
     case ActionType.SetShowTrails:
       return {
         ...state,
-        showTrails: action.payload
-      }
+        showTrails: action.payload,
+      };
+    case ActionType.SetTrailLength:
+      return {
+        ...state,
+        trailLength: action.payload,
+      };
     default:
       return state;
   }

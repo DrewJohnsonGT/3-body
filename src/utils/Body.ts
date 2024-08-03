@@ -1,7 +1,6 @@
 import P5 from 'p5';
 import { getDarkerColor } from '~/utils/color';
 
-const MAX_TRAIL_LENGTH = 50;
 const SIZE_MULTIPLIER = 4;
 
 export class Body {
@@ -10,23 +9,32 @@ export class Body {
   public vel: P5.Vector;
   public color: P5.Color;
   public trail: P5.Vector[];
+  public trailLength: number;
+  public showTrail: boolean;
 
   constructor({
     color = new P5.Color(),
     mass = 1,
     pos = new P5.Vector(),
+    showTrail = true,
+    trailLength = 50,
     vel = new P5.Vector(),
   }: {
     mass?: number;
     pos?: P5.Vector;
     vel?: P5.Vector;
     color?: P5.Color;
+    trailLength?: number;
+    showTrail?: boolean;
   }) {
     this.mass = mass;
     this.pos = pos;
     this.vel = vel;
     this.color = color;
+
+    this.trailLength = trailLength;
     this.trail = [];
+    this.showTrail = showTrail;
   }
 
   applyForce(force: P5.Vector) {
@@ -43,9 +51,19 @@ export class Body {
     return Math.sqrt(this.mass) * SIZE_MULTIPLIER;
   }
 
+  setTrailLength(trailLength: number) {
+    this.trailLength = trailLength;
+  }
+
+  setTrailVisibility(showTrail: boolean) {
+    this.showTrail = showTrail;
+  }
+
   updateTrail() {
-    this.trail.push(this.pos.copy());
-    if (this.trail.length > MAX_TRAIL_LENGTH) {
+    if (this.showTrail) {
+      this.trail.push(this.pos.copy());
+    }
+    if (this.trail.length > this.trailLength || !this.showTrail) {
       this.trail.shift();
     }
   }

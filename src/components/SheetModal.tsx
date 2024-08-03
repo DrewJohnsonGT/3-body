@@ -13,8 +13,9 @@ export const SheetModal = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const {
     dispatch,
-    state: { showTrails },
+    state: { gravityMultiplier, showTrails, trailLength },
   } = useAppContext();
+
   return (
     <IonModal
       onClick={(e) => {
@@ -41,13 +42,36 @@ export const SheetModal = () => {
               Show Trails
             </IonToggle>
           </IonItem>
+          {showTrails && (
+            <IonItem>
+              <IonRange
+                onIonChange={({ detail }) => {
+                  dispatch({
+                    payload: detail.value as number,
+                    type: ActionType.SetTrailLength,
+                  });
+                }}
+                max={2500}
+                min={1}
+                value={trailLength}
+                labelPlacement="start"
+                label="Trail length"
+              />
+            </IonItem>
+          )}
           <IonItem>
             <IonRange
               onIonChange={({ detail }) => {
-                console.log('ionChange emitted value: ' + detail.value);
+                dispatch({
+                  payload: detail.value as number,
+                  type: ActionType.SetGravityMultiplier,
+                });
               }}
+              max={10}
+              min={1}
+              value={gravityMultiplier}
               labelPlacement="start"
-              label="Trail length"
+              label="Gravity Multiplier"
             />
           </IonItem>
         </IonList>
