@@ -12,7 +12,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { help, home, planet, settings } from 'ionicons/icons';
-import { FAB, Settings } from '~/components';
+import { Settings } from '~/components';
 import { AppContextProvider } from '~/Context';
 import { ExamplesPage, HelpPage, HomePage, SettingsPage } from '~/pages';
 import '@ionic/react/css/core.css';
@@ -54,7 +54,6 @@ export const App = () => {
   return (
     <IonApp>
       <AppContextProvider>
-        <FAB />
         <IonModal
           onClick={(e) => {
             e.preventDefault();
@@ -65,7 +64,7 @@ export const App = () => {
           breakpoints={[0, 0.25, 0.5, 0.95]}>
           <Settings />
         </IonModal>
-        <IonReactRouter forceRefresh>
+        <IonReactRouter>
           <IonTabs>
             <IonRouterOutlet>
               <Redirect exact path="/" to="/home" />

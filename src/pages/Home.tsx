@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { IonContent, IonPage } from '@ionic/react';
-import { P5Wrapper } from '~/components';
+import { FAB, P5Wrapper } from '~/components';
 
 export const HomePage = () => {
   useEffect(() => {
@@ -12,6 +12,7 @@ export const HomePage = () => {
   return (
     <IonPage>
       <IonContent>
+        <FAB />
         <P5Wrapper />
       </IonContent>
     </IonPage>

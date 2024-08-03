@@ -102,6 +102,7 @@ export const P5Wrapper = () => {
       restartSelectedSystem,
       selectedSystem,
       showTrails,
+      tapToCreate,
       trailLength,
       zoom,
     },
@@ -122,6 +123,8 @@ export const P5Wrapper = () => {
   };
 
   const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {
+    if (!tapToCreate) return;
+
     // Calculate the adjusted position based on the zoom factor
     const adjustedX = (event.offsetX - P.width / 2) / zoom + P.width / 2;
     const adjustedY = (event.offsetY - P.height / 2) / zoom + P.height / 2;
