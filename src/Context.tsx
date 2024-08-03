@@ -9,6 +9,8 @@ const DEFAULT_STATE = {
   bodies: [] as Body[],
   gravityMultiplier: 1,
   isRunning: true,
+  newBodyColor: '#ffffff',
+  newBodyMass: 50,
   newBodyType: 'random' as NewBodyType,
   particles: [] as Particle[],
   restartSelectedSystem: false,
@@ -39,6 +41,8 @@ export enum ActionType {
   SystemRestarted = 'SYSTEM_RESTARTED',
   SetSpeed = 'SET_SPEED',
   SetNewBodyType = 'SET_NEW_BODY_TYPE',
+  SetNewBodyMass = 'SET_NEW_BODY_MASS',
+  SetNewBodyColor = 'SET_NEW_BODY_COLOR',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -57,6 +61,8 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SystemRestarted]: undefined;
   [ActionType.SetSpeed]: number;
   [ActionType.SetNewBodyType]: NewBodyType;
+  [ActionType.SetNewBodyMass]: number;
+  [ActionType.SetNewBodyColor]: string;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -148,6 +154,16 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         newBodyType: action.payload,
+      };
+    case ActionType.SetNewBodyMass:
+      return {
+        ...state,
+        newBodyMass: action.payload,
+      };
+    case ActionType.SetNewBodyColor:
+      return {
+        ...state,
+        newBodyColor: action.payload,
       };
     default:
       return state;

@@ -2,10 +2,10 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 import { IonContent } from '@ionic/react';
 import P5 from 'p5';
 import { CANVAS_CONTAINER_ID, G } from '~/constants';
-import { ActionType, useAppContext } from '~/Context';
+import { ActionType, NewBodyType, useAppContext } from '~/Context';
 import { useThrottle } from '~/hooks/useThrottle';
 import { Body } from '~/utils/Body';
-import { getRandomColor } from '~/utils/color';
+import { getRandomColor, hexColorToP5Color } from '~/utils/color';
 import { Particle } from '~/utils/Particle';
 import { SYSTEMS_MAP } from '~/utils/systems';
 
@@ -23,7 +23,10 @@ export const setCanvasSize = (P: P5) => {
   P.resizeCanvas(width || P.windowWidth, height || P.windowHeight);
 };
 
-const addRandomBody = ({
+const addNewBody = ({
+  newBodyColor,
+  newBodyMass,
+  newBodyType,
   P,
   pos,
   showTrail,
@@ -33,11 +36,23 @@ const addRandomBody = ({
   pos: P5.Vector;
   trailLength: number;
   showTrail: boolean;
+  newBodyType: NewBodyType;
+  newBodyMass: number;
+  newBodyColor: string;
 }) => {
-  const newBodyColor = getRandomColor(P);
+  console.log('newBodyType', newBodyType);
+  console.log('newBodyMass', newBodyMass);
+  console.log('newBodyColor', newBodyColor);
+  const color =
+    newBodyType === 'random'
+      ? getRandomColor(P)
+      : hexColorToP5Color(P, newBodyColor);
+  const mass = newBodyType === 'random' ? P.random(10, 100) : newBodyMass;
+  console.log('mass', mass);
+  console.log('color', color);
   const newBody = new Body({
-    color: newBodyColor,
-    mass: P.random(10, 100),
+    color,
+    mass,
     pos,
     showTrail,
     trailLength,
@@ -50,7 +65,7 @@ const addRandomBody = ({
     const speed = P.random(1, 3);
     const vel = P.createVector(P.cos(angle) * speed, P.sin(angle) * speed);
     return new Particle({
-      color: newBodyColor,
+      color,
       lifespan: P.random(10, 100),
       pos,
       vel,
@@ -83,6 +98,9 @@ export const P5Wrapper = () => {
       bodies,
       gravityMultiplier,
       isRunning,
+      newBodyColor,
+      newBodyMass,
+      newBodyType,
       particles,
       restartSelectedSystem,
       selectedSystem,
@@ -107,13 +125,15 @@ export const P5Wrapper = () => {
   };
 
   const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {
-    console.log('mouse clicked');
     // Calculate the adjusted position based on the zoom factor
     const adjustedX = (event.offsetX - P.width / 2) / zoom + P.width / 2;
     const adjustedY = (event.offsetY - P.height / 2) / zoom + P.height / 2;
     const pos = P.createVector(adjustedX, adjustedY);
 
-    const { newBody, newParticles } = addRandomBody({
+    const { newBody, newParticles } = addNewBody({
+      newBodyColor,
+      newBodyMass,
+      newBodyType,
       P,
       pos,
       showTrail: showTrails,

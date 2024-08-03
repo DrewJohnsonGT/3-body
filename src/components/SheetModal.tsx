@@ -1,3 +1,4 @@
+import { HexColorPicker } from 'react-colorful';
 import {
   IonCol,
   IonContent,
@@ -15,6 +16,7 @@ import {
   IonToggle,
 } from '@ionic/react';
 import { ActionType, NewBodyType, useAppContext } from '~/Context';
+import { getBackgroundColor } from '~/utils/color';
 
 const RangeSettingsItem = ({
   label,
@@ -58,6 +60,8 @@ export const SheetModal = () => {
     dispatch,
     state: {
       gravityMultiplier,
+      newBodyColor,
+      newBodyMass,
       newBodyType,
       showTrails,
       tapToCreate,
@@ -73,7 +77,7 @@ export const SheetModal = () => {
       }}
       trigger="open-modal"
       initialBreakpoint={0.5}
-      breakpoints={[0, 0.25, 0.5, 0.75]}>
+      breakpoints={[0, 0.25, 0.5, 0.95]}>
       <IonContent>
         <IonList lines="full">
           <IonItem>
@@ -177,6 +181,62 @@ export const SheetModal = () => {
               </IonRow>
             </IonGrid>
           </IonItem>
+          {newBodyType === 'custom' && (
+            <RangeSettingsItem
+              label="Mass"
+              value={newBodyMass}
+              onIonChange={(value) => {
+                dispatch({
+                  payload: value,
+                  type: ActionType.SetNewBodyMass,
+                });
+              }}
+              rangeProps={{
+                max: 100,
+                min: 1,
+              }}
+            />
+          )}
+          {newBodyType === 'custom' && (
+            <IonItem>
+              <IonGrid>
+                <IonRow>
+                  <IonLabel>
+                    <IonText>Color</IonText>
+                    <br />
+                    <IonNote color="medium" className="ion-text-wrap">
+                      Select the color of newly created bodies
+                    </IonNote>
+                  </IonLabel>
+                </IonRow>
+                <IonRow class="ion-padding">
+                  <HexColorPicker
+                    color={newBodyColor}
+                    onChange={(color) => {
+                      dispatch({
+                        payload: color,
+                        type: ActionType.SetNewBodyColor,
+                      });
+                    }}
+                  />
+                </IonRow>
+                <IonRow>
+                  <IonCol size="12">
+                    <IonLabel>
+                      <IonText
+                        style={{
+                          backgroundColor: getBackgroundColor(newBodyColor),
+                          color: newBodyColor,
+                          padding: '0.5rem',
+                        }}>
+                        {newBodyColor}
+                      </IonText>
+                    </IonLabel>
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
+            </IonItem>
+          )}
         </IonList>
       </IonContent>
     </IonModal>
