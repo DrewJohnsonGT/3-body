@@ -1,20 +1,60 @@
-import { useRef } from 'react';
 import {
+  IonCol,
   IonContent,
+  IonGrid,
   IonItem,
   IonLabel,
   IonList,
   IonModal,
+  IonNote,
   IonRange,
+  IonRow,
+  IonText,
   IonToggle,
 } from '@ionic/react';
 import { ActionType, useAppContext } from '~/Context';
 
+const RangeSettingsItem = ({
+  label,
+  onIonChange,
+  rangeProps,
+  value,
+}: {
+  label: string;
+  value: number;
+  onIonChange: (value: number) => void;
+  rangeProps: {
+    max: number;
+    min: number;
+  };
+}) => (
+  <IonItem>
+    <IonGrid>
+      <IonRow class="ion-justify-content-between">
+        <IonCol size="6">
+          <IonLabel>{label}</IonLabel>
+        </IonCol>
+        <IonCol size="1" class="ion-justify-end">
+          <IonLabel>{value}</IonLabel>
+        </IonCol>
+      </IonRow>
+      <IonRow>
+        <IonRange
+          onIonChange={({ detail }) => {
+            onIonChange(detail.value as number);
+          }}
+          {...rangeProps}
+          value={value}
+        />
+      </IonRow>
+    </IonGrid>
+  </IonItem>
+);
+
 export const SheetModal = () => {
-  const modal = useRef<HTMLIonModalElement>(null);
   const {
     dispatch,
-    state: { gravityMultiplier, showTrails, trailLength },
+    state: { gravityMultiplier, showTrails, tapToCreate, trailLength },
   } = useAppContext();
 
   return (
@@ -23,12 +63,30 @@ export const SheetModal = () => {
         e.preventDefault();
         e.stopPropagation();
       }}
-      ref={modal}
       trigger="open-modal"
-      initialBreakpoint={0.25}
+      initialBreakpoint={0.5}
       breakpoints={[0, 0.25, 0.5, 0.75]}>
       <IonContent className="ion-padding">
-        <IonList>
+        <IonList lines="full">
+          <IonItem>
+            <IonToggle
+              enableOnOffLabels={true}
+              labelPlacement="start"
+              checked={tapToCreate}
+              onIonChange={() => {
+                dispatch({
+                  type: ActionType.ToggleTapToCreate,
+                });
+              }}>
+              <IonLabel>
+                <IonText>Tap to create body</IonText>
+                <br />
+                <IonNote color="medium" className="ion-text-wrap">
+                  Tapping on the screen will create a new body at that location
+                </IonNote>
+              </IonLabel>
+            </IonToggle>
+          </IonItem>
           <IonItem>
             <IonToggle
               enableOnOffLabels={true}
@@ -40,43 +98,45 @@ export const SheetModal = () => {
                   type: ActionType.SetShowTrails,
                 });
               }}>
-              Show Trails
+              <IonLabel>
+                <IonText>Show trails</IonText>
+                <br />
+                <IonNote color="medium" className="ion-text-wrap">
+                  Bodies will leave a trail behind them
+                </IonNote>
+              </IonLabel>
             </IonToggle>
           </IonItem>
           {showTrails && (
-            <IonItem>
-              <IonRange
-                onIonChange={({ detail }) => {
-                  dispatch({
-                    payload: detail.value as number,
-                    type: ActionType.SetTrailLength,
-                  });
-                }}
-                max={2500}
-                min={1}
-                value={trailLength}
-                labelPlacement="start"
-                label="Trail length"
-              />
-              <IonLabel slot="end">{trailLength}</IonLabel>
-            </IonItem>
-          )}
-          <IonItem>
-            <IonRange
-              onIonChange={({ detail }) => {
+            <RangeSettingsItem
+              label="Trail length"
+              value={trailLength}
+              onIonChange={(value) => {
                 dispatch({
-                  payload: detail.value as number,
-                  type: ActionType.SetGravityMultiplier,
+                  payload: value,
+                  type: ActionType.SetTrailLength,
                 });
               }}
-              max={10}
-              min={1}
-              value={gravityMultiplier}
-              labelPlacement="start"
-              label="Gravity Multiplier"
+              rangeProps={{
+                max: 500,
+                min: 1,
+              }}
             />
-            <IonLabel slot="end">{gravityMultiplier}</IonLabel>
-          </IonItem>
+          )}
+          <RangeSettingsItem
+            label="Gravity multiplier"
+            value={gravityMultiplier}
+            onIonChange={(value) => {
+              dispatch({
+                payload: value,
+                type: ActionType.SetGravityMultiplier,
+              });
+            }}
+            rangeProps={{
+              max: 10,
+              min: 0,
+            }}
+          />
         </IonList>
       </IonContent>
     </IonModal>

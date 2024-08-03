@@ -86,3 +86,7 @@ html {
 ion-fab {
   margin-top: var(--ion-safe-area-top, 0);
 }
+
+ion-modal {
+  --ion-background-color: #ffffff85;
+}

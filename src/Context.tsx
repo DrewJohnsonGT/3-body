@@ -8,10 +8,12 @@ const DEFAULT_STATE = {
   gravityMultiplier: 1,
   isRunning: true,
   particles: [] as Particle[],
-  selectedSystem: System.CENTRAL_BODY_ORBIT,
+  restartSelectedSystem: false,
+  selectedSystem: System.CIRCLE,
   showTrails: true,
+  tapToCreate: true,
   trailLength: 5,
-  zoom: 1
+  zoom: 1,
 };
 
 export type State = typeof DEFAULT_STATE;
@@ -29,6 +31,8 @@ export enum ActionType {
   SetTrailLength = 'SET_TRAIL_LENGTH',
   ZoomIn = 'ZOOM_IN',
   ZoomOut = 'ZOOM_OUT',
+  ToggleTapToCreate = 'TOGGLE_TAP_TO_CREATE',
+  SystemRestarted = 'SYSTEM_RESTARTED',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -43,6 +47,8 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetTrailLength]: number;
   [ActionType.ZoomIn]: undefined;
   [ActionType.ZoomOut]: undefined;
+  [ActionType.ToggleTapToCreate]: undefined;
+  [ActionType.SystemRestarted]: undefined;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -68,7 +74,7 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
     case ActionType.Restart:
       return {
         ...DEFAULT_STATE,
-        selectedSystem: state.selectedSystem,
+        restartSelectedSystem: true,
       };
     case ActionType.SetSelectedSystem:
       return {
@@ -114,6 +120,16 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         zoom: state.zoom / 2,
+      };
+    case ActionType.ToggleTapToCreate:
+      return {
+        ...state,
+        tapToCreate: !state.tapToCreate,
+      };
+    case ActionType.SystemRestarted:
+      return {
+        ...state,
+        restartSelectedSystem: false,
       };
     default:
       return state;

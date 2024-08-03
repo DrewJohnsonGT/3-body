@@ -72,6 +72,7 @@ export const P5Wrapper = () => {
       gravityMultiplier,
       isRunning,
       particles,
+      restartSelectedSystem,
       selectedSystem,
       showTrails,
       trailLength,
@@ -169,10 +170,14 @@ export const P5Wrapper = () => {
 
   // Re-initialize when selected system changes
   useEffect(() => {
-    p.setup = () => {
+    if (restartSelectedSystem) {
+      p.setup = () => {
+        setup(p);
+      };
       setup(p);
-    };
-  }, [selectedSystem]);
+      dispatch({ type: ActionType.SystemRestarted });
+    }
+  }, [restartSelectedSystem]);
 
   // Alter bodies when trail length changes
   useEffect(() => {
