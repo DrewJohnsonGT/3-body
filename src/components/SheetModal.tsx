@@ -9,10 +9,12 @@ import {
   IonNote,
   IonRange,
   IonRow,
+  IonSegment,
+  IonSegmentButton,
   IonText,
   IonToggle,
 } from '@ionic/react';
-import { ActionType, useAppContext } from '~/Context';
+import { ActionType, NewBodyType, useAppContext } from '~/Context';
 
 const RangeSettingsItem = ({
   label,
@@ -34,7 +36,7 @@ const RangeSettingsItem = ({
         <IonCol size="6">
           <IonLabel>{label}</IonLabel>
         </IonCol>
-        <IonCol size="1" class="ion-justify-end">
+        <IonCol size="2">
           <IonLabel>{value}</IonLabel>
         </IonCol>
       </IonRow>
@@ -54,7 +56,13 @@ const RangeSettingsItem = ({
 export const SheetModal = () => {
   const {
     dispatch,
-    state: { gravityMultiplier, showTrails, tapToCreate, trailLength },
+    state: {
+      gravityMultiplier,
+      newBodyType,
+      showTrails,
+      tapToCreate,
+      trailLength,
+    },
   } = useAppContext();
 
   return (
@@ -66,7 +74,7 @@ export const SheetModal = () => {
       trigger="open-modal"
       initialBreakpoint={0.5}
       breakpoints={[0, 0.25, 0.5, 0.75]}>
-      <IonContent className="ion-padding">
+      <IonContent>
         <IonList lines="full">
           <IonItem>
             <IonToggle
@@ -137,6 +145,38 @@ export const SheetModal = () => {
               min: 0,
             }}
           />
+          <IonItem>
+            <IonGrid>
+              <IonRow class="ion-margin-bottom">
+                <IonLabel>
+                  <IonText>New Body</IonText>
+                  <br />
+                  <IonNote color="medium" className="ion-text-wrap">
+                    New bodies will be created with random or custom properties
+                    - mass and color
+                  </IonNote>
+                </IonLabel>
+              </IonRow>
+              <IonRow>
+                <IonSegment
+                  value={newBodyType}
+                  onIonChange={({ detail }) => {
+                    detail.value &&
+                      dispatch({
+                        payload: detail.value as NewBodyType,
+                        type: ActionType.SetNewBodyType,
+                      });
+                  }}>
+                  <IonSegmentButton value="random">
+                    <IonLabel>Random</IonLabel>
+                  </IonSegmentButton>
+                  <IonSegmentButton value="custom">
+                    <IonLabel>Custom</IonLabel>
+                  </IonSegmentButton>
+                </IonSegment>
+              </IonRow>
+            </IonGrid>
+          </IonItem>
         </IonList>
       </IonContent>
     </IonModal>

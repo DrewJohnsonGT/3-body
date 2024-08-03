@@ -3,7 +3,15 @@ import { G } from '~/constants';
 import { Body } from '~/utils/Body';
 import { getRandomColor } from '~/utils/color';
 
-const CIRCLE = (P: P5) => {
+type SystemFunction = (
+  P: P5,
+  bodyConfig: {
+    trailLength: number;
+    showTrail: boolean;
+  },
+) => Body[];
+
+const CIRCLE: SystemFunction = (P, bodyConfig) => {
   const mass = 52;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
   const size = Math.min(P.windowWidth, P.windowHeight) * 0.3; // Length of the side of the equilateral triangle
@@ -27,6 +35,7 @@ const CIRCLE = (P: P5) => {
         velocityMagnitude * Math.sin(0),
         -velocityMagnitude * Math.cos(0),
       ),
+      ...bodyConfig,
     }),
     new Body({
       color: getRandomColor(P),
@@ -36,6 +45,7 @@ const CIRCLE = (P: P5) => {
         velocityMagnitude * Math.sin(-P.TWO_PI / 3),
         -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
       ),
+      ...bodyConfig,
     }),
     new Body({
       color: getRandomColor(P),
@@ -45,11 +55,12 @@ const CIRCLE = (P: P5) => {
         velocityMagnitude * Math.sin(P.TWO_PI / 3),
         -velocityMagnitude * Math.cos(P.TWO_PI / 3),
       ),
+      ...bodyConfig,
     }),
   ];
 };
 
-const FIGURE_EIGHT = (P: P5) => {
+const FIGURE_EIGHT: SystemFunction = (P, bodyConfig) => {
   const aspectRatio = P.windowWidth / P.windowHeight;
 
   const baseAspectRatio = 1;
@@ -80,23 +91,26 @@ const FIGURE_EIGHT = (P: P5) => {
       mass,
       pos: positions[0],
       vel: velocities[0],
+      ...bodyConfig,
     }),
     new Body({
       color: getRandomColor(P),
       mass,
       pos: positions[1],
       vel: velocities[1],
+      ...bodyConfig,
     }),
     new Body({
       color: getRandomColor(P),
       mass,
       pos: positions[2],
       vel: velocities[2],
+      ...bodyConfig,
     }),
   ];
 };
 
-const CENTRAL_BODY_ORBIT = (P: P5) => {
+const CENTRAL_BODY_ORBIT: SystemFunction = (P, bodyConfig) => {
   const centralMass = 1000;
   const orbitingMass = 10;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
@@ -125,6 +139,7 @@ const CENTRAL_BODY_ORBIT = (P: P5) => {
       mass: centralMass,
       pos: center,
       vel: P.createVector(0, 0),
+      ...bodyConfig,
     }),
     ...positions.map(
       (pos, i) =>
@@ -133,6 +148,7 @@ const CENTRAL_BODY_ORBIT = (P: P5) => {
           mass: orbitingMass,
           pos,
           vel: velocities[i],
+          ...bodyConfig,
         }),
     ),
   ];
@@ -144,7 +160,7 @@ export enum System {
   CENTRAL_BODY_ORBIT = 'Central Body',
 }
 
-export const SYSTEMS_MAP: Record<System, (P: P5) => Body[]> = {
+export const SYSTEMS_MAP: Record<System, SystemFunction> = {
   [System.CIRCLE]: CIRCLE,
   [System.FIGURE_EIGHT]: FIGURE_EIGHT,
   [System.CENTRAL_BODY_ORBIT]: CENTRAL_BODY_ORBIT,

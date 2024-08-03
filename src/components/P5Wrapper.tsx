@@ -23,12 +23,24 @@ export const setCanvasSize = (P: P5) => {
   P.resizeCanvas(width || P.windowWidth, height || P.windowHeight);
 };
 
-const addRandomBody = (P: P5, pos: P5.Vector) => {
+const addRandomBody = ({
+  P,
+  pos,
+  showTrail,
+  trailLength,
+}: {
+  P: P5;
+  pos: P5.Vector;
+  trailLength: number;
+  showTrail: boolean;
+}) => {
   const newBodyColor = getRandomColor(P);
   const newBody = new Body({
     color: newBodyColor,
     mass: P.random(10, 100),
     pos,
+    showTrail,
+    trailLength,
     vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
   });
 
@@ -84,20 +96,29 @@ export const P5Wrapper = () => {
 
   const setup = (P: P5) => {
     setCanvasSize(P);
-    P.frameRate(60);
+    P.frameRate(120);
     dispatch({
-      payload: SYSTEMS_MAP[selectedSystem](P),
+      payload: SYSTEMS_MAP[selectedSystem](P, {
+        showTrail: showTrails,
+        trailLength,
+      }),
       type: ActionType.SetBodies,
     });
   };
 
   const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {
+    console.log('mouse clicked');
     // Calculate the adjusted position based on the zoom factor
     const adjustedX = (event.offsetX - P.width / 2) / zoom + P.width / 2;
     const adjustedY = (event.offsetY - P.height / 2) / zoom + P.height / 2;
     const pos = P.createVector(adjustedX, adjustedY);
 
-    const { newBody, newParticles } = addRandomBody(P, pos);
+    const { newBody, newParticles } = addRandomBody({
+      P,
+      pos,
+      showTrail: showTrails,
+      trailLength,
+    });
     dispatch({
       payload: newBody,
       type: ActionType.AddBody,
@@ -113,11 +134,7 @@ export const P5Wrapper = () => {
     P.translate(P.width / 2, P.height / 2); // Move origin to center
     P.scale(zoom); // Apply zoom factor
     P.translate(-P.width / 2, -P.height / 2); // Move origin back
-    if (!isRunning) {
-      P.fill(255);
-      P.text('Paused', 50, 50);
-      P.text(`Bodies: ${String(bodies.length)}`, 50, 70);
-    }
+
     // Initialize force accumulators
     const forces = bodies.map(() => P.createVector(0, 0));
 
@@ -163,7 +180,6 @@ export const P5Wrapper = () => {
       draw(p);
     };
     p.mouseClicked = (event: PointerEvent) => {
-      console.log(event);
       mouseClicked(event, p);
     };
   }, [isRunning, bodies, particles, gravityMultiplier, zoom]);
@@ -185,6 +201,9 @@ export const P5Wrapper = () => {
       body.setTrailLength(trailLength);
       body.setTrailVisibility(showTrails);
     });
+    p.mouseClicked = (event: PointerEvent) => {
+      mouseClicked(event, p);
+    };
   }, [trailLength, showTrails]);
 
   // Initialize P5

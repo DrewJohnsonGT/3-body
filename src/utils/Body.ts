@@ -53,6 +53,7 @@ export class Body {
 
   setTrailLength(trailLength: number) {
     this.trailLength = trailLength;
+    this.trail = this.trail.slice(-trailLength);
   }
 
   setTrailVisibility(showTrail: boolean) {

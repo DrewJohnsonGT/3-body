@@ -3,16 +3,20 @@ import { Body } from '~/utils/Body';
 import { Particle } from '~/utils/Particle';
 import { System } from '~/utils/systems';
 
+export type NewBodyType = 'random' | 'custom';
+
 const DEFAULT_STATE = {
   bodies: [] as Body[],
   gravityMultiplier: 1,
   isRunning: true,
+  newBodyType: 'random' as NewBodyType,
   particles: [] as Particle[],
   restartSelectedSystem: false,
   selectedSystem: System.CIRCLE,
   showTrails: true,
+  speed: 1,
   tapToCreate: true,
-  trailLength: 5,
+  trailLength: 20,
   zoom: 1,
 };
 
@@ -33,6 +37,8 @@ export enum ActionType {
   ZoomOut = 'ZOOM_OUT',
   ToggleTapToCreate = 'TOGGLE_TAP_TO_CREATE',
   SystemRestarted = 'SYSTEM_RESTARTED',
+  SetSpeed = 'SET_SPEED',
+  SetNewBodyType = 'SET_NEW_BODY_TYPE',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -49,6 +55,8 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.ZoomOut]: undefined;
   [ActionType.ToggleTapToCreate]: undefined;
   [ActionType.SystemRestarted]: undefined;
+  [ActionType.SetSpeed]: number;
+  [ActionType.SetNewBodyType]: NewBodyType;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -73,7 +81,7 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       };
     case ActionType.Restart:
       return {
-        ...DEFAULT_STATE,
+        ...state,
         restartSelectedSystem: true,
       };
     case ActionType.SetSelectedSystem:
@@ -130,6 +138,16 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         restartSelectedSystem: false,
+      };
+    case ActionType.SetSpeed:
+      return {
+        ...state,
+        speed: action.payload,
+      };
+    case ActionType.SetNewBodyType:
+      return {
+        ...state,
+        newBodyType: action.payload,
       };
     default:
       return state;
