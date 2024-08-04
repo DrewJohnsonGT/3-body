@@ -1,7 +1,21 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
+import { APP_NAME } from '~/constants';
+import { useLocalStorage } from '~/hooks/useLocalStorage';
 import { Body } from '~/utils/Body';
 import { Particle } from '~/utils/Particle';
 import { System } from '~/utils/systems';
+
+const getSettingsState = (allState: State) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { bodies, particles, ...settingsState } = allState;
+  return settingsState;
+};
 
 export type NewBodyType = 'random' | 'custom';
 
@@ -43,6 +57,7 @@ export enum ActionType {
   SetNewBodyType = 'SET_NEW_BODY_TYPE',
   SetNewBodyMass = 'SET_NEW_BODY_MASS',
   SetNewBodyColor = 'SET_NEW_BODY_COLOR',
+  MergeLocalStorageState = 'MERGE_LOCAL_STORAGE_STATE',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -63,6 +78,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetNewBodyType]: NewBodyType;
   [ActionType.SetNewBodyMass]: number;
   [ActionType.SetNewBodyColor]: string;
+  [ActionType.MergeLocalStorageState]: Partial<State>;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -165,6 +181,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         newBodyColor: action.payload,
       };
+    case ActionType.MergeLocalStorageState:
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }
@@ -184,6 +205,39 @@ export const AppContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
+  const { get, set } = useLocalStorage<Partial<State>>(
+    `${APP_NAME.toLowerCase()}-settings`,
+    {},
+  );
+  const [hasLoaded, setHasLoaded] = useState(false);
+
+  useEffect(() => {
+    console.log('Get local storage effect');
+    get()
+      .then((data) => {
+        console.log('Got local storage', data);
+        dispatch({ payload: data, type: ActionType.MergeLocalStorageState });
+        setHasLoaded(true);
+      })
+      .catch((e: unknown) => {
+        console.log('Error getting local storage', e);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoaded) {
+      return;
+    }
+    console.log('Set local storage effect');
+    const settingsState = getSettingsState(state);
+    set(settingsState)
+      .then(() => {
+        console.log('Set local storage', settingsState);
+      })
+      .catch((e: unknown) => {
+        console.log('Error setting local storage', e);
+      });
+  }, [state]);
 
   return (
     <AppContext.Provider value={{ dispatch, state }}>
