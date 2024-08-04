@@ -14,7 +14,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { help, home, planet, settings } from 'ionicons/icons';
 import { Settings } from '~/components';
 import { AppContextProvider } from '~/Context';
-import { ExamplesPage, HelpPage, HomePage, SettingsPage } from '~/pages';
+import { HelpPage, HomePage, SettingsPage, SystemsPage } from '~/pages';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/palettes/dark.always.css';
@@ -35,8 +35,8 @@ const TABS = [
   },
   {
     icon: planet,
-    label: 'Examples',
-    page: ExamplesPage,
+    label: 'Systems',
+    page: SystemsPage,
   },
   {
     icon: settings,

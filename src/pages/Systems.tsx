@@ -16,7 +16,7 @@ import {
 import { ActionType, useAppContext } from '~/Context';
 import { System, SYSTEMS_MAP } from '~/utils/systems';
 
-export const ExamplesPage = () => {
+export const SystemsPage = () => {
   const {
     dispatch,
     state: { selectedSystem },
@@ -28,7 +28,7 @@ export const ExamplesPage = () => {
       }}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Examples</IonTitle>
+          <IonTitle>Systems</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
