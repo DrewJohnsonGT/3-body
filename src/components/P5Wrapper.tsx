@@ -14,7 +14,13 @@ import {
   useAppContext,
 } from '~/Context';
 import { useThrottle } from '~/hooks/useThrottle';
-import { getRandomColor, rgbaColorToP5Color, ColorPaletteColor } from '~/utils/color';
+import {
+  COLOR_PALETTES,
+  ColorPaletteColor,
+  getRandomColor,
+  hexToP5Color,
+  rgbaColorToP5Color,
+} from '~/utils/color';
 import { SYSTEMS_MAP } from '~/utils/systems';
 
 const getCanvasSize = () => {
@@ -31,8 +37,31 @@ const setCanvasSize = (P: P5) => {
   P.resizeCanvas(width || P.windowWidth, height || P.windowHeight);
 };
 
+const getNewBodyColor = ({
+  newBodyColor,
+  newBodyColorPalette,
+  newBodyColorType,
+  P,
+}: {
+  P: P5;
+  newBodyColor: RgbaColor;
+  newBodyColorType: NewBodyColorType;
+  newBodyColorPalette: ColorPaletteColor;
+}) => {
+  if (newBodyColorType === 'theme') {
+    const paletteColors = COLOR_PALETTES[newBodyColorPalette];
+    const randomColor =
+      paletteColors[Math.floor(P.random(paletteColors.length))];
+    return hexToP5Color(P, randomColor);
+  }
+  return newBodyColorType === 'random'
+    ? getRandomColor(P)
+    : rgbaColorToP5Color(P, newBodyColor);
+};
+
 const addNewBody = ({
   newBodyColor,
+  newBodyColorPalette,
   newBodyColorType,
   newBodyMass,
   newBodyMassType,
@@ -49,11 +78,14 @@ const addNewBody = ({
   newBodyMassType: NewBodyType;
   newBodyMass: number;
   newBodyColor: RgbaColor;
+  newBodyColorPalette: ColorPaletteColor;
 }) => {
-  const color =
-    newBodyColorType === 'random'
-      ? getRandomColor(P)
-      : rgbaColorToP5Color(P, newBodyColor);
+  const color = getNewBodyColor({
+    newBodyColor,
+    newBodyColorPalette,
+    newBodyColorType,
+    P,
+  });
   const mass = newBodyMassType === 'random' ? P.random(10, 100) : newBodyMass;
 
   const newBody = new Body({
@@ -120,6 +152,7 @@ export const P5Wrapper = () => {
       gravityMultiplier,
       isRunning,
       newBodyColor,
+      newBodyColorPalette,
       newBodyColorType,
       newBodyMass,
       newBodyMassType,
@@ -163,6 +196,7 @@ export const P5Wrapper = () => {
 
     const { newBody, newParticles } = addNewBody({
       newBodyColor,
+      newBodyColorPalette,
       newBodyColorType,
       newBodyMass,
       newBodyMassType,

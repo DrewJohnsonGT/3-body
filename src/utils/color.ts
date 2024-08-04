@@ -86,6 +86,10 @@ export const rgbaColorToP5Color = (p: P5, rgbaColor: RgbaColor) => {
   return p.color(r, g, b, a);
 };
 
+export const hexToP5Color = (p: P5, hex: string) => {
+  return p.color(hex);
+}
+
 export const rgbaColorToString = (rgbaColor: RgbaColor) => {
   const { a, b, g, r } = rgbaColor;
   return `rgba(${String(r)}, ${String(g)}, ${String(b)}, ${String(a)})`;
