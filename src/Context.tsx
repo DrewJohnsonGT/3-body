@@ -212,10 +212,8 @@ export const AppContextProvider = ({
   const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
-    console.log('Get local storage effect');
     get()
       .then((data) => {
-        console.log('Got local storage', data);
         dispatch({ payload: data, type: ActionType.MergeLocalStorageState });
         setHasLoaded(true);
       })
@@ -228,12 +226,8 @@ export const AppContextProvider = ({
     if (!hasLoaded) {
       return;
     }
-    console.log('Set local storage effect');
     const settingsState = getSettingsState(state);
     set(settingsState)
-      .then(() => {
-        console.log('Set local storage', settingsState);
-      })
       .catch((e: unknown) => {
         console.log('Error setting local storage', e);
       });

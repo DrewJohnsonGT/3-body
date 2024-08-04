@@ -1,4 +1,10 @@
-import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
+import {
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonIcon,
+  useIonToast,
+} from '@ionic/react';
 import {
   addCircle,
   menu,
@@ -11,6 +17,7 @@ import {
 import { ActionType, useAppContext } from '~/Context';
 
 export const FAB = () => {
+  const [present] = useIonToast();
   const {
     dispatch,
     state: { isRunning },
@@ -26,13 +33,24 @@ export const FAB = () => {
       <IonFabButton>
         <IonIcon icon={menu} />
       </IonFabButton>
-      <IonFabList side="start">
+      <IonFabList
+        side="start"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}>
         <IonFabButton
           color="primary"
           onClick={() => {
             dispatch({
               payload: !isRunning,
               type: ActionType.SetIsRunning,
+            });
+            present({
+              duration: 1000,
+              message: isRunning ? 'Paused' : 'Running',
+              position: 'middle',
+            }).catch((e: unknown) => {
+              console.error('Error presenting toast', e);
             });
           }}>
           <IonIcon icon={isRunning ? pauseCircle : playCircle}></IonIcon>
