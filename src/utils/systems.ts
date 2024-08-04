@@ -1,17 +1,11 @@
 import P5 from 'p5';
-import { Body } from '~/classes/Body';
 import { G } from '~/constants';
-import { getRandomColor } from '~/utils/color';
 
 type SystemFunction = (
   P: P5,
-  bodyConfig: {
-    trailLength: number;
-    showTrail: boolean;
-  },
-) => Body[];
+) => { mass: number; pos: P5.Vector; vel: P5.Vector }[];
 
-const CIRCLE: SystemFunction = (P, bodyConfig) => {
+const CIRCLE: SystemFunction = (P) => {
   const mass = 52;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
   const size = Math.min(P.windowWidth, P.windowHeight) * 0.3; // Length of the side of the equilateral triangle
@@ -27,40 +21,34 @@ const CIRCLE: SystemFunction = (P, bodyConfig) => {
   });
 
   return [
-    new Body({
-      color: getRandomColor(P),
+    {
       mass,
       pos: positions[0],
       vel: P.createVector(
         velocityMagnitude * Math.sin(0),
         -velocityMagnitude * Math.cos(0),
       ),
-      ...bodyConfig,
-    }),
-    new Body({
-      color: getRandomColor(P),
+    },
+    {
       mass,
       pos: positions[2],
       vel: P.createVector(
         velocityMagnitude * Math.sin(-P.TWO_PI / 3),
         -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
       ),
-      ...bodyConfig,
-    }),
-    new Body({
-      color: getRandomColor(P),
+    },
+    {
       mass,
       pos: positions[1],
       vel: P.createVector(
         velocityMagnitude * Math.sin(P.TWO_PI / 3),
         -velocityMagnitude * Math.cos(P.TWO_PI / 3),
       ),
-      ...bodyConfig,
-    }),
+    },
   ];
 };
 
-const FIGURE_EIGHT: SystemFunction = (P, bodyConfig) => {
+const FIGURE_EIGHT: SystemFunction = (P) => {
   const aspectRatio = P.windowWidth / P.windowHeight;
 
   const baseAspectRatio = 1;
@@ -86,31 +74,25 @@ const FIGURE_EIGHT: SystemFunction = (P, bodyConfig) => {
   ];
 
   return [
-    new Body({
-      color: getRandomColor(P),
+    {
       mass,
       pos: positions[0],
       vel: velocities[0],
-      ...bodyConfig,
-    }),
-    new Body({
-      color: getRandomColor(P),
+    },
+    {
       mass,
       pos: positions[1],
       vel: velocities[1],
-      ...bodyConfig,
-    }),
-    new Body({
-      color: getRandomColor(P),
+    },
+    {
       mass,
       pos: positions[2],
       vel: velocities[2],
-      ...bodyConfig,
-    }),
+    },
   ];
 };
 
-const CENTRAL_BODY_ORBIT: SystemFunction = (P, bodyConfig) => {
+const CENTRAL_BODY_ORBIT: SystemFunction = (P) => {
   const centralMass = 1000;
   const orbitingMass = 10;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
@@ -134,23 +116,16 @@ const CENTRAL_BODY_ORBIT: SystemFunction = (P, bodyConfig) => {
   });
 
   return [
-    new Body({
-      color: getRandomColor(P),
+    {
       mass: centralMass,
       pos: center,
       vel: P.createVector(0, 0),
-      ...bodyConfig,
-    }),
-    ...positions.map(
-      (pos, i) =>
-        new Body({
-          color: getRandomColor(P),
-          mass: orbitingMass,
-          pos,
-          vel: velocities[i],
-          ...bodyConfig,
-        }),
-    ),
+    },
+    ...positions.map((pos, i) => ({
+      mass: orbitingMass,
+      pos,
+      vel: velocities[i],
+    })),
   ];
 };
 

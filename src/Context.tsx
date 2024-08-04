@@ -27,10 +27,11 @@ const DEFAULT_STATE = {
   bodies: [] as Body[],
   gravityMultiplier: 1,
   isRunning: true,
+  loading: true,
   newBodyColor: { a: 255, b: 255, g: 255, r: 255 } as RgbaColor,
   newBodyColorPalette: ColorPaletteColor.YELLOW,
   newBodyColorType: 'random' as NewBodyColorType,
-  newBodyMass: 50,
+  newBodyCustomMass: 50,
   newBodyMassType: 'random' as NewBodyType,
   particles: [] as Particle[],
   restartSelectedSystem: false,
@@ -195,7 +196,7 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
     case ActionType.SetNewBodyMass:
       return {
         ...state,
-        newBodyMass: action.payload,
+        newBodyCustomMass: action.payload,
       };
     case ActionType.SetNewBodyColor:
       return {
@@ -206,6 +207,7 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         ...action.payload,
+        loading: false,
       };
     case ActionType.SetStars:
       return {

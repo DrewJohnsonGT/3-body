@@ -40,10 +40,7 @@ export const ExamplesPage = () => {
               style={{
                 border: `1px solid ${isSelected ? 'var(--ion-color-primary)' : 'transparent'}`,
               }}>
-              <img
-                alt="Silhouette of mountains"
-                src="https://ionicframework.com/docs/img/demos/card-media.png"
-              />
+              <img alt={key} src={`/images/${key.toLowerCase()}.webp`} />
               <IonCardHeader>
                 <IonCardTitle>{value.title}</IonCardTitle>
                 <IonCardSubtitle>{value.bodies} bodies</IonCardSubtitle>

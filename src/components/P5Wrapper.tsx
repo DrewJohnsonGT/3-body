@@ -48,6 +48,7 @@ const getNewBodyColor = ({
   newBodyColorType: NewBodyColorType;
   newBodyColorPalette: ColorPaletteColor;
 }) => {
+  console.log(newBodyColor, newBodyColorPalette, newBodyColorType);
   if (newBodyColorType === 'theme') {
     const paletteColors = COLOR_PALETTES[newBodyColorPalette];
     const randomColor =
@@ -60,23 +61,27 @@ const getNewBodyColor = ({
 };
 
 const addNewBody = ({
+  mass,
   newBodyColor,
   newBodyColorPalette,
   newBodyColorType,
-  newBodyMass,
+  newBodyCustomMass,
   newBodyMassType,
   P,
   pos,
   showTrail,
   trailLength,
+  vel,
 }: {
   P: P5;
+  mass?: number;
+  vel?: P5.Vector;
   pos: P5.Vector;
   trailLength: number;
   showTrail: boolean;
   newBodyColorType: NewBodyColorType;
   newBodyMassType: NewBodyType;
-  newBodyMass: number;
+  newBodyCustomMass: number;
   newBodyColor: RgbaColor;
   newBodyColorPalette: ColorPaletteColor;
 }) => {
@@ -86,18 +91,19 @@ const addNewBody = ({
     newBodyColorType,
     P,
   });
-  const mass = newBodyMassType === 'random' ? P.random(10, 100) : newBodyMass;
-
+  const newBodyMass =
+    mass ||
+    (newBodyMassType === 'random' ? P.random(10, 100) : newBodyCustomMass);
   const newBody = new Body({
     color,
-    mass,
+    mass: newBodyMass,
     pos,
     showTrail,
     trailLength,
-    vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
+    vel: vel || P.createVector(P.random(-1, 1), P.random(-1, 1)),
   });
 
-  const numParticles = mass;
+  const numParticles = newBodyMass;
   const newParticles = Array.from({ length: numParticles }, () => {
     const angle = P.random(P.TWO_PI);
     const speed = P.random(1, 3);
@@ -151,10 +157,11 @@ export const P5Wrapper = () => {
       bodies,
       gravityMultiplier,
       isRunning,
+      loading,
       newBodyColor,
       newBodyColorPalette,
       newBodyColorType,
-      newBodyMass,
+      newBodyCustomMass,
       newBodyMassType,
       particles,
       restartSelectedSystem,
@@ -173,12 +180,42 @@ export const P5Wrapper = () => {
   const setup = (P: P5) => {
     setCanvasSize(P);
     P.frameRate(120);
-    dispatch({
-      payload: SYSTEMS_MAP[selectedSystem].systemFunction(P, {
+    const newBodiesConfig = SYSTEMS_MAP[selectedSystem].systemFunction(P);
+    const newBodyResults = newBodiesConfig.map((config) =>
+      addNewBody({
+        mass: config.mass,
+        newBodyColor,
+        newBodyColorPalette,
+        newBodyColorType,
+        newBodyCustomMass,
+        newBodyMassType,
+        P,
+        pos: config.pos,
         showTrail: showTrails,
         trailLength,
+        vel: config.vel,
       }),
+    );
+
+    const [newBodies, newParticles] = newBodyResults.reduce<
+      [Body[], Particle[]]
+    >(
+      (acc, { newBody, newParticles }) => {
+        acc[0].push(newBody);
+        acc[1].push(...newParticles);
+        return acc;
+      },
+      [[], []],
+    );
+
+    console.log(newBodies, newParticles);
+    dispatch({
+      payload: newBodies,
       type: ActionType.SetBodies,
+    });
+    dispatch({
+      payload: newParticles,
+      type: ActionType.SetParticles,
     });
     dispatch({
       payload: generateStars(P, zoom),
@@ -187,6 +224,8 @@ export const P5Wrapper = () => {
   };
 
   const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {
+    if ((event.target as { className?: string }).className !== 'p5Canvas')
+      return;
     if (!tapToCreate) return;
 
     // Calculate the adjusted position based on the zoom factor
@@ -198,7 +237,7 @@ export const P5Wrapper = () => {
       newBodyColor,
       newBodyColorPalette,
       newBodyColorType,
-      newBodyMass,
+      newBodyCustomMass,
       newBodyMassType,
       P,
       pos,
@@ -294,7 +333,7 @@ export const P5Wrapper = () => {
       setup(p);
       dispatch({ type: ActionType.SystemRestarted });
     }
-  }, [restartSelectedSystem]);
+  }, [restartSelectedSystem, loading]);
 
   // Alter bodies when trail length changes
   useEffect(() => {
@@ -329,14 +368,18 @@ export const P5Wrapper = () => {
         p.remove();
       };
     }
-  }, []);
+  }, [loading]);
 
   return (
     <IonContent>
       <div
         ref={canvasRef}
         id={CANVAS_CONTAINER_ID}
-        style={{ height: '100%', overflow: 'hidden' }}
+        style={{
+          display: loading ? 'none' : 'block',
+          height: '100%',
+          overflow: 'hidden',
+        }}
       />
     </IonContent>
   );

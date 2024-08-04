@@ -20,6 +20,14 @@ import {
   IonToggle,
 } from '@ionic/react';
 import {
+  MAX_CUSTOM_BODY_MASS,
+  MAX_GRAVITY_MULTIPLIER,
+  MAX_TRAIL_LENGTH,
+  MIN_CUSTOM_BODY_MASS,
+  MIN_GRAVITY_MULTIPLIER,
+  MIN_TRAIL_LENGTH,
+} from '~/constants';
+import {
   ActionType,
   NewBodyColorType,
   NewBodyType,
@@ -77,7 +85,7 @@ export const Settings = () => {
       newBodyColor,
       newBodyColorPalette,
       newBodyColorType,
-      newBodyMass,
+      newBodyCustomMass,
       newBodyMassType,
       showStars,
       showTrails,
@@ -124,8 +132,8 @@ export const Settings = () => {
                 });
               }}
               rangeProps={{
-                max: 500,
-                min: 1,
+                max: MAX_TRAIL_LENGTH,
+                min: MIN_TRAIL_LENGTH,
               }}
             />
           )}
@@ -164,8 +172,8 @@ export const Settings = () => {
               });
             }}
             rangeProps={{
-              max: 10,
-              min: 0,
+              max: MAX_GRAVITY_MULTIPLIER,
+              min: MIN_GRAVITY_MULTIPLIER,
             }}
           />
         </IonItemGroup>
@@ -222,7 +230,7 @@ export const Settings = () => {
           {newBodyMassType === 'custom' && (
             <RangeSettingsItem
               label="Mass"
-              value={newBodyMass}
+              value={newBodyCustomMass}
               onIonChange={(value) => {
                 dispatch({
                   payload: value,
@@ -230,8 +238,8 @@ export const Settings = () => {
                 });
               }}
               rangeProps={{
-                max: 1000,
-                min: 1,
+                max: MAX_CUSTOM_BODY_MASS,
+                min: MIN_CUSTOM_BODY_MASS,
               }}
             />
           )}
@@ -263,14 +271,25 @@ export const Settings = () => {
                   </IonSegmentButton>
                 </IonSegment>
               </IonRow>
+              {newBodyColorType === 'random' && (
+                <IonRow class="ion-justify-content-center">
+                  <IonLabel>
+                    <IonNote
+                      color="medium"
+                      className="ion-text-wrap ion-text-center">
+                      New bodies will have a random color
+                    </IonNote>
+                  </IonLabel>
+                </IonRow>
+              )}
               {newBodyColorType === 'custom' && (
                 <>
-                  <IonRow>
+                  <IonRow class="ion-justify-content-center">
                     <IonLabel>
-                      <IonText>Color</IonText>
-                      <br />
-                      <IonNote color="medium" className="ion-text-wrap">
-                        Select the color of newly created bodies
+                      <IonNote
+                        color="medium"
+                        className="ion-text-wrap ion-text-center">
+                        New bodies will all have this color
                       </IonNote>
                     </IonLabel>
                   </IonRow>
@@ -304,11 +323,10 @@ export const Settings = () => {
                     <IonSelect
                       aria-label="New Body Theme Color"
                       interface="popover"
-                      onIonChange={({ detail }) => {
-                        console.log(detail.value);
-                        detail.value &&
+                      onIonChange={(e) => {
+                        e.detail.value &&
                           dispatch({
-                            payload: detail.value as ColorPaletteColor,
+                            payload: e.detail.value as ColorPaletteColor,
                             type: ActionType.SetNewBodyColorPalette,
                           });
                       }}
