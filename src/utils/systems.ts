@@ -1,6 +1,6 @@
 import P5 from 'p5';
 import { G } from '~/constants';
-import { Body } from '~/utils/Body';
+import { Body } from '~/classes/Body';
 import { getRandomColor } from '~/utils/color';
 
 type SystemFunction = (

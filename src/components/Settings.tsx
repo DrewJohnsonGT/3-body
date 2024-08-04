@@ -62,6 +62,7 @@ export const Settings = () => {
       newBodyColor,
       newBodyMass,
       newBodyType,
+      showStars,
       showTrails,
       tapToCreate,
       trailLength,
@@ -106,6 +107,26 @@ export const Settings = () => {
               <br />
               <IonNote color="medium" className="ion-text-wrap">
                 Bodies will leave a trail behind them
+              </IonNote>
+            </IonLabel>
+          </IonToggle>
+        </IonItem>
+        <IonItem>
+          <IonToggle
+            enableOnOffLabels={true}
+            labelPlacement="start"
+            checked={showStars}
+            onIonChange={() => {
+              dispatch({
+                payload: !showStars,
+                type: ActionType.SetShowStars,
+              });
+            }}>
+            <IonLabel>
+              <IonText>Show stars</IonText>
+              <br />
+              <IonNote color="medium" className="ion-text-wrap">
+                Stars will be visible in the background
               </IonNote>
             </IonLabel>
           </IonToggle>

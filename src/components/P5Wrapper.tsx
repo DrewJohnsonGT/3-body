@@ -1,12 +1,14 @@
+/* eslint-disable max-lines */
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { IonContent } from '@ionic/react';
 import P5 from 'p5';
+import { Body } from '~/classes/Body';
+import { Particle } from '~/classes/Particle';
+import { Star } from '~/classes/Star';
 import { CANVAS_CONTAINER_ID, G } from '~/constants';
 import { ActionType, NewBodyType, useAppContext } from '~/Context';
 import { useThrottle } from '~/hooks/useThrottle';
-import { Body } from '~/utils/Body';
 import { getRandomColor, hexColorToP5Color } from '~/utils/color';
-import { Particle } from '~/utils/Particle';
 import { SYSTEMS_MAP } from '~/utils/systems';
 
 const getCanvasSize = () => {
@@ -18,7 +20,7 @@ const getCanvasSize = () => {
   return { height, width };
 };
 
-export const setCanvasSize = (P: P5) => {
+const setCanvasSize = (P: P5) => {
   const { height, width } = getCanvasSize();
   P.resizeCanvas(width || P.windowWidth, height || P.windowHeight);
 };
@@ -45,8 +47,7 @@ const addNewBody = ({
       ? getRandomColor(P)
       : hexColorToP5Color(P, newBodyColor);
   const mass = newBodyType === 'random' ? P.random(10, 100) : newBodyMass;
-  console.log('mass', mass);
-  console.log('color', color);
+
   const newBody = new Body({
     color,
     mass,
@@ -56,7 +57,7 @@ const addNewBody = ({
     vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
   });
 
-  const numParticles = 30;
+  const numParticles = mass;
   const newParticles = Array.from({ length: numParticles }, () => {
     const angle = P.random(P.TWO_PI);
     const speed = P.random(1, 3);
@@ -65,6 +66,7 @@ const addNewBody = ({
       color,
       lifespan: P.random(10, 100),
       pos,
+      size: P.random(1, 8),
       vel,
     });
   });
@@ -86,6 +88,20 @@ const calculateGravity = (
   return force;
 };
 
+const generateStars = (P: P5, zoom: number): Star[] => {
+  const numStars = 100;
+  const starArray = Array.from(
+    { length: numStars },
+    () =>
+      new Star({
+        size: P.random(0.5, 2 / zoom),
+        x: P.random(-P.width / 2 / zoom, P.width / 2 / zoom),
+        y: P.random(-P.height / 2 / zoom, P.height / 2 / zoom),
+      }),
+  );
+  return starArray;
+};
+
 let p: P5;
 
 export const P5Wrapper = () => {
@@ -101,7 +117,9 @@ export const P5Wrapper = () => {
       particles,
       restartSelectedSystem,
       selectedSystem,
+      showStars,
       showTrails,
+      stars,
       tapToCreate,
       trailLength,
       zoom,
@@ -119,6 +137,10 @@ export const P5Wrapper = () => {
         trailLength,
       }),
       type: ActionType.SetBodies,
+    });
+    dispatch({
+      payload: generateStars(P, zoom),
+      type: ActionType.SetStars,
     });
   };
 
@@ -153,8 +175,15 @@ export const P5Wrapper = () => {
     P.background(0);
     P.translate(P.width / 2, P.height / 2); // Move origin to center
     P.scale(zoom); // Apply zoom factor
-    P.translate(-P.width / 2, -P.height / 2); // Move origin back
 
+    // Draw stars
+    if (showStars) {
+      stars.forEach((star) => {
+        star.display(P);
+      });
+    }
+
+    P.translate(-P.width / 2, -P.height / 2); // Move origin back
     // Initialize force accumulators
     const forces = bodies.map(() => P.createVector(0, 0));
 
@@ -202,7 +231,15 @@ export const P5Wrapper = () => {
     p.mouseClicked = (event: PointerEvent) => {
       mouseClicked(event, p);
     };
-  }, [isRunning, bodies, particles, gravityMultiplier, zoom]);
+  }, [isRunning, bodies, particles, stars, gravityMultiplier, zoom, showStars]);
+
+  // Re-draw stars when zoom changes
+  useEffect(() => {
+    dispatch({
+      payload: generateStars(p, zoom),
+      type: ActionType.SetStars,
+    });
+  }, [zoom]);
 
   // Re-initialize when selected system changes
   useEffect(() => {

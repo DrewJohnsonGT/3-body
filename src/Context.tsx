@@ -5,15 +5,16 @@ import React, {
   useReducer,
   useState,
 } from 'react';
+import { Body } from '~/classes/Body';
+import { Particle } from '~/classes/Particle';
+import { Star } from '~/classes/Star';
 import { APP_NAME } from '~/constants';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
-import { Body } from '~/utils/Body';
-import { Particle } from '~/utils/Particle';
 import { System } from '~/utils/systems';
 
 const getSettingsState = (allState: State) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { bodies, particles, ...settingsState } = allState;
+  const { bodies, particles, stars, ...settingsState } = allState;
   return settingsState;
 };
 
@@ -29,8 +30,10 @@ const DEFAULT_STATE = {
   particles: [] as Particle[],
   restartSelectedSystem: false,
   selectedSystem: System.CIRCLE,
+  showStars: true,
   showTrails: true,
   speed: 1,
+  stars: [] as Star[],
   tapToCreate: true,
   trailLength: 20,
   zoom: 1,
@@ -58,6 +61,8 @@ export enum ActionType {
   SetNewBodyMass = 'SET_NEW_BODY_MASS',
   SetNewBodyColor = 'SET_NEW_BODY_COLOR',
   MergeLocalStorageState = 'MERGE_LOCAL_STORAGE_STATE',
+  SetStars = 'SET_STARS',
+  SetShowStars = 'SET_SHOW_STARS',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -79,6 +84,8 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetNewBodyMass]: number;
   [ActionType.SetNewBodyColor]: string;
   [ActionType.MergeLocalStorageState]: Partial<State>;
+  [ActionType.SetStars]: Star[];
+  [ActionType.SetShowStars]: boolean;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -186,6 +193,16 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         ...action.payload,
       };
+    case ActionType.SetStars:
+      return {
+        ...state,
+        stars: action.payload,
+      };
+    case ActionType.SetShowStars:
+      return {
+        ...state,
+        showStars: action.payload,
+      };
     default:
       return state;
   }
@@ -227,10 +244,9 @@ export const AppContextProvider = ({
       return;
     }
     const settingsState = getSettingsState(state);
-    set(settingsState)
-      .catch((e: unknown) => {
-        console.log('Error setting local storage', e);
-      });
+    set(settingsState).catch((e: unknown) => {
+      console.log('Error setting local storage', e);
+    });
   }, [state]);
 
   return (

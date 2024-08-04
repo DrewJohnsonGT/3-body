@@ -3,6 +3,7 @@ import P5 from 'p5';
 export class Particle {
   public pos: P5.Vector;
   public vel: P5.Vector;
+  public size: number;
   public color: P5.Color;
   public lifespan: number;
 
@@ -10,15 +11,18 @@ export class Particle {
     color,
     lifespan,
     pos,
+    size,
     vel,
   }: {
-    pos: P5.Vector;
-    vel: P5.Vector;
     color: P5.Color;
+    pos: P5.Vector;
+    size: number;
+    vel: P5.Vector;
     lifespan: number;
   }) {
     this.pos = pos.copy();
     this.vel = vel.copy();
+    this.size = size;
     this.color = color;
     this.lifespan = lifespan;
   }
@@ -30,12 +34,12 @@ export class Particle {
 
   display(P: P5) {
     P.push();
-    P.strokeWeight(4);
+    P.strokeWeight(this.size);
     P.stroke(
       P.red(this.color),
       P.green(this.color),
       P.blue(this.color),
-      this.lifespan,
+      this.lifespan + 25,
     );
     P.point(this.pos.x, this.pos.y);
     P.pop();
