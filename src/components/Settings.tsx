@@ -43,7 +43,7 @@ const RangeSettingsItem = ({
       </IonRow>
       <IonRow>
         <IonRange
-          onIonChange={({ detail }) => {
+          onIonInput={({ detail }) => {
             onIonChange(detail.value as number);
           }}
           {...rangeProps}
@@ -204,7 +204,7 @@ export const Settings = () => {
               });
             }}
             rangeProps={{
-              max: 100,
+              max: 1000,
               min: 1,
             }}
           />
