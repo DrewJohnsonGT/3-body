@@ -132,7 +132,7 @@ export const P5Wrapper = () => {
     setCanvasSize(P);
     P.frameRate(120);
     dispatch({
-      payload: SYSTEMS_MAP[selectedSystem](P, {
+      payload: SYSTEMS_MAP[selectedSystem].systemFunction(P, {
         showTrail: showTrails,
         trailLength,
       }),

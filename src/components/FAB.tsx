@@ -20,7 +20,7 @@ export const FAB = () => {
   const [present] = useIonToast();
   const {
     dispatch,
-    state: { isRunning },
+    state: { bodies, isRunning },
   } = useAppContext();
   return (
     <IonFab
@@ -46,8 +46,10 @@ export const FAB = () => {
               type: ActionType.SetIsRunning,
             });
             present({
-              duration: 1000,
-              message: isRunning ? 'Paused' : 'Running',
+              duration: isRunning ? 2000 : 1000,
+              message: isRunning
+                ? `Paused ${String(bodies.length)} bodies`
+                : 'Running',
               position: 'middle',
             }).catch((e: unknown) => {
               console.error('Error presenting toast', e);

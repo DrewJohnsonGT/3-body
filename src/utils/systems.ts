@@ -1,6 +1,6 @@
 import P5 from 'p5';
-import { G } from '~/constants';
 import { Body } from '~/classes/Body';
+import { G } from '~/constants';
 import { getRandomColor } from '~/utils/color';
 
 type SystemFunction = (
@@ -160,8 +160,31 @@ export enum System {
   CENTRAL_BODY_ORBIT = 'Central Body',
 }
 
-export const SYSTEMS_MAP: Record<System, SystemFunction> = {
-  [System.CIRCLE]: CIRCLE,
-  [System.FIGURE_EIGHT]: FIGURE_EIGHT,
-  [System.CENTRAL_BODY_ORBIT]: CENTRAL_BODY_ORBIT,
+export const SYSTEMS_MAP: Record<
+  System,
+  {
+    systemFunction: SystemFunction;
+    title: string;
+    description: string;
+    bodies: number;
+  }
+> = {
+  [System.CIRCLE]: {
+    bodies: 3,
+    description: 'Three bodies in a circular orbit',
+    systemFunction: CIRCLE,
+    title: 'Circle',
+  },
+  [System.FIGURE_EIGHT]: {
+    bodies: 3,
+    description: 'Three bodies in a figure eight orbit',
+    systemFunction: FIGURE_EIGHT,
+    title: 'Figure Eight',
+  },
+  [System.CENTRAL_BODY_ORBIT]: {
+    bodies: 4,
+    description: 'Three bodies orbiting a larger central body',
+    systemFunction: CENTRAL_BODY_ORBIT,
+    title: 'Central Body',
+  },
 };
