@@ -5,11 +5,13 @@ import React, {
   useReducer,
   useState,
 } from 'react';
+import { RgbaColor } from 'react-colorful';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
 import { Star } from '~/classes/Star';
 import { APP_NAME } from '~/constants';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
+import { ColorPaletteColor } from '~/utils/color';
 import { System } from '~/utils/systems';
 
 const getSettingsState = (allState: State) => {
@@ -19,14 +21,17 @@ const getSettingsState = (allState: State) => {
 };
 
 export type NewBodyType = 'random' | 'custom';
+export type NewBodyColorType = 'random' | 'theme' | 'custom';
 
 const DEFAULT_STATE = {
   bodies: [] as Body[],
   gravityMultiplier: 1,
   isRunning: true,
-  newBodyColor: '#ffffff',
+  newBodyColor: { a: 255, b: 255, g: 255, r: 255 } as RgbaColor,
+  newBodyColorPalette: ColorPaletteColor.YELLOW,
+  newBodyColorType: 'random' as NewBodyColorType,
   newBodyMass: 50,
-  newBodyType: 'random' as NewBodyType,
+  newBodyMassType: 'random' as NewBodyType,
   particles: [] as Particle[],
   restartSelectedSystem: false,
   selectedSystem: System.CIRCLE,
@@ -57,12 +62,14 @@ export enum ActionType {
   ToggleTapToCreate = 'TOGGLE_TAP_TO_CREATE',
   SystemRestarted = 'SYSTEM_RESTARTED',
   SetSpeed = 'SET_SPEED',
-  SetNewBodyType = 'SET_NEW_BODY_TYPE',
+  SetNewBodyColorType = 'SET_NEW_BODY_COLOR_TYPE',
+  SetNewBodyMassType = 'SET_NEW_BODY_MASS_TYPE',
   SetNewBodyMass = 'SET_NEW_BODY_MASS',
   SetNewBodyColor = 'SET_NEW_BODY_COLOR',
   MergeLocalStorageState = 'MERGE_LOCAL_STORAGE_STATE',
   SetStars = 'SET_STARS',
   SetShowStars = 'SET_SHOW_STARS',
+  SetNewBodyColorPalette = 'SET_NEW_BODY_COLOR_PALETTE',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -80,12 +87,14 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.ToggleTapToCreate]: undefined;
   [ActionType.SystemRestarted]: undefined;
   [ActionType.SetSpeed]: number;
-  [ActionType.SetNewBodyType]: NewBodyType;
   [ActionType.SetNewBodyMass]: number;
-  [ActionType.SetNewBodyColor]: string;
+  [ActionType.SetNewBodyColor]: RgbaColor;
   [ActionType.MergeLocalStorageState]: Partial<State>;
   [ActionType.SetStars]: Star[];
   [ActionType.SetShowStars]: boolean;
+  [ActionType.SetNewBodyColorType]: NewBodyColorType;
+  [ActionType.SetNewBodyMassType]: NewBodyType;
+  [ActionType.SetNewBodyColorPalette]: ColorPaletteColor;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -173,10 +182,15 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         speed: action.payload,
       };
-    case ActionType.SetNewBodyType:
+    case ActionType.SetNewBodyColorType:
       return {
         ...state,
-        newBodyType: action.payload,
+        newBodyColorType: action.payload,
+      };
+    case ActionType.SetNewBodyMassType:
+      return {
+        ...state,
+        newBodyMassType: action.payload,
       };
     case ActionType.SetNewBodyMass:
       return {
@@ -202,6 +216,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         showStars: action.payload,
+      };
+    case ActionType.SetNewBodyColorPalette:
+      return {
+        ...state,
+        newBodyColorPalette: action.payload,
       };
     default:
       return state;

@@ -1,14 +1,20 @@
 /* eslint-disable max-lines */
 import { useEffect, useLayoutEffect, useRef } from 'react';
+import { RgbaColor } from 'react-colorful';
 import { IonContent } from '@ionic/react';
 import P5 from 'p5';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
 import { Star } from '~/classes/Star';
 import { CANVAS_CONTAINER_ID, G } from '~/constants';
-import { ActionType, NewBodyType, useAppContext } from '~/Context';
+import {
+  ActionType,
+  NewBodyColorType,
+  NewBodyType,
+  useAppContext,
+} from '~/Context';
 import { useThrottle } from '~/hooks/useThrottle';
-import { getRandomColor, hexColorToP5Color } from '~/utils/color';
+import { getRandomColor, rgbaColorToP5Color, ColorPaletteColor } from '~/utils/color';
 import { SYSTEMS_MAP } from '~/utils/systems';
 
 const getCanvasSize = () => {
@@ -27,8 +33,9 @@ const setCanvasSize = (P: P5) => {
 
 const addNewBody = ({
   newBodyColor,
+  newBodyColorType,
   newBodyMass,
-  newBodyType,
+  newBodyMassType,
   P,
   pos,
   showTrail,
@@ -38,15 +45,16 @@ const addNewBody = ({
   pos: P5.Vector;
   trailLength: number;
   showTrail: boolean;
-  newBodyType: NewBodyType;
+  newBodyColorType: NewBodyColorType;
+  newBodyMassType: NewBodyType;
   newBodyMass: number;
-  newBodyColor: string;
+  newBodyColor: RgbaColor;
 }) => {
   const color =
-    newBodyType === 'random'
+    newBodyColorType === 'random'
       ? getRandomColor(P)
-      : hexColorToP5Color(P, newBodyColor);
-  const mass = newBodyType === 'random' ? P.random(10, 100) : newBodyMass;
+      : rgbaColorToP5Color(P, newBodyColor);
+  const mass = newBodyMassType === 'random' ? P.random(10, 100) : newBodyMass;
 
   const newBody = new Body({
     color,
@@ -112,8 +120,9 @@ export const P5Wrapper = () => {
       gravityMultiplier,
       isRunning,
       newBodyColor,
+      newBodyColorType,
       newBodyMass,
-      newBodyType,
+      newBodyMassType,
       particles,
       restartSelectedSystem,
       selectedSystem,
@@ -154,8 +163,9 @@ export const P5Wrapper = () => {
 
     const { newBody, newParticles } = addNewBody({
       newBodyColor,
+      newBodyColorType,
       newBodyMass,
-      newBodyType,
+      newBodyMassType,
       P,
       pos,
       showTrail: showTrails,

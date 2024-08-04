@@ -90,3 +90,7 @@ ion-fab {
 ion-modal {
   --ion-background-color: #ffffff85;
 }
+
+.select-wrapper-inner {
+  margin: auto !important;
+}
