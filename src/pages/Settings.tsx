@@ -3,7 +3,10 @@ import { Settings } from '~/components';
 
 export const SettingsPage = () => {
   return (
-    <IonPage>
+    <IonPage
+      onClick={(e) => {
+        e.stopPropagation();
+      }}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Settings</IonTitle>

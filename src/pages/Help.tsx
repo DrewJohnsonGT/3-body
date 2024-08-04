@@ -8,7 +8,10 @@ import {
 
 export const HelpPage = () => {
   return (
-    <IonPage>
+    <IonPage
+      onClick={(e) => {
+        e.stopPropagation();
+      }}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Help</IonTitle>
