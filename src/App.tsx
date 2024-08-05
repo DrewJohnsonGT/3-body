@@ -12,7 +12,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { help, home, planet, settings } from 'ionicons/icons';
-import { Settings } from '~/components';
+import { Settings } from '~/components/Settings';
 import { AppContextProvider } from '~/Context';
 import { HelpPage, HomePage, SettingsPage, SystemsPage } from '~/pages';
 import '@ionic/react/css/core.css';

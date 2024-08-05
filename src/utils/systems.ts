@@ -96,7 +96,7 @@ const CENTRAL_BODY_ORBIT: SystemFunction = (P) => {
   const centralMass = 1000;
   const orbitingMass = 10;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
-  const orbitRadius = Math.min(P.windowWidth, P.windowHeight) * 0.2;
+  const orbitRadius = Math.min(P.windowWidth, P.windowHeight) * 0.9;
 
   const velocityMagnitude = Math.sqrt((G * centralMass) / orbitRadius);
 

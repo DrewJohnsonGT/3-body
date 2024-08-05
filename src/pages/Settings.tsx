@@ -1,5 +1,5 @@
 import { IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { Settings } from '~/components';
+import { Settings } from '~/components/Settings';
 
 export const SettingsPage = () => {
   return (

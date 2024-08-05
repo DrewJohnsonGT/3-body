@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React, {
   createContext,
   useContext,
@@ -5,7 +6,7 @@ import React, {
   useReducer,
   useState,
 } from 'react';
-import { RgbaColor } from 'react-colorful';
+import { RgbColor } from 'react-colorful';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
 import { Star } from '~/classes/Star';
@@ -28,11 +29,13 @@ const DEFAULT_STATE = {
   gravityMultiplier: 1,
   isRunning: true,
   loading: true,
-  newBodyColor: { a: 255, b: 255, g: 255, r: 255 } as RgbaColor,
+  newBodyColor: { b: 255, g: 255, r: 255 } as RgbColor,
   newBodyColorPalette: ColorPaletteColor.YELLOW,
   newBodyColorType: 'random' as NewBodyColorType,
   newBodyCustomMass: 50,
   newBodyMassType: 'random' as NewBodyType,
+  panX: 0,
+  panY: 0,
   particles: [] as Particle[],
   restartSelectedSystem: false,
   selectedSystem: System.CIRCLE,
@@ -71,6 +74,7 @@ export enum ActionType {
   SetStars = 'SET_STARS',
   SetShowStars = 'SET_SHOW_STARS',
   SetNewBodyColorPalette = 'SET_NEW_BODY_COLOR_PALETTE',
+  SetPan = 'SET_PAN',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -89,13 +93,14 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SystemRestarted]: undefined;
   [ActionType.SetSpeed]: number;
   [ActionType.SetNewBodyMass]: number;
-  [ActionType.SetNewBodyColor]: RgbaColor;
+  [ActionType.SetNewBodyColor]: RgbColor;
   [ActionType.MergeLocalStorageState]: Partial<State>;
   [ActionType.SetStars]: Star[];
   [ActionType.SetShowStars]: boolean;
   [ActionType.SetNewBodyColorType]: NewBodyColorType;
   [ActionType.SetNewBodyMassType]: NewBodyType;
   [ActionType.SetNewBodyColorPalette]: ColorPaletteColor;
+  [ActionType.SetPan]: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -224,6 +229,23 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         newBodyColorPalette: action.payload,
       };
+    case ActionType.SetPan: {
+      const panMultiplier = 100;
+      const newPanState = { ...state };
+      if (action.payload === 'UP') {
+        newPanState.panY += panMultiplier;
+      }
+      if (action.payload === 'DOWN') {
+        newPanState.panY -= panMultiplier;
+      }
+      if (action.payload === 'LEFT') {
+        newPanState.panX += panMultiplier;
+      }
+      if (action.payload === 'RIGHT') {
+        newPanState.panX -= panMultiplier;
+      }
+      return newPanState;
+    }
     default:
       return state;
   }

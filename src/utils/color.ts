@@ -1,4 +1,4 @@
-import { RgbaColor } from 'react-colorful';
+import { RgbColor } from 'react-colorful';
 import P5 from 'p5';
 
 export enum ColorPaletteColor {
@@ -75,22 +75,22 @@ export const getRandomColor = (P: P5) => {
 };
 
 // Returns either white or black depending on hex color
-export const getBackgroundColor = (rgbaColor: RgbaColor) => {
-  const { b, g, r } = rgbaColor;
+export const getBackgroundColor = (rgbColor: RgbColor) => {
+  const { b, g, r } = rgbColor;
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
   return brightness > 125 ? 'black' : 'white';
 };
 
-export const rgbaColorToP5Color = (p: P5, rgbaColor: RgbaColor) => {
-  const { a, b, g, r } = rgbaColor;
-  return p.color(r, g, b, a);
+export const rgbColorToP5Color = (p: P5, rgbColor: RgbColor) => {
+  const { b, g, r } = rgbColor;
+  return p.color(r, g, b);
 };
 
 export const hexToP5Color = (p: P5, hex: string) => {
   return p.color(hex);
-}
+};
 
-export const rgbaColorToString = (rgbaColor: RgbaColor) => {
-  const { a, b, g, r } = rgbaColor;
-  return `rgba(${String(r)}, ${String(g)}, ${String(b)}, ${String(a)})`;
+export const rgbColorToString = (rgbColor: RgbColor) => {
+  const { b, g, r } = rgbColor;
+  return `rgb(${String(r)}, ${String(g)}, ${String(b)}})`;
 };

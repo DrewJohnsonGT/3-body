@@ -16,7 +16,7 @@ import {
 } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
 
-export const FAB = () => {
+export const SettingsFAB = () => {
   const [present] = useIonToast();
   const {
     dispatch,

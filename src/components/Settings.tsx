@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { RgbaColorPicker } from 'react-colorful';
+import { RgbColorPicker } from 'react-colorful';
 import {
   IonCol,
   IonContent,
@@ -37,7 +37,7 @@ import {
   COLOR_PALETTES,
   ColorPaletteColor,
   getBackgroundColor,
-  rgbaColorToString,
+  rgbColorToString,
 } from '~/utils/color';
 
 const RangeSettingsItem = ({
@@ -294,7 +294,7 @@ export const Settings = () => {
                     </IonLabel>
                   </IonRow>
                   <IonRow class="ion-padding ion-justify-content-center ion-align-items-center">
-                    <RgbaColorPicker
+                    <RgbColorPicker
                       color={newBodyColor}
                       onChange={(color) => {
                         dispatch({
@@ -307,7 +307,7 @@ export const Settings = () => {
                   <IonRow className="ion-justify-content-center ion-align-items-center">
                     <div
                       style={{
-                        backgroundColor: rgbaColorToString(newBodyColor),
+                        backgroundColor: rgbColorToString(newBodyColor),
                         border: `2px solid ${getBackgroundColor(newBodyColor)}`,
                         borderRadius: '50%',
                         height: '4rem',

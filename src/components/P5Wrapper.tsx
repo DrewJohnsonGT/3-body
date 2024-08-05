@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 import { useEffect, useLayoutEffect, useRef } from 'react';
-import { RgbaColor } from 'react-colorful';
-import { IonContent } from '@ionic/react';
+import { RgbColor } from 'react-colorful';
 import P5 from 'p5';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
@@ -19,7 +18,7 @@ import {
   ColorPaletteColor,
   getRandomColor,
   hexToP5Color,
-  rgbaColorToP5Color,
+  rgbColorToP5Color,
 } from '~/utils/color';
 import { SYSTEMS_MAP } from '~/utils/systems';
 
@@ -44,11 +43,10 @@ const getNewBodyColor = ({
   P,
 }: {
   P: P5;
-  newBodyColor: RgbaColor;
+  newBodyColor: RgbColor;
   newBodyColorType: NewBodyColorType;
   newBodyColorPalette: ColorPaletteColor;
 }) => {
-  console.log(newBodyColor, newBodyColorPalette, newBodyColorType);
   if (newBodyColorType === 'theme') {
     const paletteColors = COLOR_PALETTES[newBodyColorPalette];
     const randomColor =
@@ -57,7 +55,7 @@ const getNewBodyColor = ({
   }
   return newBodyColorType === 'random'
     ? getRandomColor(P)
-    : rgbaColorToP5Color(P, newBodyColor);
+    : rgbColorToP5Color(P, newBodyColor);
 };
 
 const addNewBody = ({
@@ -82,7 +80,7 @@ const addNewBody = ({
   newBodyColorType: NewBodyColorType;
   newBodyMassType: NewBodyType;
   newBodyCustomMass: number;
-  newBodyColor: RgbaColor;
+  newBodyColor: RgbColor;
   newBodyColorPalette: ColorPaletteColor;
 }) => {
   const color = getNewBodyColor({
@@ -100,7 +98,7 @@ const addNewBody = ({
     pos,
     showTrail,
     trailLength,
-    vel: vel || P.createVector(P.random(-1, 1), P.random(-1, 1)),
+    vel,
   });
 
   const numParticles = newBodyMass;
@@ -121,17 +119,20 @@ const addNewBody = ({
 
 const calculateGravity = (
   P: P5,
-  b1: Body,
-  b2: Body,
+  body1: Body,
+  body2: Body,
   gravityMultiplier: number,
 ) => {
-  const force = P5.Vector.sub(b2.pos, b1.pos);
-  const distance = P.constrain(force.mag(), 50, 10000);
-  force.normalize();
-  const strength = (G * b1.mass * b2.mass) / (distance * distance);
-  force.mult(strength);
-  force.mult(gravityMultiplier);
-  return force;
+  const forceVector = P5.Vector.sub(body2.pos, body1.pos);
+  const constrainedDistance = P.constrain(forceVector.mag(), 50, 10000);
+  forceVector.normalize();
+
+  const gravitationalForceStrength =
+    (G * body1.mass * body2.mass) / Math.pow(constrainedDistance, 2);
+  forceVector.mult(gravitationalForceStrength);
+  forceVector.mult(gravityMultiplier);
+
+  return forceVector;
 };
 
 const generateStars = (P: P5, zoom: number): Star[] => {
@@ -163,6 +164,8 @@ export const P5Wrapper = () => {
       newBodyColorType,
       newBodyCustomMass,
       newBodyMassType,
+      panX,
+      panY,
       particles,
       restartSelectedSystem,
       selectedSystem,
@@ -175,7 +178,7 @@ export const P5Wrapper = () => {
     },
   } = useAppContext();
 
-  const canvasRef = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const setup = (P: P5) => {
     setCanvasSize(P);
@@ -207,8 +210,6 @@ export const P5Wrapper = () => {
       },
       [[], []],
     );
-
-    console.log(newBodies, newParticles);
     dispatch({
       payload: newBodies,
       type: ActionType.SetBodies,
@@ -256,7 +257,7 @@ export const P5Wrapper = () => {
 
   const draw = (P: P5) => {
     P.background(0);
-    P.translate(P.width / 2, P.height / 2); // Move origin to center
+    P.translate(P.width / 2 + panX, P.height / 2 + panY); // Move origin to center and apply pan
     P.scale(zoom); // Apply zoom factor
 
     // Draw stars
@@ -314,7 +315,17 @@ export const P5Wrapper = () => {
     p.mouseClicked = (event: PointerEvent) => {
       mouseClicked(event, p);
     };
-  }, [isRunning, bodies, particles, stars, gravityMultiplier, zoom, showStars]);
+  }, [
+    isRunning,
+    bodies,
+    particles,
+    stars,
+    gravityMultiplier,
+    zoom,
+    showStars,
+    panX,
+    panY,
+  ]);
 
   // Re-draw stars when zoom changes
   useEffect(() => {
@@ -348,7 +359,7 @@ export const P5Wrapper = () => {
 
   // Initialize P5
   useLayoutEffect(() => {
-    if (canvasRef.current) {
+    if (divRef.current) {
       const myP5 = new P5((P: P5) => {
         P.setup = () => {
           setup(P);
@@ -362,8 +373,9 @@ export const P5Wrapper = () => {
         P.windowResized = () => {
           setCanvasSize(P);
         };
-      }, canvasRef.current);
+      }, divRef.current);
       p = myP5;
+
       return () => {
         p.remove();
       };
@@ -371,16 +383,14 @@ export const P5Wrapper = () => {
   }, [loading]);
 
   return (
-    <IonContent>
-      <div
-        ref={canvasRef}
-        id={CANVAS_CONTAINER_ID}
-        style={{
-          display: loading ? 'none' : 'block',
-          height: '100%',
-          overflow: 'hidden',
-        }}
-      />
-    </IonContent>
+    <div
+      ref={divRef}
+      id={CANVAS_CONTAINER_ID}
+      style={{
+        display: loading ? 'none' : 'block',
+        height: '100%',
+        overflow: 'auto',
+      }}
+    />
   );
 };
