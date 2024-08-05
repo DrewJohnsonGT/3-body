@@ -5,15 +5,7 @@ import {
   IonIcon,
   useIonToast,
 } from '@ionic/react';
-import {
-  addCircle,
-  menu,
-  pauseCircle,
-  playCircle,
-  refreshCircle,
-  removeCircle,
-  settings,
-} from 'ionicons/icons';
+import { menu, pause, play, refresh, settingsOutline } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
 
 export const SettingsFAB = () => {
@@ -30,7 +22,7 @@ export const SettingsFAB = () => {
       onClick={(e) => {
         e.stopPropagation();
       }}>
-      <IonFabButton>
+      <IonFabButton size="small">
         <IonIcon icon={menu} />
       </IonFabButton>
       <IonFabList
@@ -55,37 +47,19 @@ export const SettingsFAB = () => {
               console.error('Error presenting toast', e);
             });
           }}>
-          <IonIcon icon={isRunning ? pauseCircle : playCircle}></IonIcon>
+          <IonIcon icon={isRunning ? pause : play}></IonIcon>
         </IonFabButton>
         <IonFabButton
           color="primary"
           onClick={() => {
             dispatch({ type: ActionType.Restart });
           }}>
-          <IonIcon icon={refreshCircle}></IonIcon>
-        </IonFabButton>
-        <IonFabButton
-          color="primary"
-          onClick={() => {
-            dispatch({
-              type: ActionType.ZoomIn,
-            });
-          }}>
-          <IonIcon icon={addCircle}></IonIcon>
-        </IonFabButton>
-        <IonFabButton
-          color="primary"
-          onClick={() => {
-            dispatch({
-              type: ActionType.ZoomOut,
-            });
-          }}>
-          <IonIcon icon={removeCircle}></IonIcon>
+          <IonIcon icon={refresh}></IonIcon>
         </IonFabButton>
       </IonFabList>
       <IonFabList side="bottom">
         <IonFabButton color="primary" id="open-modal">
-          <IonIcon icon={settings}></IonIcon>
+          <IonIcon icon={settingsOutline}></IonIcon>
         </IonFabButton>
       </IonFabList>
     </IonFab>

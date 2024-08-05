@@ -34,6 +34,7 @@ const getCanvasSize = () => {
 const setCanvasSize = (P: P5) => {
   const { height, width } = getCanvasSize();
   P.resizeCanvas(width || P.windowWidth, height || P.windowHeight);
+  return { height, width };
 };
 
 const getNewBodyColor = ({
@@ -135,15 +136,21 @@ const calculateGravity = (
   return forceVector;
 };
 
-const generateStars = (P: P5, zoom: number): Star[] => {
+const generateStars = ({
+  P,
+  zoom,
+}: {
+  P: P5;
+  zoom: number;
+}): Star[] => {
   const numStars = 100;
   const starArray = Array.from(
     { length: numStars },
     () =>
       new Star({
         size: P.random(0.5, 2 / zoom),
-        x: P.random(-P.width / 2 / zoom, P.width / 2 / zoom),
-        y: P.random(-P.height / 2 / zoom, P.height / 2 / zoom),
+        x: P.random(-P.width / 2, P.width / 2) / zoom,
+        y: P.random(-P.height / 2, P.height / 2) / zoom,
       }),
   );
   return starArray;
@@ -164,8 +171,6 @@ export const P5Wrapper = () => {
       newBodyColorType,
       newBodyCustomMass,
       newBodyMassType,
-      panX,
-      panY,
       particles,
       restartSelectedSystem,
       selectedSystem,
@@ -181,7 +186,11 @@ export const P5Wrapper = () => {
   const divRef = useRef<HTMLDivElement>(null);
 
   const setup = (P: P5) => {
-    setCanvasSize(P);
+    const { height, width } = setCanvasSize(P);
+    dispatch({
+      payload: { height, width },
+      type: ActionType.SetScreenSize,
+    });
     P.frameRate(120);
     const newBodiesConfig = SYSTEMS_MAP[selectedSystem].systemFunction(P);
     const newBodyResults = newBodiesConfig.map((config) =>
@@ -219,7 +228,7 @@ export const P5Wrapper = () => {
       type: ActionType.SetParticles,
     });
     dispatch({
-      payload: generateStars(P, zoom),
+      payload: generateStars({ P, zoom }),
       type: ActionType.SetStars,
     });
   };
@@ -231,7 +240,8 @@ export const P5Wrapper = () => {
 
     // Calculate the adjusted position based on the zoom factor
     const adjustedX = (event.offsetX - P.width / 2) / zoom + P.width / 2;
-    const adjustedY = (event.offsetY - P.height / 2) / zoom + P.height / 2;
+    const adjustedY =
+      (event.offsetY - P.height / 2) / zoom + P.height / 2;
     const pos = P.createVector(adjustedX, adjustedY);
 
     const { newBody, newParticles } = addNewBody({
@@ -257,7 +267,7 @@ export const P5Wrapper = () => {
 
   const draw = (P: P5) => {
     P.background(0);
-    P.translate(P.width / 2 + panX, P.height / 2 + panY); // Move origin to center and apply pan
+    P.translate(P.width / 2, P.height / 2); // Move origin to center
     P.scale(zoom); // Apply zoom factor
 
     // Draw stars
@@ -323,14 +333,12 @@ export const P5Wrapper = () => {
     gravityMultiplier,
     zoom,
     showStars,
-    panX,
-    panY,
   ]);
 
   // Re-draw stars when zoom changes
   useEffect(() => {
     dispatch({
-      payload: generateStars(p, zoom),
+      payload: generateStars({ P: p, zoom }),
       type: ActionType.SetStars,
     });
   }, [zoom]);

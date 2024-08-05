@@ -15,6 +15,7 @@ import { useLocalStorage } from '~/hooks/useLocalStorage';
 import { ColorPaletteColor } from '~/utils/color';
 import { System } from '~/utils/systems';
 
+// Only store certain state in local storage
 const getSettingsState = (allState: State) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { bodies, particles, stars, ...settingsState } = allState;
@@ -34,10 +35,9 @@ const DEFAULT_STATE = {
   newBodyColorType: 'random' as NewBodyColorType,
   newBodyCustomMass: 50,
   newBodyMassType: 'random' as NewBodyType,
-  panX: 0,
-  panY: 0,
   particles: [] as Particle[],
   restartSelectedSystem: false,
+  screenSize: { height: 500, width: 500 },
   selectedSystem: System.CIRCLE,
   showStars: true,
   showTrails: true,
@@ -74,7 +74,7 @@ export enum ActionType {
   SetStars = 'SET_STARS',
   SetShowStars = 'SET_SHOW_STARS',
   SetNewBodyColorPalette = 'SET_NEW_BODY_COLOR_PALETTE',
-  SetPan = 'SET_PAN',
+  SetScreenSize = 'SET_SCREEN_SIZE',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -100,7 +100,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetNewBodyColorType]: NewBodyColorType;
   [ActionType.SetNewBodyMassType]: NewBodyType;
   [ActionType.SetNewBodyColorPalette]: ColorPaletteColor;
-  [ActionType.SetPan]: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
+  [ActionType.SetScreenSize]: { height: number; width: number };
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -127,6 +127,7 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         restartSelectedSystem: true,
+        zoom: 1,
       };
     case ActionType.SetSelectedSystem:
       return {
@@ -229,23 +230,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         newBodyColorPalette: action.payload,
       };
-    case ActionType.SetPan: {
-      const panMultiplier = 100;
-      const newPanState = { ...state };
-      if (action.payload === 'UP') {
-        newPanState.panY += panMultiplier;
-      }
-      if (action.payload === 'DOWN') {
-        newPanState.panY -= panMultiplier;
-      }
-      if (action.payload === 'LEFT') {
-        newPanState.panX += panMultiplier;
-      }
-      if (action.payload === 'RIGHT') {
-        newPanState.panX -= panMultiplier;
-      }
-      return newPanState;
-    }
+    case ActionType.SetScreenSize:
+      return {
+        ...state,
+        screenSize: action.payload,
+      };
     default:
       return state;
   }
