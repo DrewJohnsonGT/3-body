@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
 import { add, expandOutline, remove } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
@@ -5,13 +6,15 @@ import { ActionType, useAppContext } from '~/Context';
 export const ControlFAB = () => {
   const { dispatch } = useAppContext();
 
+  const [isActivated, setIsActivated] = useState(false);
   return (
     <IonFab
+      activated={isActivated}
       slot="fixed"
       vertical="top"
       horizontal="start"
-      onClick={(e) => {
-        e.stopPropagation();
+      onClick={() => {
+        setIsActivated(!isActivated);
       }}>
       <IonFabButton size="small">
         <IonIcon icon={expandOutline} />
@@ -25,7 +28,8 @@ export const ControlFAB = () => {
         <IonFabButton
           size="small"
           color="primary"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             dispatch({
               type: ActionType.ZoomIn,
             });
@@ -35,7 +39,8 @@ export const ControlFAB = () => {
         <IonFabButton
           size="small"
           color="primary"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             dispatch({
               type: ActionType.ZoomOut,
             });

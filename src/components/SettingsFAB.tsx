@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   IonFab,
   IonFabButton,
@@ -14,25 +15,25 @@ export const SettingsFAB = () => {
     dispatch,
     state: { bodies, isRunning },
   } = useAppContext();
+
+  const [isActive, setIsActive] = useState(false);
   return (
     <IonFab
+      activated={isActive}
       slot="fixed"
       vertical="top"
       horizontal="end"
-      onClick={(e) => {
-        e.stopPropagation();
+      onClick={() => {
+        setIsActive(!isActive);
       }}>
       <IonFabButton size="small">
         <IonIcon icon={menu} />
       </IonFabButton>
-      <IonFabList
-        side="start"
-        onClick={(e) => {
-          e.stopPropagation();
-        }}>
+      <IonFabList side="start">
         <IonFabButton
           color="primary"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             dispatch({
               payload: !isRunning,
               type: ActionType.SetIsRunning,
@@ -51,7 +52,8 @@ export const SettingsFAB = () => {
         </IonFabButton>
         <IonFabButton
           color="primary"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             dispatch({ type: ActionType.Restart });
           }}>
           <IonIcon icon={refresh}></IonIcon>
