@@ -29,9 +29,7 @@ export const AboutPage = () => {
           <a href="https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)">
             The Three Body Problem
           </a>
-          <br /> I wanted to create a simple simulation of the three body
-          problem to help me visualize the complexity of these types of
-          gravitational systems. I hope you enjoy it too!
+          <br /> which inspired this app!
         </IonText>
         <IonText color="primary">
           <h1>What</h1>
@@ -45,6 +43,11 @@ export const AboutPage = () => {
         </IonText>
         <IonText color="primary">
           <h1>Why</h1>
+        </IonText>
+        <IonText>
+          I wanted to create a simple simulation of the three body problem to
+          help me visualize the complexity of these types of gravitational
+          systems. I hope you enjoy it too!
         </IonText>
       </IonContent>
     </IonPage>
