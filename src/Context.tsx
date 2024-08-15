@@ -127,7 +127,7 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         restartSelectedSystem: true,
-        zoom: 1,
+        zoom: DEFAULT_STATE.zoom,
       };
     case ActionType.SetSelectedSystem:
       return {
