@@ -4,13 +4,12 @@ import {
   IonFabButton,
   IonFabList,
   IonIcon,
-  useIonToast,
+  IonToast,
 } from '@ionic/react';
 import { menu, pause, play, refresh, settingsOutline } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
 
 export const SettingsFAB = () => {
-  const [present] = useIonToast();
   const {
     dispatch,
     state: { bodies, isRunning },
@@ -32,20 +31,12 @@ export const SettingsFAB = () => {
       <IonFabList side="start">
         <IonFabButton
           color="primary"
+          id="play-pause"
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
               payload: !isRunning,
               type: ActionType.SetIsRunning,
-            });
-            present({
-              duration: isRunning ? 2000 : 1000,
-              message: isRunning
-                ? `Paused ${String(bodies.length)} bodies`
-                : 'Running',
-              position: 'middle',
-            }).catch((e: unknown) => {
-              console.error('Error presenting toast', e);
             });
           }}>
           <IonIcon icon={isRunning ? pause : play}></IonIcon>
@@ -64,6 +55,15 @@ export const SettingsFAB = () => {
           <IonIcon icon={settingsOutline}></IonIcon>
         </IonFabButton>
       </IonFabList>
+      <IonToast
+        trigger="play-pause"
+        position="bottom"
+        positionAnchor="footer-tabs"
+        duration={isRunning ? 2000 : 1000}
+        message={
+          !isRunning ? `Paused ${String(bodies.length)} bodies` : 'Running'
+        }
+      />
     </IonFab>
   );
 };

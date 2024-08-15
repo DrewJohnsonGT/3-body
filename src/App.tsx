@@ -1,4 +1,3 @@
-import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -11,19 +10,20 @@ import {
   setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import '@ionic/react/css/core.css';
+import '@ionic/react/css/flex-utils.css';
+import '@ionic/react/css/normalize.css';
+import '@ionic/react/css/padding.css';
+import '@ionic/react/css/palettes/dark.always.css';
+import '@ionic/react/css/palettes/dark.class.css';
+import '@ionic/react/css/structure.css';
+import '@ionic/react/css/text-alignment.css';
+import '@ionic/react/css/typography.css';
+import { Redirect, Route } from 'react-router-dom';
 import { help, home, planet, settings } from 'ionicons/icons';
 import { Settings } from '~/components/Settings';
 import { AppContextProvider } from '~/Context';
 import { HelpPage, HomePage, SettingsPage, SystemsPage } from '~/pages';
-import '@ionic/react/css/core.css';
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/palettes/dark.always.css';
-import '@ionic/react/css/palettes/dark.class.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/padding.css';
 
 setupIonicReact();
 
@@ -75,6 +75,7 @@ export const App = () => {
               ))}
             </IonRouterOutlet>
             <IonTabBar
+              id="footer-tabs"
               slot="bottom"
               onClick={(e) => {
                 e.preventDefault();
