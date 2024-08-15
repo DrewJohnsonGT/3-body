@@ -1,5 +1,7 @@
 # 3-Body Problem
 
+Cross platform mobile app for simulating 2D N-body gravitational systems.
+
 Create the Android and iOS projects
 
 ```bash
