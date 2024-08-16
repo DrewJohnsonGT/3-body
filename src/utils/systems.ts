@@ -91,6 +91,49 @@ const FIGURE_EIGHT: SystemFunction = (P) => {
   ];
 };
 
+const FIGURE_EIGHT_VERTICAL: SystemFunction = (P) => {
+  const height = P.windowHeight / 1000;
+
+  const baseMass = 25 * Math.pow(height, 2);
+  const baseVelocity = 1;
+
+  const mass = baseMass * height;
+  const velocityScale = baseVelocity * height;
+
+  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const positionScale = P.windowHeight / 3;
+
+  const positions = [
+    P.createVector(-0.24308753, 0.97000436).mult(positionScale).add(center),
+    P.createVector(0.24308753, -0.97000436).mult(positionScale).add(center),
+    P.createVector(0, 0).mult(positionScale).add(center),
+  ];
+
+  const velocities = [
+    P.createVector(0.43236573, 0.466203685).mult(velocityScale),
+    P.createVector(0.43236573, 0.466203685).mult(velocityScale),
+    P.createVector(-0.86473146, -0.93240737).mult(velocityScale),
+  ];
+
+  return [
+    {
+      mass,
+      pos: positions[0],
+      vel: velocities[0],
+    },
+    {
+      mass,
+      pos: positions[1],
+      vel: velocities[1],
+    },
+    {
+      mass,
+      pos: positions[2],
+      vel: velocities[2],
+    },
+  ];
+};
+
 const CENTRAL_BODY_ORBIT: SystemFunction = (P) => {
   const centralMass = 1000;
   const orbitingMass = 10;
@@ -160,6 +203,7 @@ const RANDOM_3: SystemFunction = (P) => {
 export enum System {
   CIRCLE = 'Circle',
   FIGURE_EIGHT = 'Figure Eight',
+  FIGURE_EIGHT_VERTICAL = 'Figure Eight Vertical',
   CENTRAL_BODY_ORBIT = 'Central Body',
   RANDOM = 'Random',
   RANDOM_3 = 'Random 3',
@@ -182,6 +226,11 @@ export const SYSTEMS_MAP: Record<
     description: 'Three bodies in a figure eight orbit',
     systemFunction: FIGURE_EIGHT,
     title: 'Figure Eight',
+  },
+  [System.FIGURE_EIGHT_VERTICAL]: {
+    description: 'Three bodies in a vertical figure eight orbit',
+    systemFunction: FIGURE_EIGHT_VERTICAL,
+    title: 'Figure Eight Vertical',
   },
   [System.CENTRAL_BODY_ORBIT]: {
     description: 'Three bodies orbiting a larger central body',
