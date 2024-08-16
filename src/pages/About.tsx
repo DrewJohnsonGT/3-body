@@ -51,15 +51,29 @@ export const AboutPage = () => {
         <AboutSection
           title="Who"
           body={
-            <>
+            <div
+              className="ion-justify-content-center ion-align-items-center"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginBottom: '2rem',
+              }}>
+              <img
+                src="/images/profile-cropped.jpg"
+                alt="Drew"
+                style={{ borderRadius: '50%', width: '100px' }}
+              />
+              <br />
               My name is Drew and I&apos;m a software engineer and a big fan of
               the book series (and now Netflix show)
+              <br />
               <br />
               <a href="https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)">
                 The Three Body Problem
               </a>
-              <br /> which inspired this app!
-            </>
+              <br />
+              which inspired me to create this app!
+            </div>
           }
           icon={personCircle}
         />
@@ -67,11 +81,14 @@ export const AboutPage = () => {
           title="What"
           body={
             <>
-              The three-body problem is a special case of the n-body problem.
-              Unlike two-body problems, there is no general closed-form solution
-              for every condition, and it is one of the great unsolved problems
-              in physics. The three-body problem is to determine the motion of
-              three point particles that interact only by their mutual
+              The three-body problem is a special case of the{' '}
+              <a href="https://en.wikipedia.org/wiki/N-body_problem">
+                N-body problem
+              </a>
+              . Unlike two-body problems, there is no general closed-form
+              solution for every condition, and it is one of the great unsolved
+              problems in physics. The three-body problem is to determine the
+              motion of three point particles that interact only by their mutual
               gravitational attraction.
             </>
           }
@@ -82,12 +99,15 @@ export const AboutPage = () => {
           body={
             <>
               I wanted to create a simple simulation of the three body problem
-              to help me visualize the complexity of these types of
-              gravitational systems. I hope you enjoy it too!
+              to help me visualize and appreciate the complexity of these types
+              of gravitational systems. I hope you enjoy it too!
             </>
           }
           icon={helpCircle}
         />
+        <br />
+        <br />
+        <a href="https://drewj.dev">https://drewj.dev</a>
       </IonContent>
     </IonPage>
   );
