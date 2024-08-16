@@ -229,7 +229,6 @@ export const SYSTEMS_MAP: Record<
     systemFunction: SystemFunction;
     title: string;
     description: string;
-    previewImage?: string;
   }
 > = {
   [System.CIRCLE]: {
@@ -239,13 +238,11 @@ export const SYSTEMS_MAP: Record<
   },
   [System.FIGURE_EIGHT]: {
     description: 'Three bodies in a vertical figure eight orbit',
-    previewImage: 'figure-eight.gif',
     systemFunction: FIGURE_EIGHT,
     title: 'Figure Eight',
   },
   [System.INFINITY_SIGN]: {
     description: 'Three bodies in a horizontal figure eight orbit',
-    previewImage: 'infinity-sign.gif',
     systemFunction: INFINITY_SIGN,
     title: 'Infinity Sign',
   },

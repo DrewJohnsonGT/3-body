@@ -15,6 +15,11 @@ import {
 import { ActionType, useAppContext } from '~/Context';
 import { System, SYSTEMS_MAP } from '~/utils/systems';
 
+const getSystemPreviewFileName = (systemName: string) => {
+  // Replace spaces with dashes and convert to lowercase
+  return `/images/${systemName.replace(/ /g, '-').toLowerCase()}.gif`;
+};
+
 export const SystemsPage = () => {
   const {
     dispatch,
@@ -47,17 +52,15 @@ export const SystemsPage = () => {
                   justifyContent: 'center',
                   maxHeight: '200px',
                 }}>
-                {value.previewImage && (
-                  <img
-                    alt={key}
-                    src={`/images/${value.previewImage}`}
-                    style={{
-                      maxHeight: '200px',
-                      maxWidth: '100%',
-                      objectFit: 'contain',
-                    }}
-                  />
-                )}
+                <img
+                  alt={key}
+                  src={getSystemPreviewFileName(key)}
+                  style={{
+                    maxHeight: '200px',
+                    maxWidth: '100%',
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
               <IonCardHeader>
                 <IonCardTitle>{value.title}</IonCardTitle>
