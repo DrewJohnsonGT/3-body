@@ -60,9 +60,7 @@ export const SettingsFAB = () => {
         position="bottom"
         positionAnchor="footer-tabs"
         duration={isRunning ? 2000 : 1000}
-        message={
-          !isRunning ? `Paused ${String(bodies.length)} bodies` : 'Running'
-        }
+        message={`${!isRunning ? 'Paused ' : 'Running '} ${String(bodies.length)} bodies`}
       />
     </IonFab>
   );

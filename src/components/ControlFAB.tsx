@@ -1,10 +1,19 @@
 import { useState } from 'react';
-import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
+import {
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonIcon,
+  IonToast,
+} from '@ionic/react';
 import { add, expandOutline, remove } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
 
 export const ControlFAB = () => {
-  const { dispatch } = useAppContext();
+  const {
+    dispatch,
+    state: { zoom },
+  } = useAppContext();
 
   const [isActivated, setIsActivated] = useState(false);
   return (
@@ -26,6 +35,7 @@ export const ControlFAB = () => {
         }}></IonFabList>
       <IonFabList side="bottom">
         <IonFabButton
+          id="zoom-in"
           size="small"
           color="primary"
           onClick={(e) => {
@@ -37,6 +47,7 @@ export const ControlFAB = () => {
           <IonIcon icon={add}></IonIcon>
         </IonFabButton>
         <IonFabButton
+          id="zoom-out"
           size="small"
           color="primary"
           onClick={(e) => {
@@ -48,6 +59,22 @@ export const ControlFAB = () => {
           <IonIcon icon={remove}></IonIcon>
         </IonFabButton>
       </IonFabList>
+      <IonToast
+        trigger="zoom-in"
+        position="bottom"
+        positionAnchor="footer-tabs"
+        duration={2000}
+        icon={add}
+        message={`Zoom: ${String(zoom)}`}
+      />
+      <IonToast
+        trigger="zoom-out"
+        position="bottom"
+        positionAnchor="footer-tabs"
+        duration={2000}
+        icon={remove}
+        message={`Zoom: ${String(zoom)}`}
+      />
     </IonFab>
   );
 };
