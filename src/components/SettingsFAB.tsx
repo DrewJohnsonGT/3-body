@@ -12,7 +12,7 @@ import { ActionType, useAppContext } from '~/Context';
 export const SettingsFAB = () => {
   const {
     dispatch,
-    state: { bodies, isRunning },
+    state: { bodies, isRunning, selectedSystem },
   } = useAppContext();
 
   const [isActive, setIsActive] = useState(false);
@@ -43,6 +43,7 @@ export const SettingsFAB = () => {
         </IonFabButton>
         <IonFabButton
           color="primary"
+          id="restart"
           onClick={(e) => {
             e.stopPropagation();
             dispatch({ type: ActionType.Restart });
@@ -59,8 +60,17 @@ export const SettingsFAB = () => {
         trigger="play-pause"
         position="bottom"
         positionAnchor="footer-tabs"
+        icon={isRunning ? play : pause}
         duration={isRunning ? 2000 : 1000}
         message={`${!isRunning ? 'Paused ' : 'Running '} ${String(bodies.length)} bodies`}
+      />
+      <IonToast
+        trigger="restart"
+        position="bottom"
+        positionAnchor="footer-tabs"
+        duration={1000}
+        message={`Restarted ${selectedSystem}`}
+        icon={refresh}
       />
     </IonFab>
   );
