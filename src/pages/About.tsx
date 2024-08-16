@@ -1,4 +1,5 @@
 import {
+  IonCard,
   IonContent,
   IonHeader,
   IonIcon,
@@ -20,17 +21,24 @@ const AboutSection = ({
 }) => {
   return (
     <div className="ion-margin">
-      <IonText color="primary">
+      <IonCard
+        className="ion-justify-content-center ion-align-items-center"
+        style={{
+          border: '2px solid var(--ion-color-primary-shade)',
+          display: 'flex',
+          gap: 3,
+          padding: 0,
+        }}>
         <h1
-          className="ion-justify-content-center ion-align-items-center"
           style={{
-            display: 'flex',
-            gap: '0.5rem',
+            color: 'var(--ion-color-primary)',
+            fontSize: '2rem',
+            margin: 0,
           }}>
           {title}
-          <IonIcon icon={icon} size="large" />
         </h1>
-      </IonText>
+        <IonIcon icon={icon} size="large" color="primary" />
+      </IonCard>
       <IonText>{body}</IonText>
     </div>
   );
@@ -67,11 +75,9 @@ export const AboutPage = () => {
               My name is Drew and I&apos;m a software engineer and a big fan of
               the book series (and now Netflix show)
               <br />
-              <br />
               <a href="https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)">
                 The Three Body Problem
               </a>
-              <br />
               which inspired me to create this app!
             </div>
           }
@@ -85,11 +91,14 @@ export const AboutPage = () => {
               <a href="https://en.wikipedia.org/wiki/N-body_problem">
                 N-body problem
               </a>
-              . Unlike two-body problems, there is no general closed-form
-              solution for every condition, and it is one of the great unsolved
-              problems in physics. The three-body problem is to determine the
-              motion of three point particles that interact only by their mutual
-              gravitational attraction.
+              <br />
+              The three-body problem is to determine the motion of three point
+              particles that interact only by their mutual gravitational
+              attraction. <br />
+              <br />
+              Unlike two-body problems, there is no general closed-form solution
+              for every condition, and it is one of the great unsolved problems
+              in physics.
             </>
           }
           icon={informationCircle}
@@ -98,9 +107,9 @@ export const AboutPage = () => {
           title="Why"
           body={
             <>
-              I wanted to create a simple simulation of the three body problem
-              to help me visualize and appreciate the complexity of these types
-              of gravitational systems. I hope you enjoy it too!
+              I wanted to create a simple simulation of the 3+ body problem to
+              help me visualize and appreciate the complexity of these types of
+              gravitational systems. <br />I hope you enjoy it too!
             </>
           }
           icon={helpCircle}
