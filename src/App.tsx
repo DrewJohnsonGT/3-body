@@ -2,7 +2,6 @@ import {
   IonApp,
   IonIcon,
   IonLabel,
-  IonModal,
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
@@ -21,9 +20,8 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/typography.css';
 import { Redirect, Route } from 'react-router-dom';
 import { help, home, planet, settings } from 'ionicons/icons';
-import { Settings } from '~/components/Settings';
 import { AppContextProvider } from '~/Context';
-import { HelpPage, HomePage, SettingsPage, SystemsPage } from '~/pages';
+import { AboutPage, HomePage, SettingsPage, SystemsPage } from '~/pages';
 
 setupIonicReact();
 
@@ -45,8 +43,8 @@ const TABS = [
   },
   {
     icon: help,
-    label: 'Help',
-    page: HelpPage,
+    label: 'About',
+    page: AboutPage,
   },
 ];
 
@@ -54,16 +52,6 @@ export const App = () => {
   return (
     <IonApp>
       <AppContextProvider>
-        <IonModal
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          trigger="open-modal"
-          initialBreakpoint={0.5}
-          breakpoints={[0, 0.25, 0.5, 0.95]}>
-          <Settings />
-        </IonModal>
         <IonReactRouter>
           <IonTabs>
             <IonRouterOutlet>
