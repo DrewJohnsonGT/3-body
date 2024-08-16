@@ -49,17 +49,16 @@ const CIRCLE: SystemFunction = (P) => {
 };
 
 const FIGURE_EIGHT: SystemFunction = (P) => {
-  const aspectRatio = P.windowWidth / P.windowHeight;
+  const width = P.windowWidth / 1000;
 
-  const baseAspectRatio = 1;
-  const baseMass = 79;
+  const baseMass = 25 * Math.pow(width, 2);
   const baseVelocity = 1;
 
-  const mass = baseMass * (aspectRatio / baseAspectRatio);
-  const velocityScale = baseVelocity * (aspectRatio / baseAspectRatio);
+  const mass = baseMass * width;
+  const velocityScale = baseVelocity * width;
 
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
-  const positionScale = (aspectRatio / baseAspectRatio) * 350;
+  const positionScale = P.windowWidth / 3;
 
   const positions = [
     P.createVector(0.97000436, -0.24308753).mult(positionScale).add(center),

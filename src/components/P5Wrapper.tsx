@@ -102,7 +102,7 @@ const addNewBody = ({
     vel,
   });
 
-  const numParticles = newBodyMass;
+  const numParticles = Math.min(newBodyMass, 500);
   const newParticles = Array.from({ length: numParticles }, () => {
     const angle = P.random(P.TWO_PI);
     const speed = P.random(1, 3);
@@ -136,13 +136,7 @@ const calculateGravity = (
   return forceVector;
 };
 
-const generateStars = ({
-  P,
-  zoom,
-}: {
-  P: P5;
-  zoom: number;
-}): Star[] => {
+const generateStars = ({ P, zoom }: { P: P5; zoom: number }): Star[] => {
   const numStars = 100;
   const starArray = Array.from(
     { length: numStars },
@@ -240,8 +234,7 @@ export const P5Wrapper = () => {
 
     // Calculate the adjusted position based on the zoom factor
     const adjustedX = (event.offsetX - P.width / 2) / zoom + P.width / 2;
-    const adjustedY =
-      (event.offsetY - P.height / 2) / zoom + P.height / 2;
+    const adjustedY = (event.offsetY - P.height / 2) / zoom + P.height / 2;
     const pos = P.createVector(adjustedX, adjustedY);
 
     const { newBody, newParticles } = addNewBody({
@@ -325,15 +318,7 @@ export const P5Wrapper = () => {
     p.mouseClicked = (event: PointerEvent) => {
       mouseClicked(event, p);
     };
-  }, [
-    isRunning,
-    bodies,
-    particles,
-    stars,
-    gravityMultiplier,
-    zoom,
-    showStars,
-  ]);
+  }, [isRunning, bodies, particles, stars, gravityMultiplier, zoom, showStars]);
 
   // Re-draw stars when zoom changes
   useEffect(() => {
