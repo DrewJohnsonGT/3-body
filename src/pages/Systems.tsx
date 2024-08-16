@@ -37,9 +37,28 @@ export const SystemsPage = () => {
             <IonCard
               key={key}
               style={{
-                border: `1px solid ${isSelected ? 'var(--ion-color-primary)' : 'transparent'}`,
+                border: `2px solid ${isSelected ? 'var(--ion-color-primary)' : 'var(--ion-color-medium)'}`,
               }}>
-              <img alt={key} src={`/images/${key.toLowerCase()}.webp`} />
+              <div
+                style={{
+                  alignItems: 'center',
+                  backgroundColor: 'black',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  maxHeight: '200px',
+                }}>
+                {value.previewImage && (
+                  <img
+                    alt={key}
+                    src={`/images/${value.previewImage}`}
+                    style={{
+                      maxHeight: '200px',
+                      maxWidth: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                )}
+              </div>
               <IonCardHeader>
                 <IonCardTitle>{value.title}</IonCardTitle>
               </IonCardHeader>

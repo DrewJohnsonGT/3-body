@@ -186,7 +186,8 @@ export const P5Wrapper = () => {
       type: ActionType.SetScreenSize,
     });
     P.frameRate(120);
-    const newBodiesConfig = SYSTEMS_MAP[selectedSystem].systemFunction(P);
+    const { newBodiesConfig, zoom: newSystemZoom } =
+      SYSTEMS_MAP[selectedSystem].systemFunction(P);
     const newBodyResults = newBodiesConfig.map((config) =>
       addNewBody({
         mass: config.mass,
@@ -225,6 +226,12 @@ export const P5Wrapper = () => {
       payload: generateStars({ P, zoom }),
       type: ActionType.SetStars,
     });
+    if (newSystemZoom) {
+      dispatch({
+        payload: newSystemZoom,
+        type: ActionType.SetZoom,
+      });
+    }
   };
 
   const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {

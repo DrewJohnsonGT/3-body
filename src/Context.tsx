@@ -41,7 +41,6 @@ const DEFAULT_STATE = {
   selectedSystem: System.CIRCLE,
   showStars: true,
   showTrails: true,
-  speed: 1,
   stars: [] as Star[],
   tapToCreate: true,
   trailLength: 20,
@@ -65,7 +64,6 @@ export enum ActionType {
   ZoomOut = 'ZOOM_OUT',
   ToggleTapToCreate = 'TOGGLE_TAP_TO_CREATE',
   SystemRestarted = 'SYSTEM_RESTARTED',
-  SetSpeed = 'SET_SPEED',
   SetNewBodyColorType = 'SET_NEW_BODY_COLOR_TYPE',
   SetNewBodyMassType = 'SET_NEW_BODY_MASS_TYPE',
   SetNewBodyMass = 'SET_NEW_BODY_MASS',
@@ -75,6 +73,7 @@ export enum ActionType {
   SetShowStars = 'SET_SHOW_STARS',
   SetNewBodyColorPalette = 'SET_NEW_BODY_COLOR_PALETTE',
   SetScreenSize = 'SET_SCREEN_SIZE',
+  SetZoom = 'SET_ZOOM',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -91,7 +90,6 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.ZoomOut]: undefined;
   [ActionType.ToggleTapToCreate]: undefined;
   [ActionType.SystemRestarted]: undefined;
-  [ActionType.SetSpeed]: number;
   [ActionType.SetNewBodyMass]: number;
   [ActionType.SetNewBodyColor]: RgbColor;
   [ActionType.MergeLocalStorageState]: Partial<State>;
@@ -101,6 +99,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetNewBodyMassType]: NewBodyType;
   [ActionType.SetNewBodyColorPalette]: ColorPaletteColor;
   [ActionType.SetScreenSize]: { height: number; width: number };
+  [ActionType.SetZoom]: number;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -132,6 +131,8 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
     case ActionType.SetSelectedSystem:
       return {
         ...state,
+        // Reset gravity multiplier when changing systems to ensure they function by default
+        gravityMultiplier: DEFAULT_STATE.gravityMultiplier,
         selectedSystem: action.payload,
       };
     case ActionType.AddBody:
@@ -174,6 +175,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         zoom: state.zoom / 2,
       };
+    case ActionType.SetZoom:
+      return {
+        ...state,
+        zoom: action.payload
+      };
     case ActionType.ToggleTapToCreate:
       return {
         ...state,
@@ -183,11 +189,6 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         restartSelectedSystem: false,
-      };
-    case ActionType.SetSpeed:
-      return {
-        ...state,
-        speed: action.payload,
       };
     case ActionType.SetNewBodyColorType:
       return {

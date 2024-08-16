@@ -1,9 +1,10 @@
 import P5 from 'p5';
 import { G } from '~/constants';
 
-type SystemFunction = (
-  P: P5,
-) => { mass: number; pos: P5.Vector; vel: P5.Vector }[];
+type SystemFunction = (P: P5) => {
+  newBodiesConfig: { mass: number; pos: P5.Vector; vel: P5.Vector }[];
+  zoom?: number;
+};
 
 const CIRCLE: SystemFunction = (P) => {
   const mass = 52;
@@ -20,38 +21,40 @@ const CIRCLE: SystemFunction = (P) => {
     return P.createVector(x, y);
   });
 
-  return [
-    {
-      mass,
-      pos: positions[0],
-      vel: P.createVector(
-        velocityMagnitude * Math.sin(0),
-        -velocityMagnitude * Math.cos(0),
-      ),
-    },
-    {
-      mass,
-      pos: positions[2],
-      vel: P.createVector(
-        velocityMagnitude * Math.sin(-P.TWO_PI / 3),
-        -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
-      ),
-    },
-    {
-      mass,
-      pos: positions[1],
-      vel: P.createVector(
-        velocityMagnitude * Math.sin(P.TWO_PI / 3),
-        -velocityMagnitude * Math.cos(P.TWO_PI / 3),
-      ),
-    },
-  ];
+  return {
+    newBodiesConfig: [
+      {
+        mass,
+        pos: positions[0],
+        vel: P.createVector(
+          velocityMagnitude * Math.sin(0),
+          -velocityMagnitude * Math.cos(0),
+        ),
+      },
+      {
+        mass,
+        pos: positions[2],
+        vel: P.createVector(
+          velocityMagnitude * Math.sin(-P.TWO_PI / 3),
+          -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
+        ),
+      },
+      {
+        mass,
+        pos: positions[1],
+        vel: P.createVector(
+          velocityMagnitude * Math.sin(P.TWO_PI / 3),
+          -velocityMagnitude * Math.cos(P.TWO_PI / 3),
+        ),
+      },
+    ],
+  };
 };
 
-const FIGURE_EIGHT: SystemFunction = (P) => {
+const INFINITY_SIGN: SystemFunction = (P) => {
   const width = P.windowWidth / 1000;
 
-  const baseMass = 25 * Math.pow(width, 2);
+  const baseMass = 50 * Math.pow(width, 2);
   const baseVelocity = 1;
 
   const mass = baseMass * width;
@@ -72,29 +75,31 @@ const FIGURE_EIGHT: SystemFunction = (P) => {
     P.createVector(-0.93240737, -0.86473146).mult(velocityScale),
   ];
 
-  return [
-    {
-      mass,
-      pos: positions[0],
-      vel: velocities[0],
-    },
-    {
-      mass,
-      pos: positions[1],
-      vel: velocities[1],
-    },
-    {
-      mass,
-      pos: positions[2],
-      vel: velocities[2],
-    },
-  ];
+  return {
+    newBodiesConfig: [
+      {
+        mass,
+        pos: positions[0],
+        vel: velocities[0],
+      },
+      {
+        mass,
+        pos: positions[1],
+        vel: velocities[1],
+      },
+      {
+        mass,
+        pos: positions[2],
+        vel: velocities[2],
+      },
+    ],
+  };
 };
 
-const FIGURE_EIGHT_VERTICAL: SystemFunction = (P) => {
+const FIGURE_EIGHT: SystemFunction = (P) => {
   const height = P.windowHeight / 1000;
 
-  const baseMass = 25 * Math.pow(height, 2);
+  const baseMass = 50 * Math.pow(height, 2);
   const baseVelocity = 1;
 
   const mass = baseMass * height;
@@ -115,30 +120,32 @@ const FIGURE_EIGHT_VERTICAL: SystemFunction = (P) => {
     P.createVector(-0.86473146, -0.93240737).mult(velocityScale),
   ];
 
-  return [
-    {
-      mass,
-      pos: positions[0],
-      vel: velocities[0],
-    },
-    {
-      mass,
-      pos: positions[1],
-      vel: velocities[1],
-    },
-    {
-      mass,
-      pos: positions[2],
-      vel: velocities[2],
-    },
-  ];
+  return {
+    newBodiesConfig: [
+      {
+        mass,
+        pos: positions[0],
+        vel: velocities[0],
+      },
+      {
+        mass,
+        pos: positions[1],
+        vel: velocities[1],
+      },
+      {
+        mass,
+        pos: positions[2],
+        vel: velocities[2],
+      },
+    ],
+  };
 };
 
 const CENTRAL_BODY_ORBIT: SystemFunction = (P) => {
-  const centralMass = 1000;
-  const orbitingMass = 10;
+  const centralMass = 5000;
+  const orbitingMass = 100;
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
-  const orbitRadius = Math.min(P.windowWidth, P.windowHeight) * 0.9;
+  const orbitRadius = Math.min(P.windowWidth, P.windowHeight) * 3.5;
 
   const velocityMagnitude = Math.sqrt((G * centralMass) / orbitRadius);
 
@@ -157,18 +164,21 @@ const CENTRAL_BODY_ORBIT: SystemFunction = (P) => {
     );
   });
 
-  return [
-    {
-      mass: centralMass,
-      pos: center,
-      vel: P.createVector(0, 0),
-    },
-    ...positions.map((pos, i) => ({
-      mass: orbitingMass,
-      pos,
-      vel: velocities[i],
-    })),
-  ];
+  return {
+    newBodiesConfig: [
+      {
+        mass: centralMass,
+        pos: center,
+        vel: P.createVector(0, 0),
+      },
+      ...positions.map((pos, i) => ({
+        mass: orbitingMass,
+        pos,
+        vel: velocities[i],
+      })),
+    ],
+    zoom: 0.125,
+  };
 };
 
 const RANDOM: SystemFunction = (P) => {
@@ -176,34 +186,38 @@ const RANDOM: SystemFunction = (P) => {
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
   const radius = Math.min(P.windowWidth, P.windowHeight) * 0.3;
 
-  return Array.from({ length: numBodies }, () => ({
-    mass: P.random(1, 50),
-    pos: P.createVector(
-      center.x + P.random(-radius, radius),
-      center.y + P.random(-radius, radius),
-    ),
-    vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
-  }));
+  return {
+    newBodiesConfig: Array.from({ length: numBodies }, () => ({
+      mass: P.random(1, 50),
+      pos: P.createVector(
+        center.x + P.random(-radius, radius),
+        center.y + P.random(-radius, radius),
+      ),
+      vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
+    })),
+  };
 };
 
 const RANDOM_3: SystemFunction = (P) => {
   const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
   const radius = Math.min(P.windowWidth, P.windowHeight) * 0.3;
 
-  return Array.from({ length: 3 }, () => ({
-    mass: 25,
-    pos: P.createVector(
-      center.x + P.random(-radius, radius),
-      center.y + P.random(-radius, radius),
-    ),
-    vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
-  }));
+  return {
+    newBodiesConfig: Array.from({ length: 3 }, () => ({
+      mass: 25,
+      pos: P.createVector(
+        center.x + P.random(-radius, radius),
+        center.y + P.random(-radius, radius),
+      ),
+      vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
+    })),
+  };
 };
 
 export enum System {
   CIRCLE = 'Circle',
+  INFINITY_SIGN = 'Infinity Sign',
   FIGURE_EIGHT = 'Figure Eight',
-  FIGURE_EIGHT_VERTICAL = 'Figure Eight Vertical',
   CENTRAL_BODY_ORBIT = 'Central Body',
   RANDOM = 'Random',
   RANDOM_3 = 'Random 3',
@@ -215,6 +229,7 @@ export const SYSTEMS_MAP: Record<
     systemFunction: SystemFunction;
     title: string;
     description: string;
+    previewImage?: string;
   }
 > = {
   [System.CIRCLE]: {
@@ -223,14 +238,16 @@ export const SYSTEMS_MAP: Record<
     title: 'Circle',
   },
   [System.FIGURE_EIGHT]: {
-    description: 'Three bodies in a figure eight orbit',
+    description: 'Three bodies in a vertical figure eight orbit',
+    previewImage: 'figure-eight.gif',
     systemFunction: FIGURE_EIGHT,
     title: 'Figure Eight',
   },
-  [System.FIGURE_EIGHT_VERTICAL]: {
-    description: 'Three bodies in a vertical figure eight orbit',
-    systemFunction: FIGURE_EIGHT_VERTICAL,
-    title: 'Figure Eight Vertical',
+  [System.INFINITY_SIGN]: {
+    description: 'Three bodies in a horizontal figure eight orbit',
+    previewImage: 'infinity-sign.gif',
+    systemFunction: INFINITY_SIGN,
+    title: 'Infinity Sign',
   },
   [System.CENTRAL_BODY_ORBIT]: {
     description: 'Three bodies orbiting a larger central body',
