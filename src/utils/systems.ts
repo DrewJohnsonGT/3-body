@@ -4,6 +4,7 @@ import { G } from '~/constants';
 type SystemFunction = (P: P5) => {
   newBodiesConfig: { mass: number; pos: P5.Vector; vel: P5.Vector }[];
   zoom?: number;
+  trailLength?: number;
 };
 
 const CIRCLE: SystemFunction = (P) => {
@@ -48,6 +49,7 @@ const CIRCLE: SystemFunction = (P) => {
         ),
       },
     ],
+    trailLength: 50,
   };
 };
 
@@ -93,6 +95,7 @@ const INFINITY_SIGN: SystemFunction = (P) => {
         vel: velocities[2],
       },
     ],
+    trailLength: 350,
   };
 };
 
@@ -138,6 +141,7 @@ const FIGURE_EIGHT: SystemFunction = (P) => {
         vel: velocities[2],
       },
     ],
+    trailLength: 350,
   };
 };
 

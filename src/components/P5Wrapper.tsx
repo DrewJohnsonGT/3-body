@@ -186,8 +186,11 @@ export const P5Wrapper = () => {
       type: ActionType.SetScreenSize,
     });
     P.frameRate(120);
-    const { newBodiesConfig, zoom: newSystemZoom } =
-      SYSTEMS_MAP[selectedSystem].systemFunction(P);
+    const {
+      newBodiesConfig,
+      trailLength: newSystemTrailLength,
+      zoom: newSystemZoom,
+    } = SYSTEMS_MAP[selectedSystem].systemFunction(P);
     const newBodyResults = newBodiesConfig.map((config) =>
       addNewBody({
         mass: config.mass,
@@ -230,6 +233,12 @@ export const P5Wrapper = () => {
       dispatch({
         payload: newSystemZoom,
         type: ActionType.SetZoom,
+      });
+    }
+    if (newSystemTrailLength) {
+      dispatch({
+        payload: newSystemTrailLength,
+        type: ActionType.SetTrailLength,
       });
     }
   };

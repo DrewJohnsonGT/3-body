@@ -38,12 +38,12 @@ const DEFAULT_STATE = {
   particles: [] as Particle[],
   restartSelectedSystem: false,
   screenSize: { height: 500, width: 500 },
-  selectedSystem: System.CIRCLE,
+  selectedSystem: System.FIGURE_EIGHT,
   showStars: true,
   showTrails: true,
   stars: [] as Star[],
   tapToCreate: true,
-  trailLength: 20,
+  trailLength: 250,
   zoom: 1,
 };
 
@@ -115,7 +115,6 @@ export type ActionMap<M extends Record<ActionType, unknown>> = {
 export type Actions = ActionMap<Payloads>[keyof ActionMap<Payloads>];
 
 const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
-  console.log('action', action);
   switch (action.type) {
     case ActionType.SetIsRunning:
       return {
@@ -178,7 +177,7 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
     case ActionType.SetZoom:
       return {
         ...state,
-        zoom: action.payload
+        zoom: action.payload,
       };
     case ActionType.ToggleTapToCreate:
       return {
