@@ -3,7 +3,6 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonContent,
   IonHeader,
@@ -43,7 +42,6 @@ export const SystemsPage = () => {
               <img alt={key} src={`/images/${key.toLowerCase()}.webp`} />
               <IonCardHeader>
                 <IonCardTitle>{value.title}</IonCardTitle>
-                <IonCardSubtitle>{value.bodies} bodies</IonCardSubtitle>
               </IonCardHeader>
               <IonCardContent>
                 <IonText>{value.description}</IonText>

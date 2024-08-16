@@ -129,10 +129,41 @@ const CENTRAL_BODY_ORBIT: SystemFunction = (P) => {
   ];
 };
 
+const RANDOM: SystemFunction = (P) => {
+  const numBodies = Math.ceil(Math.random() * 10);
+  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const radius = Math.min(P.windowWidth, P.windowHeight) * 0.3;
+
+  return Array.from({ length: numBodies }, () => ({
+    mass: P.random(1, 50),
+    pos: P.createVector(
+      center.x + P.random(-radius, radius),
+      center.y + P.random(-radius, radius),
+    ),
+    vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
+  }));
+};
+
+const RANDOM_3: SystemFunction = (P) => {
+  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const radius = Math.min(P.windowWidth, P.windowHeight) * 0.3;
+
+  return Array.from({ length: 3 }, () => ({
+    mass: 25,
+    pos: P.createVector(
+      center.x + P.random(-radius, radius),
+      center.y + P.random(-radius, radius),
+    ),
+    vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
+  }));
+};
+
 export enum System {
   CIRCLE = 'Circle',
   FIGURE_EIGHT = 'Figure Eight',
   CENTRAL_BODY_ORBIT = 'Central Body',
+  RANDOM = 'Random',
+  RANDOM_3 = 'Random 3',
 }
 
 export const SYSTEMS_MAP: Record<
@@ -141,25 +172,31 @@ export const SYSTEMS_MAP: Record<
     systemFunction: SystemFunction;
     title: string;
     description: string;
-    bodies: number;
   }
 > = {
   [System.CIRCLE]: {
-    bodies: 3,
     description: 'Three bodies in a circular orbit',
     systemFunction: CIRCLE,
     title: 'Circle',
   },
   [System.FIGURE_EIGHT]: {
-    bodies: 3,
     description: 'Three bodies in a figure eight orbit',
     systemFunction: FIGURE_EIGHT,
     title: 'Figure Eight',
   },
   [System.CENTRAL_BODY_ORBIT]: {
-    bodies: 4,
     description: 'Three bodies orbiting a larger central body',
     systemFunction: CENTRAL_BODY_ORBIT,
     title: 'Central Body',
+  },
+  [System.RANDOM]: {
+    description: 'A random system of up to 10 random mass bodies',
+    systemFunction: RANDOM,
+    title: 'Random',
+  },
+  [System.RANDOM_3]: {
+    description: 'A random system of 3 equal mass bodies',
+    systemFunction: RANDOM_3,
+    title: 'Random 3',
   },
 };
