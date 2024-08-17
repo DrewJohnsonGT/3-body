@@ -49,3 +49,26 @@ ionic cap run ios -l --external
 ## Capacitor Assets
 
 https://github.com/ionic-team/capacitor-assets
+
+For generating the splash screen and icon assets, use the following command:
+
+```bash
+pnpm exec @capacitor/assets generate
+```
+
+## Building Android Bundle
+
+Open in Android Studio
+
+```bash
+pnpm exec cap open android
+```
+
+Select `Build` -> `Generate Signed App Bundle / APK`
+
+Fill out the information
+
+Then continue and build the release bundle This will produce a
+`/android/app/release/app-release.aab` file
+
+## Building iOS Archive
