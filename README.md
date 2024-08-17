@@ -53,10 +53,17 @@ https://github.com/ionic-team/capacitor-assets
 For generating the splash screen and icon assets, use the following command:
 
 ```bash
-pnpm exec @capacitor/assets generate
+npx @capacitor/assets generate
 ```
 
 ## Building Android Bundle
+
+Sync project
+
+```bash
+pnpm run build
+pnpm exec cap sync
+```
 
 Open in Android Studio
 
@@ -73,6 +80,13 @@ Then continue and build the release bundle This will produce a
 
 ## Building iOS Archive
 
+Sync project
+
+```bash
+pnpm run build
+pnpm exec cap sync
+```
+
 Open in Xcode
 
 ```bash
@@ -83,3 +97,6 @@ In `Signing & Capabilities` make sure Team is selected In the top bar make sure
 `Any iOS Device` is selected
 
 Then select `Product` -> `Archive`
+
+Once the archive is complete, select `Distribute App` and follow the steps to
+upload to the App Store or to TestFlight

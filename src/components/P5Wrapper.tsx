@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import { RgbColor } from 'react-colorful';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import P5 from 'p5';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
@@ -114,6 +115,9 @@ const addNewBody = ({
       size: P.random(1, 8),
       vel,
     });
+  });
+  Haptics.impact({ style: ImpactStyle.Light }).catch((e: unknown) => {
+    console.error(e);
   });
   return { newBody, newParticles };
 };
