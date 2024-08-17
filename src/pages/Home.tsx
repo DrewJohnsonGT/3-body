@@ -7,7 +7,7 @@ import { SettingsFAB } from '~/components/SettingsFAB';
 export const HomePage = () => {
   return (
     <IonPage>
-      <IonContent>
+      <IonContent scrollY={false}>
         <IonModal
           onClick={(e) => {
             e.preventDefault();

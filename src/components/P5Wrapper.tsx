@@ -398,7 +398,7 @@ export const P5Wrapper = () => {
       style={{
         display: loading ? 'none' : 'block',
         height: '100%',
-        overflow: 'auto',
+        overflow: 'hidden',
       }}
     />
   );

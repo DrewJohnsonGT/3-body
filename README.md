@@ -45,3 +45,7 @@ Live reloading using ionic
 ionic cap run android -l --external
 ionic cap run ios -l --external
 ```
+
+## Capacitor Assets
+
+https://github.com/ionic-team/capacitor-assets
