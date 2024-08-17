@@ -69,7 +69,7 @@ export const SettingsFAB = () => {
         position="bottom"
         positionAnchor="footer-tabs"
         duration={1000}
-        message={`Restarted ${selectedSystem}`}
+        message={`Restarted ${selectedSystem} system`}
         icon={refresh}
       />
     </IonFab>
