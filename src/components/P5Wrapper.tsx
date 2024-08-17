@@ -151,7 +151,7 @@ const generateStars = ({
     { length: starCount },
     () =>
       new Star({
-        size: P.random(0.5, 2 + starSize / zoom),
+        size: P.random(0.1, 1 + starSize / zoom),
         x: P.random(-P.width / 2, P.width / 2) / zoom,
         y: P.random(-P.height / 2, P.height / 2) / zoom,
       }),

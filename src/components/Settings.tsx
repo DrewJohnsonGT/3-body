@@ -170,7 +170,7 @@ export const Settings = () => {
                 });
               }}
               rangeProps={{
-                max: 500,
+                max: 1000,
                 min: 0,
               }}
             />
@@ -186,7 +186,7 @@ export const Settings = () => {
                 });
               }}
               rangeProps={{
-                max: 5,
+                max: 10,
                 min: 1,
               }}
             />
