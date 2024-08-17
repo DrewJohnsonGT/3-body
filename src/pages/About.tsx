@@ -72,8 +72,8 @@ export const AboutPage = () => {
                 style={{ borderRadius: '50%', width: '100px' }}
               />
               <br />
-              My name is Drew and I&apos;m a software engineer and a big fan of
-              the book series (and now Netflix show)
+              My name is Drew, and I&apos;m a software engineer. I&apos;m also a
+              big fan of the book series (and now Netflix show)
               <br />
               <a href="https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)">
                 The Three Body Problem
@@ -91,6 +91,7 @@ export const AboutPage = () => {
               <a href="https://en.wikipedia.org/wiki/N-body_problem">
                 N-body problem
               </a>
+              .
               <br />
               The three-body problem is to determine the motion of three point
               particles that interact only by their mutual gravitational

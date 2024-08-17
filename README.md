@@ -72,3 +72,14 @@ Then continue and build the release bundle This will produce a
 `/android/app/release/app-release.aab` file
 
 ## Building iOS Archive
+
+Open in Xcode
+
+```bash
+pnpm exec cap open ios
+```
+
+In `Signing & Capabilities` make sure Team is selected In the top bar make sure
+`Any iOS Device` is selected
+
+Then select `Product` -> `Archive`
