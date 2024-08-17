@@ -9,6 +9,7 @@ export enum ColorPaletteColor {
   PURPLE = 'PURPLE',
   RED = 'RED',
   YELLOW = 'YELLOW',
+  GRAY = 'GRAY',
 }
 export const COLOR_PALETTES: Record<ColorPaletteColor, string[]> = {
   [ColorPaletteColor.BLUE]: [
@@ -59,6 +60,13 @@ export const COLOR_PALETTES: Record<ColorPaletteColor, string[]> = {
     '#FFA500',
     '#FF8C00',
     '#FFA07A',
+  ],
+  [ColorPaletteColor.GRAY]: [
+    '#111827',
+    '#1F2937',
+    '#374151',
+    '#4B5563',
+    '#9CA3AF',
   ],
 };
 
