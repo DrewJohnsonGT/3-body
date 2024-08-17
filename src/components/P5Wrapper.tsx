@@ -136,13 +136,22 @@ const calculateGravity = (
   return forceVector;
 };
 
-const generateStars = ({ P, zoom }: { P: P5; zoom: number }): Star[] => {
-  const numStars = 100;
+const generateStars = ({
+  P,
+  starCount,
+  starSize,
+  zoom,
+}: {
+  P: P5;
+  zoom: number;
+  starCount: number;
+  starSize: number;
+}): Star[] => {
   const starArray = Array.from(
-    { length: numStars },
+    { length: starCount },
     () =>
       new Star({
-        size: P.random(0.5, 2 / zoom),
+        size: P.random(0.5, 2 + starSize / zoom),
         x: P.random(-P.width / 2, P.width / 2) / zoom,
         y: P.random(-P.height / 2, P.height / 2) / zoom,
       }),
@@ -170,7 +179,9 @@ export const P5Wrapper = () => {
       selectedSystem,
       showStars,
       showTrails,
+      starCount,
       stars,
+      starSize,
       tapToCreate,
       trailLength,
       zoom,
@@ -226,7 +237,7 @@ export const P5Wrapper = () => {
       type: ActionType.SetParticles,
     });
     dispatch({
-      payload: generateStars({ P, zoom }),
+      payload: generateStars({ P, starCount, starSize, zoom }),
       type: ActionType.SetStars,
     });
     if (newSystemZoom) {
@@ -339,10 +350,10 @@ export const P5Wrapper = () => {
   // Re-draw stars when zoom changes
   useEffect(() => {
     dispatch({
-      payload: generateStars({ P: p, zoom }),
+      payload: generateStars({ P: p, starCount, starSize, zoom }),
       type: ActionType.SetStars,
     });
-  }, [zoom]);
+  }, [zoom, starCount, starSize]);
 
   // Re-initialize when selected system changes
   useEffect(() => {

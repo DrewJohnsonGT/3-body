@@ -41,7 +41,9 @@ const DEFAULT_STATE = {
   selectedSystem: System.FIGURE_EIGHT,
   showStars: true,
   showTrails: true,
+  starCount: 100,
   stars: [] as Star[],
+  starSize: 1,
   tapToCreate: true,
   trailLength: 250,
   zoom: 1,
@@ -74,6 +76,8 @@ export enum ActionType {
   SetNewBodyColorPalette = 'SET_NEW_BODY_COLOR_PALETTE',
   SetScreenSize = 'SET_SCREEN_SIZE',
   SetZoom = 'SET_ZOOM',
+  SetStarCount = 'SET_STAR_COUNT',
+  SetStarSize = 'SET_STAR_SIZE',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -100,6 +104,8 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetNewBodyColorPalette]: ColorPaletteColor;
   [ActionType.SetScreenSize]: { height: number; width: number };
   [ActionType.SetZoom]: number;
+  [ActionType.SetStarCount]: number;
+  [ActionType.SetStarSize]: number;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -234,6 +240,16 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         screenSize: action.payload,
+      };
+    case ActionType.SetStarCount:
+      return {
+        ...state,
+        starCount: action.payload,
+      };
+    case ActionType.SetStarSize:
+      return {
+        ...state,
+        starSize: action.payload,
       };
     default:
       return state;

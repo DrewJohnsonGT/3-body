@@ -89,6 +89,8 @@ export const Settings = () => {
       newBodyMassType,
       showStars,
       showTrails,
+      starCount,
+      starSize,
       tapToCreate,
       trailLength,
     },
@@ -157,6 +159,38 @@ export const Settings = () => {
               </IonLabel>
             </IonToggle>
           </IonItem>
+          {showStars && (
+            <RangeSettingsItem
+              label="Star count"
+              value={starCount}
+              onIonChange={(value) => {
+                dispatch({
+                  payload: value,
+                  type: ActionType.SetStarCount,
+                });
+              }}
+              rangeProps={{
+                max: 500,
+                min: 0,
+              }}
+            />
+          )}
+          {showStars && (
+            <RangeSettingsItem
+              label="Star size"
+              value={starSize}
+              onIonChange={(value) => {
+                dispatch({
+                  payload: value,
+                  type: ActionType.SetStarSize,
+                });
+              }}
+              rangeProps={{
+                max: 5,
+                min: 1,
+              }}
+            />
+          )}
         </IonItemGroup>
         <IonItemGroup>
           <IonItemDivider>
