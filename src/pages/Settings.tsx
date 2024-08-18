@@ -7,9 +7,14 @@ export const SettingsPage = () => {
       onClick={(e) => {
         e.stopPropagation();
       }}>
-      <IonHeader>
+      <IonHeader translucent={true}>
         <IonToolbar>
-          <IonTitle>Settings</IonTitle>
+          <IonTitle
+            style={{
+              textAlign: 'center',
+            }}>
+            Settings
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <Settings />

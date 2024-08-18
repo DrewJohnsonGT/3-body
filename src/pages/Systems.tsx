@@ -31,12 +31,28 @@ export const SystemsPage = () => {
       onClick={(e) => {
         e.stopPropagation();
       }}>
-      <IonHeader>
+      <IonHeader translucent={true}>
         <IonToolbar>
-          <IonTitle>Systems</IonTitle>
+          <IonTitle
+            style={{
+              textAlign: 'center',
+            }}>
+            Systems
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle
+              size="large"
+              style={{
+                textAlign: 'center',
+              }}>
+              Systems
+            </IonTitle>
+          </IonToolbar>
+        </IonHeader>
         {Object.entries(SYSTEMS_MAP).map(([key, value]) => {
           const isSelected = selectedSystem === (key as System);
           return (

@@ -23,22 +23,30 @@ const AboutSection = ({
     <div
       className="ion-margin"
       style={{
+        display: 'flex',
+        flexDirection: 'column',
+        lineHeight: '1.25',
         margin: 'auto',
+        marginBottom: '2rem',
         maxWidth: '600px',
       }}>
       <IonCard
-        className="ion-justify-content-center ion-align-items-center"
         style={{
+          alignItems: 'center',
           border: '2px solid var(--ion-color-primary-shade)',
-          display: 'flex',
+          display: 'inline-flex',
           gap: 3,
-          padding: 0,
+          justifyContent: 'center',
+          margin: '1.5rem auto',
+          padding: '0.25rem 0.5rem',
         }}>
         <h1
           style={{
             color: 'var(--ion-color-primary)',
             fontSize: '2rem',
             margin: 0,
+            marginBottom: 0,
+            padding: 0,
           }}>
           {title}
         </h1>
@@ -57,20 +65,19 @@ export const AboutPage = () => {
       }}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>About</IonTitle>
+          <IonTitle
+            style={{
+              textAlign: 'center',
+            }}>
+            About
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-text-center ion-padding">
         <AboutSection
           title="Who"
           body={
-            <div
-              className="ion-justify-content-center ion-align-items-center"
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                marginBottom: '2rem',
-              }}>
+            <>
               <img
                 src="/images/profile-cropped.jpg"
                 alt="Drew"
@@ -83,8 +90,9 @@ export const AboutPage = () => {
               <a href="https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)">
                 The Three Body Problem
               </a>
+              <br />
               which inspired me to create this app!
-            </div>
+            </>
           }
           icon={personCircle}
         />

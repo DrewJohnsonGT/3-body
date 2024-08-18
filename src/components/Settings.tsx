@@ -108,6 +108,7 @@ export const Settings = () => {
         style={{
           margin: 'auto',
           maxWidth: '600px',
+          padding: 0,
         }}>
         <IonItemGroup>
           <IonItemDivider>
