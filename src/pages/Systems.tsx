@@ -4,6 +4,7 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
+  IonChip,
   IonContent,
   IonHeader,
   IonPage,
@@ -52,27 +53,41 @@ export const SystemsPage = () => {
                   backgroundColor: 'black',
                   display: 'flex',
                   justifyContent: 'center',
-                  maxHeight: '200px',
+                  maxHeight: '150px',
                 }}>
                 <img
                   alt={key}
                   src={getSystemPreviewFileName(key)}
                   style={{
-                    maxHeight: '200px',
+                    maxHeight: '150px',
                     maxWidth: '100%',
                     objectFit: 'contain',
                   }}
                 />
               </div>
               <IonCardHeader>
-                <IonCardTitle>{value.title}</IonCardTitle>
+                <IonCardTitle
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}>
+                  {value.title}
+                  <IonChip color={value.stable ? 'success' : 'danger'}>
+                    {value.stable ? 'Stable' : 'Chaotic'}
+                  </IonChip>
+                </IonCardTitle>
               </IonCardHeader>
               <IonCardContent>
                 <IonText>{value.description}</IonText>
                 <br />
                 <br />
-                <IonRow class="ion-justify-content-between">
+                <IonRow
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}>
                   <IonButton
+                    size="small"
                     fill="outline"
                     routerLink="/home"
                     onClick={() => {
@@ -87,6 +102,7 @@ export const SystemsPage = () => {
                     View
                   </IonButton>
                   <IonButton
+                    size="small"
                     fill={isSelected ? 'clear' : 'outline'}
                     disabled={isSelected}
                     onClick={() => {

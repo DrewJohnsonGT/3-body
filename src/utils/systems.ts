@@ -233,35 +233,42 @@ export const SYSTEMS_MAP: Record<
     systemFunction: SystemFunction;
     title: string;
     description: string;
+    stable: boolean;
   }
 > = {
   [System.CIRCLE]: {
     description: 'Three bodies in a circular orbit',
+    stable: true,
     systemFunction: CIRCLE,
     title: 'Circle',
   },
   [System.FIGURE_EIGHT]: {
     description: 'Three bodies in a vertical figure eight orbit',
+    stable: true,
     systemFunction: FIGURE_EIGHT,
     title: 'Figure Eight',
   },
   [System.INFINITY_SIGN]: {
     description: 'Three bodies in a horizontal figure eight orbit',
+    stable: true,
     systemFunction: INFINITY_SIGN,
     title: 'Infinity Sign',
   },
   [System.CENTRAL_BODY_ORBIT]: {
     description: 'Three bodies orbiting a larger central body',
+    stable: true,
     systemFunction: CENTRAL_BODY_ORBIT,
     title: 'Central Body',
   },
   [System.RANDOM]: {
     description: 'A random system of up to 10 random mass bodies',
+    stable: false,
     systemFunction: RANDOM,
     title: 'Random',
   },
   [System.RANDOM_3]: {
     description: 'A random system of 3 equal mass bodies',
+    stable: false,
     systemFunction: RANDOM_3,
     title: 'Random 3',
   },
