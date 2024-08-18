@@ -1,4 +1,4 @@
-import P5 from 'P5';
+import P5 from 'p5';
 
 export class Star {
   public x: number;
