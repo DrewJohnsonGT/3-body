@@ -100,3 +100,12 @@ Then select `Product` -> `Archive`
 
 Once the archive is complete, select `Distribute App` and follow the steps to
 upload to the App Store or to TestFlight
+
+## Versioning
+
+`capacitor-set-version` can be used to easily set the version of the app in the
+iOS and Android projects.
+
+```bash
+npx capacitor-set-version -v 1.0.0 -b 1 # Set version to 1.0.0 and build number to 1
+```
