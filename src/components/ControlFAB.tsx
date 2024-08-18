@@ -65,7 +65,7 @@ export const ControlFAB = () => {
         positionAnchor="footer-tabs"
         duration={2000}
         icon={add}
-        message={`Zoom: ${String(zoom)}`}
+        message={`Zoom: ${String(zoom.toFixed(3))}`}
       />
       <IonToast
         trigger="zoom-out"
