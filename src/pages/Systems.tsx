@@ -17,7 +17,6 @@ import { ActionType, useAppContext } from '~/Context';
 import { System, SYSTEMS_MAP } from '~/utils/systems';
 
 const getSystemPreviewFileName = (systemName: string) => {
-  // Replace spaces with dashes and convert to lowercase
   return `/images/${systemName.replace(/ /g, '-').toLowerCase()}.gif`;
 };
 

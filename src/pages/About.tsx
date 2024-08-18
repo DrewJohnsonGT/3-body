@@ -81,7 +81,11 @@ export const AboutPage = () => {
               <img
                 src="/images/profile-cropped.jpg"
                 alt="Drew"
-                style={{ borderRadius: '50%', width: '100px' }}
+                style={{
+                  border: '4px solid var(--ion-color-primary)',
+                  borderRadius: '50%',
+                  width: '100px',
+                }}
               />
               <br />
               My name is Drew, and I&apos;m a software engineer. I&apos;m also a
@@ -128,6 +132,9 @@ export const AboutPage = () => {
           }
           icon={helpCircle}
         />
+        <br />
+        <br />
+        <a href="mailto:DrewJLLC@gmail.com">DrewJLLC@gmail.com</a>
         <br />
         <br />
         <a href="https://drewj.dev">https://drewj.dev</a>
