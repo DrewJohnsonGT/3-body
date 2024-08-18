@@ -23,6 +23,17 @@ import {
 } from '~/utils/color';
 import { SYSTEMS_MAP } from '~/utils/systems';
 
+interface Touch {
+  x: number;
+  y: number;
+}
+
+declare module 'p5' {
+  interface p5InstanceExtensions {
+    prevTouchDist?: number;
+  }
+}
+
 const getCanvasSize = () => {
   const element = document.getElementById(CANVAS_CONTAINER_ID);
   if (!element) {
@@ -191,7 +202,6 @@ export const P5Wrapper = () => {
       zoom,
     },
   } = useAppContext();
-
   const divRef = useRef<HTMLDivElement>(null);
 
   const setup = (P: P5) => {
@@ -289,10 +299,31 @@ export const P5Wrapper = () => {
     });
   }, 50);
 
+  const handlePinchZoom = (P: P5) => {
+    if (P.touches.length === 2) {
+      const touch1 = P.touches[0] as Touch;
+      const touch2 = P.touches[1] as Touch;
+
+      const currentDist = P.dist(touch1.x, touch1.y, touch2.x, touch2.y);
+      if (p.prevTouchDist !== undefined) {
+        const zoomAmount = currentDist / p.prevTouchDist;
+        dispatch({
+          payload: zoom * zoomAmount,
+          type: ActionType.SetZoom,
+        });
+      }
+
+      p.prevTouchDist = currentDist;
+    } else {
+      p.prevTouchDist = undefined; // Reset when not touching with two fingers
+    }
+  };
+
   const draw = (P: P5) => {
     P.background(0);
     P.translate(P.width / 2, P.height / 2); // Move origin to center
     P.scale(zoom); // Apply zoom factor
+    handlePinchZoom(P);
 
     // Draw stars
     if (showStars) {
@@ -396,6 +427,10 @@ export const P5Wrapper = () => {
         };
         P.windowResized = () => {
           setCanvasSize(P);
+          P.setup = () => {
+            setup(P);
+          };
+          setup(P);
         };
       }, divRef.current);
       p = myP5;
@@ -405,6 +440,27 @@ export const P5Wrapper = () => {
       };
     }
   }, [loading]);
+
+  useLayoutEffect(() => {
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.touches.length > 1) {
+        event.preventDefault(); // Prevent the default pinch zoom behavior
+      }
+    };
+
+    const container = document.getElementById(CANVAS_CONTAINER_ID);
+    if (container) {
+      container.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      });
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('touchmove', handleTouchMove);
+      }
+    };
+  }, []);
 
   return (
     <div
