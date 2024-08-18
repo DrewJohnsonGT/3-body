@@ -73,7 +73,7 @@ export const ControlFAB = () => {
         positionAnchor="footer-tabs"
         duration={2000}
         icon={remove}
-        message={`Zoom: ${String(zoom)}`}
+        message={`Zoom: ${String(zoom.toFixed(3))}`}
       />
     </IonFab>
   );
