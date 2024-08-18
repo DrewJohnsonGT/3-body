@@ -33,26 +33,20 @@ export const SystemsPage = () => {
       }}>
       <IonHeader translucent={true}>
         <IonToolbar>
-          <IonTitle
-            style={{
-              textAlign: 'center',
-            }}>
-            Systems
-          </IonTitle>
+          <IonTitle>Systems</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle
-              size="large"
-              style={{
-                textAlign: 'center',
-              }}>
-              Systems
-            </IonTitle>
+            <IonTitle size="large">Systems</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <IonText color="medium" className="ion-text-wrap">
+          Explore different predefined systems of bodies. <br />
+          Some are stable and will run in a pattern forever, while others are
+          chaotic and will behave in unpredictable ways!
+        </IonText>
         {Object.entries(SYSTEMS_MAP).map(([key, value]) => {
           const isSelected = selectedSystem === (key as System);
           return (
