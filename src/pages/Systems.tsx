@@ -35,7 +35,7 @@ export const SystemsPage = () => {
           <IonTitle>Systems</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className="ion-padding">
         {Object.entries(SYSTEMS_MAP).map(([key, value]) => {
           const isSelected = selectedSystem === (key as System);
           return (
@@ -43,6 +43,8 @@ export const SystemsPage = () => {
               key={key}
               style={{
                 border: `2px solid ${isSelected ? 'var(--ion-color-primary)' : 'var(--ion-color-medium)'}`,
+                margin: '1rem auto',
+                maxWidth: '600px',
               }}>
               <div
                 style={{

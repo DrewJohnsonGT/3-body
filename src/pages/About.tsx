@@ -20,7 +20,12 @@ const AboutSection = ({
   icon: string;
 }) => {
   return (
-    <div className="ion-margin">
+    <div
+      className="ion-margin"
+      style={{
+        margin: 'auto',
+        maxWidth: '600px',
+      }}>
       <IonCard
         className="ion-justify-content-center ion-align-items-center"
         style={{

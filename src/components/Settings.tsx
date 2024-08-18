@@ -44,10 +44,12 @@ const RangeSettingsItem = ({
   label,
   onIonChange,
   rangeProps,
+  subLabel,
   value,
 }: {
   label: string;
   value: number;
+  subLabel?: string;
   onIonChange: (value: number) => void;
   rangeProps: {
     max: number;
@@ -59,6 +61,9 @@ const RangeSettingsItem = ({
       <IonRow class="ion-justify-content-between">
         <IonCol size="6">
           <IonLabel>{label}</IonLabel>
+          <IonNote color="medium" className="ion-text-wrap">
+            {subLabel}
+          </IonNote>
         </IonCol>
         <IonCol size="2">
           <IonLabel>{value}</IonLabel>
@@ -98,7 +103,12 @@ export const Settings = () => {
 
   return (
     <IonContent>
-      <IonList lines="full">
+      <IonList
+        lines="full"
+        style={{
+          margin: 'auto',
+          maxWidth: '600px',
+        }}>
         <IonItemGroup>
           <IonItemDivider>
             <IonLabel>Display</IonLabel>
@@ -198,6 +208,7 @@ export const Settings = () => {
           </IonItemDivider>
           <RangeSettingsItem
             label="Gravity multiplier"
+            subLabel="Stable systems will only work with a multiplier of 1"
             value={gravityMultiplier}
             onIonChange={(value) => {
               dispatch({

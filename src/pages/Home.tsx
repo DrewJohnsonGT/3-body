@@ -15,7 +15,7 @@ export const HomePage = () => {
           }}
           trigger="open-modal"
           initialBreakpoint={0.5}
-          breakpoints={[0, 0.25, 0.5, 0.95]}>
+          breakpoints={[0, 0.25, 0.5, 0.99]}>
           <Settings />
         </IonModal>
         <SettingsFAB />
