@@ -28,7 +28,7 @@ export const SettingsFAB = () => {
       <IonFabButton size="small">
         <IonIcon icon={menu} />
       </IonFabButton>
-      <IonFabList side="start">
+      <IonFabList side="bottom">
         <IonFabButton
           color="primary"
           id="play-pause"
@@ -50,8 +50,6 @@ export const SettingsFAB = () => {
           }}>
           <IonIcon icon={refresh}></IonIcon>
         </IonFabButton>
-      </IonFabList>
-      <IonFabList side="bottom">
         <IonFabButton color="primary" id="open-modal">
           <IonIcon icon={settingsOutline}></IonIcon>
         </IonFabButton>
