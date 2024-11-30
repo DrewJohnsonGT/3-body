@@ -367,7 +367,7 @@ export const P5Wrapper = () => {
     handlePinchZoomAndPan(P);
 
     // Now, translate back if needed (depending on your pan implementation)
-    // P.translate(-P.width / 2, -P.height / 2); // Commented out for now
+    P.translate(-P.width / 2, -P.height / 2); // Commented out for now
 
     // Initialize force accumulators
     const forces = bodies.map(() => P.createVector(0, 0));
