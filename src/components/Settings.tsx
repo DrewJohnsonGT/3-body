@@ -92,6 +92,7 @@ export const Settings = () => {
       newBodyColorType,
       newBodyCustomMass,
       newBodyMassType,
+      showData,
       showStars,
       showTrails,
       starCount,
@@ -130,6 +131,26 @@ export const Settings = () => {
                 <br />
                 <IonNote color="medium" className="ion-text-wrap">
                   Bodies will leave a trail behind them
+                </IonNote>
+              </IonLabel>
+            </IonToggle>
+          </IonItem>
+          <IonItem>
+            <IonToggle
+              enableOnOffLabels={true}
+              labelPlacement="start"
+              checked={showData}
+              onIonChange={() => {
+                dispatch({
+                  payload: !showData,
+                  type: ActionType.SetShowData,
+                });
+              }}>
+              <IonLabel>
+                <IonText>Show data</IonText>
+                <br />
+                <IonNote color="medium" className="ion-text-wrap">
+                  Display data about the simulation on screen
                 </IonNote>
               </IonLabel>
             </IonToggle>

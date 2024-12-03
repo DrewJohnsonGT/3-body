@@ -32,7 +32,8 @@ export const ControlFAB = () => {
         side="end"
         onClick={(e) => {
           e.stopPropagation();
-        }}></IonFabList>
+        }}
+      />
       <IonFabList side="bottom">
         <IonFabButton
           id="zoom-in"
@@ -44,7 +45,7 @@ export const ControlFAB = () => {
               type: ActionType.ZoomIn,
             });
           }}>
-          <IonIcon icon={add}></IonIcon>
+          <IonIcon icon={add} />
         </IonFabButton>
         <IonFabButton
           id="zoom-out"
@@ -56,7 +57,7 @@ export const ControlFAB = () => {
               type: ActionType.ZoomOut,
             });
           }}>
-          <IonIcon icon={remove}></IonIcon>
+          <IonIcon icon={remove} />
         </IonFabButton>
       </IonFabList>
       <IonToast

@@ -31,6 +31,8 @@ interface Touch {
 declare module 'p5' {
   interface p5InstanceExtensions {
     prevTouchDist?: number;
+    prevTouchCenterX?: number;
+    prevTouchCenterY?: number;
   }
 }
 
@@ -181,6 +183,7 @@ export const P5Wrapper = () => {
     dispatch,
     state: {
       bodies,
+      centerOffset,
       gravityMultiplier,
       isRunning,
       loading,
@@ -192,6 +195,7 @@ export const P5Wrapper = () => {
       particles,
       restartSelectedSystem,
       selectedSystem,
+      showData,
       showStars,
       showTrails,
       starCount,
@@ -299,40 +303,72 @@ export const P5Wrapper = () => {
     });
   }, 50);
 
-  const handlePinchZoom = (P: P5) => {
+  const handlePinchZoomAndPan = (P: P5) => {
     if (P.touches.length === 2) {
       const touch1 = P.touches[0] as Touch;
       const touch2 = P.touches[1] as Touch;
 
+      // Calculate the current distance between the two touches
       const currentDist = P.dist(touch1.x, touch1.y, touch2.x, touch2.y);
-      if (p.prevTouchDist !== undefined) {
-        const zoomAmount = currentDist / p.prevTouchDist;
+      // Calculate the current center point between the two touches
+      const currentCenterX = (touch1.x + touch2.x) / 2;
+      const currentCenterY = (touch1.y + touch2.y) / 2;
+
+      if (
+        P.prevTouchDist !== undefined &&
+        P.prevTouchCenterX !== undefined &&
+        P.prevTouchCenterY !== undefined
+      ) {
+        // Calculate zoom amount
+        const zoomAmount = currentDist / P.prevTouchDist;
         dispatch({
           payload: zoom * zoomAmount,
           type: ActionType.SetZoom,
         });
+
+        // Calculate pan offset
+        const deltaX = currentCenterX - P.prevTouchCenterX;
+        const deltaY = currentCenterY - P.prevTouchCenterY;
+
+        dispatch({
+          payload: { deltaX, deltaY },
+          type: ActionType.Pan,
+        });
       }
 
-      p.prevTouchDist = currentDist;
+      // Update previous touch values
+      P.prevTouchDist = currentDist;
+      P.prevTouchCenterX = currentCenterX;
+      P.prevTouchCenterY = currentCenterY;
     } else {
-      p.prevTouchDist = undefined; // Reset when not touching with two fingers
+      // Reset when not touching with two fingers
+      P.prevTouchDist = undefined;
+      P.prevTouchCenterX = undefined;
+      P.prevTouchCenterY = undefined;
     }
   };
 
   const draw = (P: P5) => {
     P.background(0);
-    P.translate(P.width / 2, P.height / 2); // Move origin to center
-    P.scale(zoom); // Apply zoom factor
-    handlePinchZoom(P);
 
-    // Draw stars
+    // Draw stars without any transformations so they fill the screen
     if (showStars) {
       stars.forEach((star) => {
         star.display(P);
       });
     }
 
-    P.translate(-P.width / 2, -P.height / 2); // Move origin back
+    // Begin a new transformation state
+    P.push();
+
+    // Apply zoom and pan transformations
+    P.translate(P.width / 2, P.height / 2); // Move origin to center
+    P.scale(zoom); // Apply zoom factor
+    handlePinchZoomAndPan(P);
+
+    // Now, translate back if needed (depending on your pan implementation)
+    // P.translate(-P.width / 2, -P.height / 2); // Commented out for now
+
     // Initialize force accumulators
     const forces = bodies.map(() => P.createVector(0, 0));
 
@@ -350,7 +386,7 @@ export const P5Wrapper = () => {
       }
     }
 
-    // Apply all forces and update
+    // Apply all forces and update bodies
     for (let i = 0; i < bodies.length; i++) {
       if (isRunning) {
         bodies[i].applyForce(forces[i]);
@@ -369,6 +405,18 @@ export const P5Wrapper = () => {
       if (particle.isDead()) {
         particles.splice(i, 1);
       }
+    }
+
+    // Restore the original transformation state
+    P.pop();
+
+    // Draw meta data (FPS) in bottom-left corner without transformations
+    if (showData) {
+      P.fill(255);
+      P.noStroke();
+      P.textSize(16); // Set desired text size
+      P.textAlign(P.LEFT, P.BOTTOM);
+      P.text(`FPS: ${P.frameRate().toFixed(2)}`, 10, P.height - 10);
     }
   };
 

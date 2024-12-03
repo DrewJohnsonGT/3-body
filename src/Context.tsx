@@ -27,6 +27,7 @@ export type NewBodyColorType = 'random' | 'theme' | 'custom';
 
 const DEFAULT_STATE = {
   bodies: [] as Body[],
+  centerOffset: { x: 0, y: 0 },
   gravityMultiplier: 1,
   isRunning: true,
   loading: true,
@@ -39,6 +40,7 @@ const DEFAULT_STATE = {
   restartSelectedSystem: false,
   screenSize: { height: 500, width: 500 },
   selectedSystem: System.FIGURE_EIGHT,
+  showData: false,
   showStars: true,
   showTrails: true,
   starCount: 100,
@@ -78,6 +80,8 @@ export enum ActionType {
   SetZoom = 'SET_ZOOM',
   SetStarCount = 'SET_STAR_COUNT',
   SetStarSize = 'SET_STAR_SIZE',
+  Pan = 'PAN',
+  SetShowData = 'SET_SHOW_DATA',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -106,6 +110,8 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetZoom]: number;
   [ActionType.SetStarCount]: number;
   [ActionType.SetStarSize]: number;
+  [ActionType.Pan]: { deltaX: number; deltaY: number };
+  [ActionType.SetShowData]: boolean;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -180,6 +186,14 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         zoom: state.zoom / 2,
       };
+    case ActionType.Pan:
+      return {
+        ...state,
+        centerOffset: {
+          x: state.centerOffset.x + action.payload.deltaX,
+          y: state.centerOffset.y + action.payload.deltaY,
+        },
+      };
     case ActionType.SetZoom:
       return {
         ...state,
@@ -250,6 +264,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         starSize: action.payload,
+      };
+    case ActionType.SetShowData:
+      return {
+        ...state,
+        showData: action.payload,
       };
     default:
       return state;
