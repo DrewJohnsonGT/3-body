@@ -416,7 +416,11 @@ export const P5Wrapper = () => {
       P.noStroke();
       P.textSize(16); // Set desired text size
       P.textAlign(P.LEFT, P.BOTTOM);
-      P.text(`FPS: ${P.frameRate().toFixed(2)}`, 10, P.height - 10);
+      P.text(`Zoom: ${String(zoom.toFixed(2))}`, 10, P.height - 90);
+      P.text(`X: ${String(centerOffset.x.toFixed(2))}`, 10, P.height - 70);
+      P.text(`Y: ${String(centerOffset.y.toFixed(2))}`, 10, P.height - 50);
+      P.text(`Bodies: ${String(bodies.length)}`, 10, P.height - 30);
+      P.text(`Particles: ${String(particles.length)}`, 10, P.height - 10);
     }
   };
 
