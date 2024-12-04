@@ -12,9 +12,12 @@ import {
   arrowDown,
   arrowForward,
   arrowUp,
+  contract,
   expandOutline,
   locate,
+  refresh,
   remove,
+  resize,
 } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
 
@@ -23,7 +26,7 @@ const PAN_DELTA = 100;
 export const ControlFAB = () => {
   const {
     dispatch,
-    state: { zoom },
+    state: { centerOffset, zoom },
   } = useAppContext();
 
   const [isActivated, setIsActivated] = useState(false);
@@ -125,7 +128,11 @@ export const ControlFAB = () => {
         <IonFabButton
           id="reset-pan"
           size="small"
-          color="primary"
+          color={
+            centerOffset.x !== 0 || centerOffset.y !== 0
+              ? 'primary'
+              : 'secondary'
+          }
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
@@ -133,6 +140,19 @@ export const ControlFAB = () => {
             });
           }}>
           <IonIcon icon={locate} />
+        </IonFabButton>
+        <IonFabButton
+          id="reset-zoom"
+          size="small"
+          color={zoom !== 1 ? 'primary' : 'secondary'}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch({
+              payload: 1,
+              type: ActionType.SetZoom,
+            });
+          }}>
+          <IonIcon icon={zoom > 1 ? resize : contract} />
         </IonFabButton>
       </IonFabList>
       <IonToast
@@ -158,6 +178,14 @@ export const ControlFAB = () => {
         duration={1000}
         message="Reset to origin"
         icon={locate}
+      />
+      <IonToast
+        trigger="reset-zoom"
+        position="bottom"
+        positionAnchor="footer-tabs"
+        duration={1000}
+        message="Reset zoom"
+        icon={refresh}
       />
     </IonFab>
   );
