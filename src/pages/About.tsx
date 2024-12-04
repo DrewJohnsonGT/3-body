@@ -15,6 +15,7 @@ import {
   informationCircleOutline,
   personCircleOutline,
 } from 'ionicons/icons';
+import { APP_VERSION } from '~/constants';
 
 const AboutSection = ({
   body,
@@ -145,7 +146,7 @@ export const AboutPage = () => {
           <br />
           <br />
           <br />
-          <IonText>1.1.0</IonText>
+          <IonText>{APP_VERSION}</IonText>
         </div>
       </IonContent>
     </IonPage>

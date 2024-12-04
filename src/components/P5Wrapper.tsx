@@ -30,6 +30,8 @@ interface Touch {
 
 declare module 'p5' {
   interface p5InstanceExtensions {
+    prevTouchX?: number;
+    prevTouchY?: number;
     prevTouchDist?: number;
     prevTouchCenterX?: number;
     prevTouchCenterY?: number;
@@ -289,7 +291,30 @@ export const P5Wrapper = () => {
   }, 50);
 
   const handlePinchZoomAndPan = (P: P5) => {
-    if (P.touches.length === 2) {
+    if (P.touches.length === 1) {
+      const touch = P.touches[0] as Touch;
+
+      if (P.prevTouchX !== undefined && P.prevTouchY !== undefined) {
+        // Calculate deltaX and deltaY as difference between current and previous touch positions
+        const deltaX = (touch.x - P.prevTouchX) / zoom;
+        const deltaY = (touch.y - P.prevTouchY) / zoom;
+
+        // Dispatch pan action
+        dispatch({
+          payload: { deltaX, deltaY },
+          type: ActionType.Pan,
+        });
+      }
+
+      // Update previous touch positions
+      P.prevTouchX = touch.x;
+      P.prevTouchY = touch.y;
+
+      // Reset previous multi-touch values
+      P.prevTouchDist = undefined;
+      P.prevTouchCenterX = undefined;
+      P.prevTouchCenterY = undefined;
+    } else if (P.touches.length === 2) {
       const touch1 = P.touches[0] as Touch;
       const touch2 = P.touches[1] as Touch;
 
@@ -346,11 +371,17 @@ export const P5Wrapper = () => {
       P.prevTouchDist = currentDist;
       P.prevTouchCenterX = currentCenterX;
       P.prevTouchCenterY = currentCenterY;
+
+      // Reset previous single-touch values
+      P.prevTouchX = undefined;
+      P.prevTouchY = undefined;
     } else {
-      // Reset when not touching with two fingers
+      // Reset when not touching with one or two fingers
       P.prevTouchDist = undefined;
       P.prevTouchCenterX = undefined;
       P.prevTouchCenterY = undefined;
+      P.prevTouchX = undefined;
+      P.prevTouchY = undefined;
     }
   };
 
