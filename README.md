@@ -108,13 +108,15 @@ upload to the App Store or to TestFlight
 `capacitor-set-version` can be used to easily set the version of the app in the
 iOS and Android projects.
 
-```bash
+````bash
 npx capacitor-set-version -v 1.0.0 -b 1 # Set version to 1.0.0 and build number to 1
-# Current version: 1.1.2, build number: 16
+# Current version: 1.1.2, build number: 17
 # Command:
 
 ```bash
-npx capacitor-set-version -v 1.1.2 -b 16
+npx capacitor-set-version -v 1.1.2 -b 17
+````
+
 ```
 
 ```
