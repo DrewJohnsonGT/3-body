@@ -43,7 +43,7 @@ const DEFAULT_STATE = {
   showData: false,
   showStars: true,
   showTrails: true,
-  starCount: 100,
+  starCount: 400,
   stars: [] as Star[],
   starSize: 1,
   tapToCreate: true,
@@ -83,6 +83,7 @@ export enum ActionType {
   Pan = 'PAN',
   SetShowData = 'SET_SHOW_DATA',
   Undo = 'UNDO',
+  ResetSettings = 'RESET_SETTINGS',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -114,6 +115,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.Pan]: { deltaX: number; deltaY: number };
   [ActionType.SetShowData]: boolean;
   [ActionType.Undo]: undefined;
+  [ActionType.ResetSettings]: undefined;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -277,6 +279,12 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         showData: action.payload,
+      };
+    case ActionType.ResetSettings:
+      return {
+        ...state,
+        ...getSettingsState(DEFAULT_STATE),
+        loading: false,
       };
     default:
       return state;

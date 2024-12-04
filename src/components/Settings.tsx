@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { RgbColorPicker } from 'react-colorful';
 import {
+  IonButton,
   IonCol,
   IonContent,
   IonGrid,
@@ -433,6 +434,18 @@ export const Settings = () => {
                   </IonRow>
                 </>
               )}
+              <IonRow
+                class="ion-justify-content-center"
+                style={{ margin: '1rem 0' }}>
+                <IonButton
+                  color="secondary"
+                  style={{ width: '100%' }}
+                  onClick={() => {
+                    dispatch({ type: ActionType.ResetSettings });
+                  }}>
+                  Reset to Default Settings
+                </IonButton>
+              </IonRow>
             </IonGrid>
           </IonItem>
         </IonItemGroup>
