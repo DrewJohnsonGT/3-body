@@ -13,6 +13,7 @@ import {
   arrowForward,
   arrowUp,
   expandOutline,
+  locate,
   remove,
 } from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
@@ -120,6 +121,18 @@ export const ControlFAB = () => {
             });
           }}>
           <IonIcon icon={remove} />
+        </IonFabButton>
+        <IonFabButton
+          id="locate"
+          size="small"
+          color="primary"
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch({
+              type: ActionType.ResetPan,
+            });
+          }}>
+          <IonIcon icon={locate} />
         </IonFabButton>
       </IonFabList>
       <IonToast

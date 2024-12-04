@@ -81,6 +81,7 @@ export enum ActionType {
   SetStarCount = 'SET_STAR_COUNT',
   SetStarSize = 'SET_STAR_SIZE',
   Pan = 'PAN',
+  ResetPan = 'RESET_PAN',
   SetShowData = 'SET_SHOW_DATA',
   Undo = 'UNDO',
   ResetSettings = 'RESET_SETTINGS',
@@ -113,6 +114,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetStarCount]: number;
   [ActionType.SetStarSize]: number;
   [ActionType.Pan]: { deltaX: number; deltaY: number };
+  [ActionType.ResetPan]: undefined;
   [ActionType.SetShowData]: boolean;
   [ActionType.Undo]: undefined;
   [ActionType.ResetSettings]: undefined;
@@ -203,6 +205,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
           x: state.centerOffset.x + action.payload.deltaX,
           y: state.centerOffset.y + action.payload.deltaY,
         },
+      };
+    case ActionType.ResetPan:
+      return {
+        ...state,
+        centerOffset: DEFAULT_STATE.centerOffset,
       };
     case ActionType.SetZoom:
       return {
