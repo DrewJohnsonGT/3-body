@@ -1,6 +1,6 @@
 # 3-Body Problem
 
-Cross platform mobile app for simulating 2D N-body gravitational systems. 
+Cross platform mobile app for simulating 2D N-body gravitational systems.
 
 iOS - https://apps.apple.com/us/app/3-body/id6642661687
 
@@ -110,5 +110,11 @@ iOS and Android projects.
 
 ```bash
 npx capacitor-set-version -v 1.0.0 -b 1 # Set version to 1.0.0 and build number to 1
-# Current version: 1.0.6, build number: 10
+# Current version: 1.1.0, build number: 12
+# Command:
+
+```bash
+npx capacitor-set-version -v 1.1.0 -b 12
+```
+
 ```
