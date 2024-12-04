@@ -21,7 +21,7 @@ export const SettingsFAB = () => {
     dispatch,
     state: { bodies, isRunning, selectedSystem },
   } = useAppContext();
-
+  console.log(bodies);
   const [isActive, setIsActive] = useState(false);
   return (
     <IonFab
@@ -64,7 +64,8 @@ export const SettingsFAB = () => {
       <IonFabList side="start">
         <IonFabButton
           id="undo"
-          color="primary"
+          color={bodies.length === 0 ? 'medium' : 'primary'}
+          disabled={bodies.length === 0}
           onClick={(e) => {
             e.stopPropagation();
             dispatch({ type: ActionType.Undo });
