@@ -444,7 +444,7 @@ export const P5Wrapper = () => {
       }),
       type: ActionType.SetStars,
     });
-  }, [zoom, starCount, starSize]);
+  }, [zoom, starCount, starSize, centerOffset]);
 
   // Re-initialize when selected system changes
   useEffect(() => {

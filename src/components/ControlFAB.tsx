@@ -123,7 +123,7 @@ export const ControlFAB = () => {
           <IonIcon icon={remove} />
         </IonFabButton>
         <IonFabButton
-          id="locate"
+          id="reset-pan"
           size="small"
           color="primary"
           onClick={(e) => {
@@ -150,6 +150,14 @@ export const ControlFAB = () => {
         duration={2000}
         icon={remove}
         message={`Zoom: ${String(zoom.toFixed(3))}`}
+      />
+      <IonToast
+        trigger="reset-pan"
+        position="bottom"
+        positionAnchor="footer-tabs"
+        duration={1000}
+        message="Reset to origin"
+        icon={locate}
       />
     </IonFab>
   );
