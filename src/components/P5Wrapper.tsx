@@ -277,9 +277,11 @@ export const P5Wrapper = () => {
       return;
     if (!tapToCreate) return;
 
-    // Calculate the adjusted position based on the zoom factor
-    const adjustedX = (event.offsetX - P.width / 2) / zoom + P.width / 2;
-    const adjustedY = (event.offsetY - P.height / 2) / zoom + P.height / 2;
+    // Calculate the adjusted position based on the zoom factor and centerOffset
+    const adjustedX =
+      (event.offsetX - P.width / 2) / zoom + P.width / 2 - centerOffset.x;
+    const adjustedY =
+      (event.offsetY - P.height / 2) / zoom + P.height / 2 - centerOffset.y;
     const pos = P.createVector(adjustedX, adjustedY);
 
     const { newBody, newParticles } = addNewBody({
@@ -351,23 +353,23 @@ export const P5Wrapper = () => {
   const draw = (P: P5) => {
     P.background(0);
 
-    // Draw stars without any transformations so they fill the screen
-    if (showStars) {
-      stars.forEach((star) => {
-        star.display(P);
-      });
-    }
-
     // Begin a new transformation state
     P.push();
 
     // Apply zoom and pan transformations
+    P.translate(centerOffset.x, centerOffset.y);
     P.translate(P.width / 2, P.height / 2); // Move origin to center
     P.scale(zoom); // Apply zoom factor
+    // Draw stars without any transformations so they fill the screen
+    if (showStars) {
+      stars.forEach((star) => {
+        star.display(P, centerOffset);
+      });
+    }
     handlePinchZoomAndPan(P);
 
     // Now, translate back if needed (depending on your pan implementation)
-    P.translate(-P.width / 2, -P.height / 2); // Commented out for now
+    P.translate(-P.width / 2, -P.height / 2);
 
     // Initialize force accumulators
     const forces = bodies.map(() => P.createVector(0, 0));
@@ -432,7 +434,16 @@ export const P5Wrapper = () => {
     p.mouseClicked = (event: PointerEvent) => {
       mouseClicked(event, p);
     };
-  }, [isRunning, bodies, particles, stars, gravityMultiplier, zoom, showStars]);
+  }, [
+    isRunning,
+    bodies,
+    particles,
+    stars,
+    gravityMultiplier,
+    zoom,
+    showStars,
+    showData,
+  ]);
 
   // Re-draw stars when zoom changes
   useEffect(() => {

@@ -10,11 +10,11 @@ export class Star {
     this.y = y;
     this.size = size;
   }
-  display(P: P5) {
+  display(P: P5, centerOffset: { x: number; y: number }) {
     P.push();
     P.fill(255);
     P.noStroke();
-    P.ellipse(this.x, this.y, this.size);
+    P.ellipse(this.x + centerOffset.x, this.y + centerOffset.y, this.size);
     P.pop();
   }
 }

@@ -6,7 +6,14 @@ import {
   IonIcon,
   IonToast,
 } from '@ionic/react';
-import { menu, pause, play, refresh, settingsOutline } from 'ionicons/icons';
+import {
+  arrowUndo,
+  menu,
+  pause,
+  play,
+  refresh,
+  settingsOutline,
+} from 'ionicons/icons';
 import { ActionType, useAppContext } from '~/Context';
 
 export const SettingsFAB = () => {
@@ -39,7 +46,7 @@ export const SettingsFAB = () => {
               type: ActionType.SetIsRunning,
             });
           }}>
-          <IonIcon icon={isRunning ? pause : play}></IonIcon>
+          <IonIcon icon={isRunning ? pause : play} />
         </IonFabButton>
         <IonFabButton
           color="primary"
@@ -48,10 +55,21 @@ export const SettingsFAB = () => {
             e.stopPropagation();
             dispatch({ type: ActionType.Restart });
           }}>
-          <IonIcon icon={refresh}></IonIcon>
+          <IonIcon icon={refresh} />
         </IonFabButton>
         <IonFabButton color="primary" id="open-modal">
-          <IonIcon icon={settingsOutline}></IonIcon>
+          <IonIcon icon={settingsOutline} />
+        </IonFabButton>
+      </IonFabList>
+      <IonFabList side="start">
+        <IonFabButton
+          id="undo"
+          color="primary"
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch({ type: ActionType.Undo });
+          }}>
+          <IonIcon icon={arrowUndo} />
         </IonFabButton>
       </IonFabList>
       <IonToast
@@ -69,6 +87,14 @@ export const SettingsFAB = () => {
         duration={1000}
         message={`Restarted ${selectedSystem} system`}
         icon={refresh}
+      />
+      <IonToast
+        trigger="undo"
+        position="bottom"
+        positionAnchor="footer-tabs"
+        duration={1000}
+        message="Removed last body"
+        icon={arrowUndo}
       />
     </IonFab>
   );

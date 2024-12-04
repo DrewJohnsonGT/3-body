@@ -82,6 +82,7 @@ export enum ActionType {
   SetStarSize = 'SET_STAR_SIZE',
   Pan = 'PAN',
   SetShowData = 'SET_SHOW_DATA',
+  Undo = 'UNDO',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -112,6 +113,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetStarSize]: number;
   [ActionType.Pan]: { deltaX: number; deltaY: number };
   [ActionType.SetShowData]: boolean;
+  [ActionType.Undo]: undefined;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -136,6 +138,7 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
     case ActionType.Restart:
       return {
         ...state,
+        centerOffset: DEFAULT_STATE.centerOffset,
         restartSelectedSystem: true,
         zoom: DEFAULT_STATE.zoom,
       };
@@ -155,6 +158,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         bodies: action.payload,
+      };
+    case ActionType.Undo:
+      return {
+        ...state,
+        bodies: state.bodies.slice(0, -1),
       };
     case ActionType.SetParticles:
       return {
