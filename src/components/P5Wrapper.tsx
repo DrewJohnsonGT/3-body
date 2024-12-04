@@ -308,7 +308,7 @@ export const P5Wrapper = () => {
         // Calculate zoom amount
         const zoomAmount = currentDist / P.prevTouchDist;
         // Define a threshold for zoom sensitivity
-        const ZOOM_THRESHOLD = 0.04; // 4% change
+        const ZOOM_THRESHOLD = 0.08; // 8% change
 
         // Calculate the percentage change in distance
         const distChangeRatio = Math.abs(zoomAmount - 1);
