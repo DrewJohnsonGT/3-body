@@ -306,10 +306,19 @@ export const P5Wrapper = () => {
       ) {
         // Calculate zoom amount
         const zoomAmount = currentDist / P.prevTouchDist;
-        dispatch({
-          payload: zoom * zoomAmount,
-          type: ActionType.SetZoom,
-        });
+        // Define a threshold for zoom sensitivity
+        const ZOOM_THRESHOLD = 0.02; // 2% change
+
+        // Calculate the percentage change in distance
+        const distChangeRatio = Math.abs(zoomAmount - 1);
+
+        if (distChangeRatio > ZOOM_THRESHOLD) {
+          // Only apply zoom if the change exceeds the threshold
+          dispatch({
+            payload: zoom * zoomAmount,
+            type: ActionType.SetZoom,
+          });
+        }
 
         // Calculate pan offset
         const deltaX = currentCenterX - P.prevTouchCenterX;
