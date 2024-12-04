@@ -5,7 +5,7 @@ import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import P5 from 'p5';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
-import { Star } from '~/classes/Star';
+import { generateStars, STAR_PARALLAX_FACTOR } from '~/classes/Star';
 import { CANVAS_CONTAINER_ID, G } from '~/constants';
 import {
   ActionType,
@@ -153,29 +153,6 @@ const calculateGravity = (
   return forceVector;
 };
 
-const generateStars = ({
-  P,
-  starCount,
-  starSize,
-  zoom,
-}: {
-  P: P5;
-  zoom: number;
-  starCount: number;
-  starSize: number;
-}): Star[] => {
-  const starArray = Array.from(
-    { length: starCount },
-    () =>
-      new Star({
-        size: P.random(0.1, 1 + starSize / zoom),
-        x: P.random(-P.width / 2, P.width / 2) / zoom,
-        y: P.random(-P.height / 2, P.height / 2) / zoom,
-      }),
-  );
-  return starArray;
-};
-
 let p: P5;
 
 export const P5Wrapper = () => {
@@ -255,7 +232,13 @@ export const P5Wrapper = () => {
       type: ActionType.SetParticles,
     });
     dispatch({
-      payload: generateStars({ P, starCount, starSize, zoom }),
+      payload: generateStars({
+        centerOffset,
+        P,
+        starCount,
+        starSize,
+        zoom,
+      }),
       type: ActionType.SetStars,
     });
     if (newSystemZoom) {
@@ -351,24 +334,27 @@ export const P5Wrapper = () => {
   };
 
   const draw = (P: P5) => {
-    P.background(0);
-
-    // Begin a new transformation state
-    P.push();
-
-    // Apply zoom and pan transformations
-    P.translate(centerOffset.x, centerOffset.y);
-    P.translate(P.width / 2, P.height / 2); // Move origin to center
-    P.scale(zoom); // Apply zoom factor
-    // Draw stars without any transformations so they fill the screen
-    if (showStars) {
-      stars.forEach((star) => {
-        star.display(P, centerOffset);
-      });
-    }
     handlePinchZoomAndPan(P);
 
-    // Now, translate back if needed (depending on your pan implementation)
+    P.background(0);
+
+    P.push();
+    P.translate(P.width / 2, P.height / 2);
+    P.scale(zoom);
+    if (showStars) {
+      P.push();
+      P.translate(
+        centerOffset.x * STAR_PARALLAX_FACTOR,
+        centerOffset.y * STAR_PARALLAX_FACTOR,
+      );
+      stars.forEach((star) => {
+        star.display(P);
+      });
+      P.pop();
+    }
+
+    // Apply pan transformations for bodies
+    P.translate(centerOffset.x, centerOffset.y);
     P.translate(-P.width / 2, -P.height / 2);
 
     // Initialize force accumulators
@@ -449,7 +435,13 @@ export const P5Wrapper = () => {
   // Re-draw stars when zoom changes
   useEffect(() => {
     dispatch({
-      payload: generateStars({ P: p, starCount, starSize, zoom }),
+      payload: generateStars({
+        centerOffset,
+        P: p,
+        starCount,
+        starSize,
+        zoom,
+      }),
       type: ActionType.SetStars,
     });
   }, [zoom, starCount, starSize]);
