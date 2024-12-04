@@ -21,7 +21,6 @@ export const SettingsFAB = () => {
     dispatch,
     state: { bodies, isRunning, selectedSystem },
   } = useAppContext();
-  console.log(bodies);
   const [isActive, setIsActive] = useState(false);
   return (
     <IonFab
