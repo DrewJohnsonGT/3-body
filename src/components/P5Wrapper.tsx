@@ -312,65 +312,27 @@ export const P5Wrapper = () => {
 
       // Reset previous multi-touch values
       P.prevTouchDist = undefined;
-      P.prevTouchCenterX = undefined;
-      P.prevTouchCenterY = undefined;
     } else if (P.touches.length === 2) {
       const touch1 = P.touches[0] as Touch;
       const touch2 = P.touches[1] as Touch;
 
-      // Calculate the current center point between the two touches
-      const currentCenterX = (touch1.x + touch2.x) / 2;
-      const currentCenterY = (touch1.y + touch2.y) / 2;
-
       // Calculate the current distance between the two touches
       const currentDist = P.dist(touch1.x, touch1.y, touch2.x, touch2.y);
 
-      if (
-        P.prevTouchDist !== undefined &&
-        P.prevTouchCenterX !== undefined &&
-        P.prevTouchCenterY !== undefined
-      ) {
+      if (P.prevTouchDist !== undefined) {
         // Calculate zoom amount
         const zoomAmount = currentDist / P.prevTouchDist;
-        // Define a threshold for zoom sensitivity
-        const ZOOM_THRESHOLD = 0.08; // 8% change
 
-        // Calculate the percentage change in distance
-        const distChangeRatio = Math.abs(zoomAmount - 1);
-
-        // Calculate pan offset due to movement of fingers
-        // Adjust pan delta according to zoom level
-        const deltaX = (currentCenterX - P.prevTouchCenterX) / zoom;
-        const deltaY = (currentCenterY - P.prevTouchCenterY) / zoom;
-
-        // Apply zoom if the change exceeds the threshold
-        if (distChangeRatio > ZOOM_THRESHOLD) {
-          const newZoom = zoom * zoomAmount;
-          dispatch({
-            payload: newZoom,
-            type: ActionType.SetZoom,
-          });
-
-          // Since we're zooming relative to the origin (centerOffset),
-          // we don't adjust the pan during zoom
-          // Just apply the pan due to finger movement
-          dispatch({
-            payload: { deltaX, deltaY },
-            type: ActionType.Pan,
-          });
-        } else {
-          // No zoom applied, regular pan
-          dispatch({
-            payload: { deltaX, deltaY },
-            type: ActionType.Pan,
-          });
-        }
+        // Update zoom level
+        const newZoom = zoom * zoomAmount;
+        dispatch({
+          payload: newZoom,
+          type: ActionType.SetZoom,
+        });
       }
 
-      // Update previous touch values
+      // Update previous touch distance
       P.prevTouchDist = currentDist;
-      P.prevTouchCenterX = currentCenterX;
-      P.prevTouchCenterY = currentCenterY;
 
       // Reset previous single-touch values
       P.prevTouchX = undefined;
@@ -378,8 +340,6 @@ export const P5Wrapper = () => {
     } else {
       // Reset when not touching with one or two fingers
       P.prevTouchDist = undefined;
-      P.prevTouchCenterX = undefined;
-      P.prevTouchCenterY = undefined;
       P.prevTouchX = undefined;
       P.prevTouchY = undefined;
     }
