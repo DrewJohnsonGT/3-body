@@ -279,9 +279,9 @@ export const P5Wrapper = () => {
 
     // Calculate the adjusted position based on the zoom factor and centerOffset
     const adjustedX =
-      (event.offsetX - P.width / 2) / zoom + P.width / 2 - centerOffset.x;
+      (event.offsetX - centerOffset.x - P.width / 2) / zoom + P.width / 2;
     const adjustedY =
-      (event.offsetY - P.height / 2) / zoom + P.height / 2 - centerOffset.y;
+      (event.offsetY - centerOffset.y - P.height / 2) / zoom + P.height / 2;
     const pos = P.createVector(adjustedX, adjustedY);
 
     const { newBody, newParticles } = addNewBody({
