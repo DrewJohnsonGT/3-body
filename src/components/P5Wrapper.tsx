@@ -293,11 +293,12 @@ export const P5Wrapper = () => {
       const touch1 = P.touches[0] as Touch;
       const touch2 = P.touches[1] as Touch;
 
-      // Calculate the current distance between the two touches
-      const currentDist = P.dist(touch1.x, touch1.y, touch2.x, touch2.y);
       // Calculate the current center point between the two touches
       const currentCenterX = (touch1.x + touch2.x) / 2;
       const currentCenterY = (touch1.y + touch2.y) / 2;
+
+      // Calculate the current distance between the two touches
+      const currentDist = P.dist(touch1.x, touch1.y, touch2.x, touch2.y);
 
       if (
         P.prevTouchDist !== undefined &&
@@ -312,22 +313,33 @@ export const P5Wrapper = () => {
         // Calculate the percentage change in distance
         const distChangeRatio = Math.abs(zoomAmount - 1);
 
+        // Calculate pan offset due to movement of fingers
+        // Adjust pan delta according to zoom level
+        const deltaX = (currentCenterX - P.prevTouchCenterX) / zoom;
+        const deltaY = (currentCenterY - P.prevTouchCenterY) / zoom;
+
+        // Apply zoom if the change exceeds the threshold
         if (distChangeRatio > ZOOM_THRESHOLD) {
-          // Only apply zoom if the change exceeds the threshold
+          const newZoom = zoom * zoomAmount;
           dispatch({
-            payload: zoom * zoomAmount,
+            payload: newZoom,
             type: ActionType.SetZoom,
           });
+
+          // Since we're zooming relative to the origin (centerOffset),
+          // we don't adjust the pan during zoom
+          // Just apply the pan due to finger movement
+          dispatch({
+            payload: { deltaX, deltaY },
+            type: ActionType.Pan,
+          });
+        } else {
+          // No zoom applied, regular pan
+          dispatch({
+            payload: { deltaX, deltaY },
+            type: ActionType.Pan,
+          });
         }
-
-        // Calculate pan offset
-        const deltaX = currentCenterX - P.prevTouchCenterX;
-        const deltaY = currentCenterY - P.prevTouchCenterY;
-
-        dispatch({
-          payload: { deltaX, deltaY },
-          type: ActionType.Pan,
-        });
       }
 
       // Update previous touch values
