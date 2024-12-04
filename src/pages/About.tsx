@@ -1,5 +1,7 @@
 import {
   IonCard,
+  IonCardContent,
+  IonCardTitle,
   IonContent,
   IonHeader,
   IonIcon,
@@ -8,7 +10,11 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { helpCircle, informationCircle, personCircle } from 'ionicons/icons';
+import {
+  helpCircleOutline,
+  informationCircleOutline,
+  personCircleOutline,
+} from 'ionicons/icons';
 
 const AboutSection = ({
   body,
@@ -20,124 +26,127 @@ const AboutSection = ({
   icon: string;
 }) => {
   return (
-    <div
-      className="ion-margin"
+    <IonCard
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        lineHeight: '1.25',
-        margin: 'auto',
-        marginBottom: '2rem',
+        border: '2px solid var(--ion-color-medium)',
+        margin: '1rem auto',
         maxWidth: '600px',
       }}>
-      <IonCard
+      <div
         style={{
           alignItems: 'center',
-          border: '2px solid var(--ion-color-primary-shade)',
-          display: 'inline-flex',
-          gap: 3,
-          justifyContent: 'center',
-          margin: '1.5rem auto',
-          padding: '0.25rem 0.5rem',
+          backgroundColor: 'black',
+          display: 'flex',
+          gap: '0.5rem',
+          justifyContent: 'space-between',
+          minHeight: '75px',
+          padding: '1.5rem',
         }}>
-        <h1
+        <IonCardTitle
           style={{
             color: 'var(--ion-color-primary)',
+            display: 'flex',
             fontSize: '2rem',
-            margin: 0,
-            marginBottom: 0,
-            padding: 0,
+            justifyContent: 'center',
           }}>
           {title}
-        </h1>
-        <IonIcon icon={icon} size="large" color="primary" />
-      </IonCard>
-      <IonText>{body}</IonText>
-    </div>
+        </IonCardTitle>
+        <IonIcon
+          icon={icon}
+          size="extra-large"
+          color="primary"
+          style={{ color: 'white', fontSize: '4rem' }}
+        />
+      </div>
+      <IonCardContent style={{ lineHeight: '1.6' }}>{body}</IonCardContent>
+    </IonCard>
   );
 };
 
 export const AboutPage = () => {
   return (
-    <IonPage
-      onClick={(e) => {
-        e.stopPropagation();
-      }}>
-      <IonHeader>
+    <IonPage>
+      <IonHeader translucent={true}>
         <IonToolbar>
-          <IonTitle
-            style={{
-              textAlign: 'center',
-            }}>
-            About
-          </IonTitle>
+          <IonTitle>About</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-text-center ion-padding">
+      <IonContent className="ion-padding">
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">About</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonText color="medium" className="ion-text-wrap">
+          Learn more about the app and the inspiration behind it.
+        </IonText>
         <AboutSection
           title="Who"
           body={
-            <>
+            <div
+              className="ion-text-center"
+              style={{ display: 'flex', flexDirection: 'column' }}>
               <img
                 src="/images/profile-cropped.jpg"
                 alt="Drew"
                 style={{
                   border: '4px solid var(--ion-color-primary)',
                   borderRadius: '50%',
-                  width: '100px',
+                  margin: '1rem auto',
+                  width: '120px',
                 }}
               />
-              <br />
-              My name is Drew, and I&apos;m a software engineer. I&apos;m also a
-              big fan of the book series (and now Netflix show)
-              <br />
+              <IonText>
+                My name is Drew, and I&apos;m a software engineer. I&apos;m also
+                a big fan of the book series (and now Netflix show)
+              </IonText>
               <a href="https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)">
                 The Three Body Problem
               </a>
-              <br />
-              which inspired me to create this app!
-            </>
+              <IonText>which inspired me to create this app!</IonText>
+            </div>
           }
-          icon={personCircle}
+          icon={personCircleOutline}
         />
         <AboutSection
           title="What"
           body={
-            <>
+            <IonText>
               The three-body problem is a special case of the{' '}
               <a href="https://en.wikipedia.org/wiki/N-body_problem">
                 N-body problem
               </a>
-              .
+              . It involves determining the motion of three point particles that
+              interact only by their mutual gravitational attraction.
               <br />
-              The three-body problem is to determine the motion of three point
-              particles that interact only by their mutual gravitational
-              attraction. <br />
               <br />
               Unlike two-body problems, there is no general closed-form solution
-              for every condition, and it is one of the great unsolved problems
+              for every condition, making it one of the great unsolved problems
               in physics.
-            </>
+            </IonText>
           }
-          icon={informationCircle}
+          icon={informationCircleOutline}
         />
         <AboutSection
           title="Why"
           body={
-            <>
+            <IonText>
               I wanted to create a simple simulation of the 3+ body problem to
-              help me visualize and appreciate the complexity of these types of
+              help visualize and appreciate the complexity of these
               gravitational systems. <br />I hope you enjoy it too!
-            </>
+            </IonText>
           }
-          icon={helpCircle}
+          icon={helpCircleOutline}
         />
-        <br />
-        <br />
-        <a href="mailto:DrewJLLC@gmail.com">DrewJLLC@gmail.com</a>
-        <br />
-        <br />
-        <a href="https://drewj.dev">https://drewj.dev</a>
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <a href="mailto:DrewJLLC@gmail.com">DrewJLLC@gmail.com</a>
+          <br />
+          <a href="https://drewj.dev">https://drewj.dev</a>
+          <br />
+          <br />
+          <br />
+          <IonText>1.1.0</IonText>
+        </div>
       </IonContent>
     </IonPage>
   );
