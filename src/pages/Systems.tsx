@@ -32,10 +32,15 @@ export const SystemsPage = () => {
       }}>
       <IonHeader translucent={true}>
         <IonToolbar>
-          <IonTitle>Systems</IonTitle>
+          <IonTitle
+            style={{
+              textAlign: 'center',
+            }}>
+            Systems
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding ion-text-center">
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Systems</IonTitle>

@@ -69,16 +69,21 @@ export const AboutPage = () => {
     <IonPage>
       <IonHeader translucent={true}>
         <IonToolbar>
-          <IonTitle>About</IonTitle>
+          <IonTitle
+            style={{
+              textAlign: 'center',
+            }}>
+            About
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent className="ion-padding ion-text-center">
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">About</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonText color="medium" className="ion-text-wrap">
+        <IonText color="medium">
           Learn more about the app and the inspiration behind it.
         </IonText>
         <AboutSection

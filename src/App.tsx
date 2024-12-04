@@ -19,7 +19,7 @@ import '@ionic/react/css/structure.css';
 import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/typography.css';
 import { Redirect, Route } from 'react-router-dom';
-import { help, home, planet, settings } from 'ionicons/icons';
+import { home, informationCircle, planet, settings } from 'ionicons/icons';
 import { AppContextProvider } from '~/Context';
 import { AboutPage, HomePage, SettingsPage, SystemsPage } from '~/pages';
 
@@ -42,7 +42,7 @@ const TABS = [
     page: SettingsPage,
   },
   {
-    icon: help,
+    icon: informationCircle,
     label: 'About',
     page: AboutPage,
   },
