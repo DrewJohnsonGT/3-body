@@ -443,6 +443,7 @@ export const P5Wrapper = () => {
     zoom,
     showStars,
     showData,
+    centerOffset,
   ]);
 
   // Re-draw stars when zoom changes
