@@ -110,13 +110,8 @@ iOS and Android projects.
 
 ````bash
 npx capacitor-set-version -v 1.0.0 -b 1 # Set version to 1.0.0 and build number to 1
-# Current version: 1.1.8, build number: 20
+# Current version: 1.2.1, build number: 22
 # Command:
 
-```bash
-npx capacitor-set-version -v 1.1.8 -b 20
-````
-
-```
-
+npx capacitor-set-version -v 1.2.1 -b 22
 ```
