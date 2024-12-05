@@ -13,6 +13,15 @@ export const HomePage = () => {
             e.preventDefault();
             e.stopPropagation();
           }}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+          }}
+          onTouchMove={(e) => {
+            e.stopPropagation();
+          }}
+          onTouchEnd={(e) => {
+            e.stopPropagation();
+          }}
           trigger="open-modal"
           initialBreakpoint={0.5}
           breakpoints={[0, 0.25, 0.5, 0.99]}>

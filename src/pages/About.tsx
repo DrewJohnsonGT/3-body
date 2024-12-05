@@ -66,7 +66,19 @@ const AboutSection = ({
 
 export const AboutPage = () => {
   return (
-    <IonPage>
+    <IonPage
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+      onTouchStart={(e) => {
+        e.stopPropagation();
+      }}
+      onTouchMove={(e) => {
+        e.stopPropagation();
+      }}
+      onTouchEnd={(e) => {
+        e.stopPropagation();
+      }}>
       <IonHeader translucent={true}>
         <IonToolbar>
           <IonTitle

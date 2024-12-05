@@ -346,8 +346,6 @@ export const P5Wrapper = () => {
   };
 
   const draw = (P: P5) => {
-    handlePinchZoomAndPan(P);
-
     P.background(0);
 
     P.push();
@@ -422,6 +420,8 @@ export const P5Wrapper = () => {
       P.text(`Bodies: ${String(bodies.length)}`, 10, P.height - 30);
       P.text(`Particles: ${String(particles.length)}`, 10, P.height - 10);
     }
+
+    handlePinchZoomAndPan(P);
   };
 
   // Re-draw when drawing state changes

@@ -6,6 +6,15 @@ export const SettingsPage = () => {
     <IonPage
       onClick={(e) => {
         e.stopPropagation();
+      }}
+      onTouchStart={(e) => {
+        e.stopPropagation();
+      }}
+      onTouchMove={(e) => {
+        e.stopPropagation();
+      }}
+      onTouchEnd={(e) => {
+        e.stopPropagation();
       }}>
       <IonHeader translucent={true}>
         <IonToolbar>
