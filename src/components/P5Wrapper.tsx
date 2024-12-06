@@ -305,8 +305,8 @@ export const P5Wrapper = () => {
 
       if (P.prevTouchX !== undefined && P.prevTouchY !== undefined) {
         // Calculate deltaX and deltaY as difference between current and previous touch positions
-        const deltaX = (touch.x - P.prevTouchX) / zoom;
-        const deltaY = (touch.y - P.prevTouchY) / zoom;
+        const deltaX = -(touch.x - P.prevTouchX) / zoom;
+        const deltaY = -(touch.y - P.prevTouchY) / zoom;
 
         // Dispatch pan action
         dispatch({
