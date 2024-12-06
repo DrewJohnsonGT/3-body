@@ -10,7 +10,7 @@ import { RgbColor } from 'react-colorful';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
 import { Star } from '~/classes/Star';
-import { APP_NAME } from '~/constants';
+import { APP_NAME, MAX_ZOOM, MIN_ZOOM } from '~/constants';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
 import { ColorPaletteColor } from '~/utils/color';
 import { System } from '~/utils/systems';
@@ -188,16 +188,6 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         trailLength: action.payload,
       };
-    case ActionType.ZoomIn:
-      return {
-        ...state,
-        zoom: state.zoom * 2,
-      };
-    case ActionType.ZoomOut:
-      return {
-        ...state,
-        zoom: state.zoom / 2,
-      };
     case ActionType.Pan:
       return {
         ...state,
@@ -211,11 +201,27 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
         ...state,
         centerOffset: DEFAULT_STATE.centerOffset,
       };
-    case ActionType.SetZoom:
+    case ActionType.ZoomIn: {
+      const newZoom = Math.min(state.zoom * 2, MAX_ZOOM);
       return {
         ...state,
-        zoom: action.payload,
+        zoom: newZoom,
       };
+    }
+    case ActionType.ZoomOut: {
+      const newZoom = Math.max(state.zoom / 2, MIN_ZOOM);
+      return {
+        ...state,
+        zoom: newZoom,
+      };
+    }
+    case ActionType.SetZoom: {
+      const newZoom = Math.min(Math.max(action.payload, MIN_ZOOM), MAX_ZOOM);
+      return {
+        ...state,
+        zoom: newZoom,
+      };
+    }
     case ActionType.ToggleTapToCreate:
       return {
         ...state,

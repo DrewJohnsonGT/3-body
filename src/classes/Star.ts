@@ -1,7 +1,7 @@
 import P5 from 'p5';
+import { STAR_PARALLAX_FACTOR } from '~/constants';
 
 const TILE_SIZE = 500;
-export const STAR_PARALLAX_FACTOR = 1;
 
 function LCG(seed: number) {
   let s = seed;
@@ -66,9 +66,10 @@ export const generateStars = ({
 
   // Determine visible tiles
   const minTileX = Math.floor(xw_left / TILE_SIZE);
-  const maxTileX = Math.ceil(xw_right / TILE_SIZE) - 1;
+  const maxTileX = Math.ceil(xw_right / TILE_SIZE);
+
   const minTileY = Math.floor(yw_top / TILE_SIZE);
-  const maxTileY = Math.ceil(yw_bottom / TILE_SIZE) - 1;
+  const maxTileY = Math.ceil(yw_bottom / TILE_SIZE);
 
   // Calculate total visible tiles
   const numTilesX = maxTileX - minTileX + 1;

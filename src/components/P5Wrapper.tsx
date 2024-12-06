@@ -5,8 +5,8 @@ import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import P5 from 'p5';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
-import { generateStars, STAR_PARALLAX_FACTOR } from '~/classes/Star';
-import { CANVAS_CONTAINER_ID, G } from '~/constants';
+import { generateStars } from '~/classes/Star';
+import { CANVAS_CONTAINER_ID, G, STAR_PARALLAX_FACTOR } from '~/constants';
 import {
   ActionType,
   NewBodyColorType,
@@ -407,8 +407,8 @@ export const P5Wrapper = () => {
 
     if (showStars) {
       P.translate(
-        centerOffset.x * STAR_PARALLAX_FACTOR,
-        centerOffset.y * STAR_PARALLAX_FACTOR,
+        -centerOffset.x * STAR_PARALLAX_FACTOR,
+        -centerOffset.y * STAR_PARALLAX_FACTOR,
       );
       stars.forEach((star) => {
         star.display(P);

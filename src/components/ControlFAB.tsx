@@ -19,6 +19,7 @@ import {
   remove,
   resize,
 } from 'ionicons/icons';
+import { MAX_ZOOM, MIN_ZOOM } from '~/constants';
 import { ActionType, useAppContext } from '~/Context';
 
 const PAN_DELTA = 100;
@@ -93,8 +94,7 @@ export const ControlFAB = () => {
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
-              payload: { deltaX: 
-                PAN_DELTA, deltaY: 0 },
+              payload: { deltaX: PAN_DELTA, deltaY: 0 },
               type: ActionType.Pan,
             });
           }}>
@@ -105,7 +105,7 @@ export const ControlFAB = () => {
         <IonFabButton
           id="zoom-in"
           size="small"
-          color="primary"
+          color={zoom >= MAX_ZOOM ? 'secondary' : 'primary'}
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
@@ -117,7 +117,7 @@ export const ControlFAB = () => {
         <IonFabButton
           id="zoom-out"
           size="small"
-          color="primary"
+          color={zoom <= MIN_ZOOM ? 'secondary' : 'primary'}
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
