@@ -36,24 +36,20 @@ export const ControlFAB = () => {
       activated={isActivated}
       slot="fixed"
       vertical="top"
-      horizontal="start"
-      onClick={() => {
-        setIsActivated(!isActivated);
-      }}>
-      <IonFabButton size="small">
+      horizontal="start">
+      <IonFabButton
+        size="small"
+        onClick={() => {
+          setIsActivated(!isActivated);
+        }}>
         <IonIcon icon={expandOutline} />
       </IonFabButton>
-      <IonFabList
-        side="end"
-        onClick={(e) => {
-          e.stopPropagation();
-        }}>
+      <IonFabList side="end">
         <IonFabButton
           id="pan-up"
           size="small"
           color="primary"
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             dispatch({
               payload: { deltaX: 0, deltaY: -PAN_DELTA },
               type: ActionType.Pan,
@@ -65,8 +61,7 @@ export const ControlFAB = () => {
           id="pan-down"
           size="small"
           color="primary"
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             dispatch({
               payload: { deltaX: 0, deltaY: PAN_DELTA },
               type: ActionType.Pan,
@@ -78,8 +73,7 @@ export const ControlFAB = () => {
           id="pan-left"
           size="small"
           color="primary"
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             dispatch({
               payload: { deltaX: -PAN_DELTA, deltaY: 0 },
               type: ActionType.Pan,
@@ -91,8 +85,7 @@ export const ControlFAB = () => {
           id="pan-right"
           size="small"
           color="primary"
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             dispatch({
               payload: { deltaX: PAN_DELTA, deltaY: 0 },
               type: ActionType.Pan,
@@ -106,8 +99,7 @@ export const ControlFAB = () => {
           id="zoom-in"
           size="small"
           color={zoom >= MAX_ZOOM ? 'secondary' : 'primary'}
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             dispatch({
               type: ActionType.ZoomIn,
             });
@@ -118,8 +110,7 @@ export const ControlFAB = () => {
           id="zoom-out"
           size="small"
           color={zoom <= MIN_ZOOM ? 'secondary' : 'primary'}
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             dispatch({
               type: ActionType.ZoomOut,
             });
@@ -134,8 +125,7 @@ export const ControlFAB = () => {
               ? 'primary'
               : 'secondary'
           }
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             dispatch({
               type: ActionType.ResetPan,
             });
@@ -146,8 +136,7 @@ export const ControlFAB = () => {
           id="reset-zoom"
           size="small"
           color={zoom !== 1 ? 'primary' : 'secondary'}
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             dispatch({
               payload: 1,
               type: ActionType.SetZoom,

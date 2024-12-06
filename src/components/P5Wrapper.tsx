@@ -298,7 +298,7 @@ export const P5Wrapper = () => {
       payload: newParticles,
       type: ActionType.SetParticles,
     });
-  }, 50);
+  }, 100);
 
   const handlePinchZoomAndPan = (P: P5) => {
     if (P.touches.length === 1) {
