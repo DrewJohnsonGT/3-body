@@ -93,6 +93,7 @@ export const Settings = () => {
       newBodyColorType,
       newBodyCustomMass,
       newBodyMassType,
+      showBodyGlow,
       showData,
       showStars,
       showTrails,
@@ -152,6 +153,26 @@ export const Settings = () => {
                 <br />
                 <IonNote color="medium" className="ion-text-wrap">
                   Display data about the simulation on screen
+                </IonNote>
+              </IonLabel>
+            </IonToggle>
+          </IonItem>
+          <IonItem>
+            <IonToggle
+              enableOnOffLabels={true}
+              labelPlacement="start"
+              checked={showBodyGlow}
+              onIonChange={() => {
+                dispatch({
+                  payload: !showBodyGlow,
+                  type: ActionType.SetShowBodyGlow,
+                });
+              }}>
+              <IonLabel>
+                <IonText>Show body glow</IonText>
+                <br />
+                <IonNote color="medium" className="ion-text-wrap">
+                  Bodies will have a slight glow effect
                 </IonNote>
               </IonLabel>
             </IonToggle>

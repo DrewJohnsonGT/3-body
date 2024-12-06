@@ -69,19 +69,21 @@ export class Body {
     }
   }
 
-  display(P: P5) {
+  display(P: P5, showBodyGlow: boolean) {
     // Glow effect
     const glowSize = 15;
     const glowAlpha = 30;
     P.noStroke();
-    for (let i = glowSize; i > 0; i -= 5) {
-      P.fill(
-        P.red(this.color),
-        P.green(this.color),
-        P.blue(this.color),
-        glowAlpha,
-      );
-      P.ellipse(this.pos.x, this.pos.y, this.getSize() + i);
+    if (showBodyGlow) {
+      for (let i = glowSize; i > 0; i -= 5) {
+        P.fill(
+          P.red(this.color),
+          P.green(this.color),
+          P.blue(this.color),
+          glowAlpha,
+        );
+        P.ellipse(this.pos.x, this.pos.y, this.getSize() + i);
+      }
     }
 
     // Trail display with fading effect

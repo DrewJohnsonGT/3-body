@@ -40,6 +40,7 @@ const DEFAULT_STATE = {
   restartSelectedSystem: false,
   screenSize: { height: 500, width: 500 },
   selectedSystem: System.FIGURE_EIGHT,
+  showBodyGlow: true,
   showData: false,
   showStars: true,
   showTrails: true,
@@ -85,6 +86,7 @@ export enum ActionType {
   SetShowData = 'SET_SHOW_DATA',
   Undo = 'UNDO',
   ResetSettings = 'RESET_SETTINGS',
+  SetShowBodyGlow = 'SET_SHOW_BODY_GLOW',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -118,6 +120,7 @@ interface Payloads extends Record<ActionType, unknown> {
   [ActionType.SetShowData]: boolean;
   [ActionType.Undo]: undefined;
   [ActionType.ResetSettings]: undefined;
+  [ActionType.SetShowBodyGlow]: boolean;
 }
 export type ActionMap<M extends Record<ActionType, unknown>> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -292,6 +295,11 @@ const reducer = (state: typeof DEFAULT_STATE, action: Actions) => {
       return {
         ...state,
         showData: action.payload,
+      };
+    case ActionType.SetShowBodyGlow:
+      return {
+        ...state,
+        showBodyGlow: action.payload,
       };
     case ActionType.ResetSettings:
       return {

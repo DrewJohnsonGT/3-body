@@ -174,6 +174,7 @@ export const P5Wrapper = () => {
       particles,
       restartSelectedSystem,
       selectedSystem,
+      showBodyGlow,
       showData,
       showStars,
       showTrails,
@@ -367,6 +368,17 @@ export const P5Wrapper = () => {
     // Now apply the offset
     P.translate(-centerOffset.x, -centerOffset.y);
 
+    if (showStars) {
+      P.push();
+      P.translate(
+        -centerOffset.x * STAR_PARALLAX_FACTOR,
+        -centerOffset.y * STAR_PARALLAX_FACTOR,
+      );
+      stars.forEach((star) => {
+        star.display(P);
+      });
+      P.pop();
+    }
     // Initialize force accumulators
     const forces = bodies.map(() => P.createVector(0, 0));
 
@@ -390,7 +402,7 @@ export const P5Wrapper = () => {
         bodies[i].applyForce(forces[i]);
         bodies[i].update();
       }
-      bodies[i].display(P);
+      bodies[i].display(P, showBodyGlow);
     }
 
     // Update and display particles
@@ -403,16 +415,6 @@ export const P5Wrapper = () => {
       if (particle.isDead()) {
         particles.splice(i, 1);
       }
-    }
-
-    if (showStars) {
-      P.translate(
-        -centerOffset.x * STAR_PARALLAX_FACTOR,
-        -centerOffset.y * STAR_PARALLAX_FACTOR,
-      );
-      stars.forEach((star) => {
-        star.display(P);
-      });
     }
 
     P.pop();
@@ -460,6 +462,7 @@ export const P5Wrapper = () => {
     showStars,
     showData,
     centerOffset,
+    showBodyGlow,
   ]);
 
   // Re-draw stars when zoom changes
