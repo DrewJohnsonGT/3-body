@@ -421,12 +421,11 @@ export const P5Wrapper = () => {
       P.fill(255);
       P.noStroke();
       P.textSize(12); // Set desired text size
-      P.textAlign(P.LEFT, P.BOTTOM);
-      P.text(`Zoom: ${String(zoom.toFixed(2))}`, 10, P.height - 120);
-      P.text(`X: ${String(centerOffset.x.toFixed(2))}`, 10, P.height - 100);
-      P.text(`Y: ${String(centerOffset.y.toFixed(2))}`, 10, P.height - 80);
-      P.text(`Bodies: ${String(bodies.length)}`, 10, P.height - 60);
-      P.text(`Particles: ${String(particles.length)}`, 10, P.height - 40);
+      P.text(`Zoom: ${String(zoom.toFixed(2))}`, 10, P.height - 100);
+      P.text(`X: ${String(centerOffset.x.toFixed(2))}`, 10, P.height - 80);
+      P.text(`Y: ${String(centerOffset.y.toFixed(2))}`, 10, P.height - 60);
+      P.text(`Bodies: ${String(bodies.length)}`, 10, P.height - 40);
+      P.text(`Particles: ${String(particles.length)}`, 10, P.height - 20);
     }
 
     handlePinchZoomAndPan(P);
