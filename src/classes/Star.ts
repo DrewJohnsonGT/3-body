@@ -21,12 +21,16 @@ function generateSeed(tileX: number, tileY: number) {
 
 function generateStarCoordinates({
   starCount,
+  starSize,
   tileX,
   tileY,
+  zoom,
 }: {
   tileX: number;
   tileY: number;
   starCount: number;
+  zoom: number;
+  starSize: number;
 }) {
   const seed = generateSeed(tileX, tileY);
   const rand = LCG(seed);
@@ -34,7 +38,9 @@ function generateStarCoordinates({
   for (let i = 0; i < starCount; i++) {
     const x = rand() * TILE_SIZE + tileX * TILE_SIZE;
     const y = rand() * TILE_SIZE + tileY * TILE_SIZE;
-    starCoordinates.push({ x, y });
+    // Generate a stable, seeded random size
+    const size = 0.1 + rand() * (1 + starSize / zoom - 0.1);
+    starCoordinates.push({ size, x, y });
   }
   return starCoordinates;
 }
@@ -84,17 +90,20 @@ export const generateStars = ({
     for (let tileY = minTileY; tileY <= maxTileY; tileY++) {
       const starCoordinates = generateStarCoordinates({
         starCount: starsPerTile,
+        starSize,
         tileX,
         tileY,
+        zoom,
       });
       rawStarData.push(...starCoordinates);
     }
   }
 
+  // Now we have stable positions and sizes for each star
   return rawStarData.map(
     (star) =>
       new Star({
-        size: P.random(0.1, 1 + starSize / zoom),
+        size: star.size,
         x: star.x,
         y: star.y,
       }),
