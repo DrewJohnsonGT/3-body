@@ -9,7 +9,7 @@ type SystemFunction = (P: P5) => {
 
 const CIRCLE: SystemFunction = (P) => {
   const mass = 52;
-  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const center = P.createVector(0, 0);
   const size = Math.min(P.windowWidth, P.windowHeight) * 0.3; // Length of the side of the equilateral triangle
 
   const velocityMagnitude = Math.sqrt((G * 10 * 3) / size); // Simplified orbital velocity for stability
@@ -62,7 +62,7 @@ const INFINITY_SIGN: SystemFunction = (P) => {
   const mass = baseMass * width;
   const velocityScale = baseVelocity * width;
 
-  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const center = P.createVector(0, 0);
   const positionScale = P.windowWidth / 3;
 
   const positions = [
@@ -108,7 +108,7 @@ const FIGURE_EIGHT: SystemFunction = (P) => {
   const mass = baseMass * height;
   const velocityScale = baseVelocity * height;
 
-  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const center = P.createVector(0, 0);
   const positionScale = P.windowHeight / 3;
 
   const positions = [
