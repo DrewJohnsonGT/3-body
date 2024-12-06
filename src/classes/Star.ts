@@ -1,5 +1,4 @@
 import P5 from 'p5';
-import { STAR_PARALLAX_FACTOR } from '~/constants';
 
 const TILE_SIZE = 500;
 
@@ -61,8 +60,8 @@ export const generateStars = ({
   const rawStarData = [];
 
   // Adjusted centerOffset for stars
-  const starCenterOffsetX = centerOffset.x * STAR_PARALLAX_FACTOR;
-  const starCenterOffsetY = centerOffset.y * STAR_PARALLAX_FACTOR;
+  const starCenterOffsetX = -centerOffset.x;
+  const starCenterOffsetY = -centerOffset.y;
 
   // Compute world-space view rectangle
   const xw_left = -P.width / 2 / zoom - starCenterOffsetX;
