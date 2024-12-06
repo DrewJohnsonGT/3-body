@@ -261,25 +261,20 @@ export const P5Wrapper = () => {
     if ((event.target as { className?: string }).className !== 'p5Canvas')
       return;
     if (!tapToCreate) return;
-    console.log('zoom', zoom);
-    console.log('P.width', P.width);
-    console.log('P.height', P.height);
-    const adjustedWidth = P.width * zoom;
-    const adjustedHeight = P.height * zoom;
-    console.log('adjustedWidth', adjustedWidth);
-    console.log('adjustedHeight', adjustedHeight);
-    const adjustedOffsetX = event.offsetX / zoom;
-    const adjustedOffsetY = event.offsetY / zoom;
-    console.log('adjustedOffsetX', adjustedOffsetX);
-    console.log('adjustedOffsetY', adjustedOffsetY);
+    const sx = event.offsetX;
+    const sy = event.offsetY;
 
-    console.log('event.offsetX', event.offsetX);
-    console.log('event.offsetY', event.offsetY);
-    const worldX = (adjustedOffsetX - centerOffset.x) / zoom;
-    const worldY = (adjustedOffsetY - centerOffset.y) / zoom;
+    // Step 1: Move so that the center of the canvas is the origin
+    const sxCentered = sx - P.width / 2;
+    const syCentered = sy - P.height / 2;
 
-    console.log('worldX', worldX);
-    console.log('worldY', worldY);
+    // Step 2: Since we scaled by zoom, to go back we divide by zoom
+    const worldXBeforeOffset = sxCentered / zoom;
+    const worldYBeforeOffset = syCentered / zoom;
+
+    // Step 3: We previously translated by -centerOffset, so now we add it back
+    const worldX = worldXBeforeOffset + centerOffset.x;
+    const worldY = worldYBeforeOffset + centerOffset.y;
 
     const pos = P.createVector(worldX, worldY);
 
@@ -363,23 +358,14 @@ export const P5Wrapper = () => {
     P.background(0);
 
     P.push();
+    // Move the origin to the center of the canvas
     P.translate(P.width / 2, P.height / 2);
-    P.scale(zoom);
-    if (showStars) {
-      P.push();
-      P.translate(
-        centerOffset.x * STAR_PARALLAX_FACTOR,
-        centerOffset.y * STAR_PARALLAX_FACTOR,
-      );
-      stars.forEach((star) => {
-        star.display(P);
-      });
-      P.pop();
-    }
 
-    // Apply pan transformations for bodies
-    P.translate(centerOffset.x, centerOffset.y);
-    P.translate(-P.width / 2, -P.height / 2);
+    // Apply zoom (scale)
+    P.scale(zoom);
+
+    // Now apply the offset
+    P.translate(-centerOffset.x, -centerOffset.y);
 
     // Initialize force accumulators
     const forces = bodies.map(() => P.createVector(0, 0));
@@ -419,9 +405,17 @@ export const P5Wrapper = () => {
       }
     }
 
-    // Restore the original transformation state
-    P.pop();
+    if (showStars) {
+      P.translate(
+        centerOffset.x * STAR_PARALLAX_FACTOR,
+        centerOffset.y * STAR_PARALLAX_FACTOR,
+      );
+      stars.forEach((star) => {
+        star.display(P);
+      });
+    }
 
+    P.pop();
     // Draw meta data (FPS) in bottom-left corner without transformations
     if (showData) {
       P.fill(255);
