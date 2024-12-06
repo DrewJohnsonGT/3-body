@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.2.6';
+export const APP_VERSION = '1.2.8';
 
 export const G = 6.6743; // Gravitational constant
 

@@ -187,7 +187,7 @@ const CENTRAL_BODY_ORBIT: SystemFunction = (P) => {
 
 const RANDOM: SystemFunction = (P) => {
   const numBodies = Math.ceil(Math.random() * 10);
-  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const center = P.createVector(0, 0);
   const radius = Math.min(P.windowWidth, P.windowHeight) * 0.3;
 
   return {
@@ -203,7 +203,7 @@ const RANDOM: SystemFunction = (P) => {
 };
 
 const RANDOM_3: SystemFunction = (P) => {
-  const center = P.createVector(P.windowWidth / 2, P.windowHeight / 2);
+  const center = P.createVector(0, 0);
   const radius = Math.min(P.windowWidth, P.windowHeight) * 0.3;
 
   return {
