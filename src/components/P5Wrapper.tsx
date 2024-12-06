@@ -261,13 +261,27 @@ export const P5Wrapper = () => {
     if ((event.target as { className?: string }).className !== 'p5Canvas')
       return;
     if (!tapToCreate) return;
+    console.log('zoom', zoom);
+    console.log('P.width', P.width);
+    console.log('P.height', P.height);
+    const adjustedWidth = P.width * zoom;
+    const adjustedHeight = P.height * zoom;
+    console.log('adjustedWidth', adjustedWidth);
+    console.log('adjustedHeight', adjustedHeight);
+    const adjustedOffsetX = event.offsetX / zoom;
+    const adjustedOffsetY = event.offsetY / zoom;
+    console.log('adjustedOffsetX', adjustedOffsetX);
+    console.log('adjustedOffsetY', adjustedOffsetY);
 
-    // Calculate the adjusted position based on the zoom factor and centerOffset
-    const adjustedX =
-      (event.offsetX - centerOffset.x - P.width / 2) / zoom + P.width / 2;
-    const adjustedY =
-      (event.offsetY - centerOffset.y - P.height / 2) / zoom + P.height / 2;
-    const pos = P.createVector(adjustedX, adjustedY);
+    console.log('event.offsetX', event.offsetX);
+    console.log('event.offsetY', event.offsetY);
+    const worldX = (adjustedOffsetX - centerOffset.x) / zoom;
+    const worldY = (adjustedOffsetY - centerOffset.y) / zoom;
+
+    console.log('worldX', worldX);
+    console.log('worldY', worldY);
+
+    const pos = P.createVector(worldX, worldY);
 
     const { newBody, newParticles } = addNewBody({
       newBodyColor,

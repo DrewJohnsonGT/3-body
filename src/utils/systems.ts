@@ -218,6 +218,12 @@ const RANDOM_3: SystemFunction = (P) => {
   };
 };
 
+const EMPTY: SystemFunction = () => {
+  return {
+    newBodiesConfig: [],
+  };
+};
+
 export enum System {
   CIRCLE = 'Circle',
   INFINITY_SIGN = 'Infinity Sign',
@@ -225,6 +231,7 @@ export enum System {
   CENTRAL_BODY_ORBIT = 'Central Body',
   RANDOM = 'Random',
   RANDOM_3 = 'Random 3',
+  EMPTY = 'Empty',
 }
 
 export const SYSTEMS_MAP: Record<
@@ -271,5 +278,11 @@ export const SYSTEMS_MAP: Record<
     stable: false,
     systemFunction: RANDOM_3,
     title: 'Random 3',
+  },
+  [System.EMPTY]: {
+    description: 'An empty system - add your own bodies!',
+    stable: true,
+    systemFunction: EMPTY,
+    title: 'Empty',
   },
 };
