@@ -416,16 +416,27 @@ export const P5Wrapper = () => {
     }
 
     P.pop();
-    // Draw meta data (FPS) in bottom-left corner without transformations
     if (showData) {
       P.fill(255);
       P.noStroke();
-      P.textSize(12); // Set desired text size
-      P.text(`Zoom: ${String(zoom.toFixed(2))}`, 10, P.height / 2 - 100);
-      P.text(`X: ${String(centerOffset.x.toFixed(2))}`, 10, P.height / 2 - 80);
-      P.text(`Y: ${String(centerOffset.y.toFixed(2))}`, 10, P.height / 2 - 60);
-      P.text(`Bodies: ${String(bodies.length)}`, 10, P.height / 2 - 40);
-      P.text(`Particles: ${String(particles.length)}`, 10, P.height / 2 - 20);
+      P.textSize(12);
+      P.text(`Zoom: ${String(zoom.toFixed(2))}`, 10, P.height * 0.75 - 100);
+      P.text(
+        `X: ${String(centerOffset.x.toFixed(2))}`,
+        10,
+        P.height * 0.75 - 80,
+      );
+      P.text(
+        `Y: ${String(centerOffset.y.toFixed(2))}`,
+        10,
+        P.height * 0.75 - 60,
+      );
+      P.text(`Bodies: ${String(bodies.length)}`, 10, P.height * 0.75 - 40);
+      P.text(
+        `Particles: ${String(particles.length)}`,
+        10,
+        P.height * 0.75 - 20,
+      );
     }
 
     handlePinchZoomAndPan(P);
