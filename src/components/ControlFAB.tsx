@@ -54,7 +54,7 @@ export const ControlFAB = () => {
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
-              payload: { deltaX: 0, deltaY: -PAN_DELTA },
+              payload: { deltaX: 0, deltaY: PAN_DELTA },
               type: ActionType.Pan,
             });
           }}>
@@ -67,7 +67,7 @@ export const ControlFAB = () => {
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
-              payload: { deltaX: 0, deltaY: PAN_DELTA },
+              payload: { deltaX: 0, deltaY: -PAN_DELTA },
               type: ActionType.Pan,
             });
           }}>
@@ -80,7 +80,7 @@ export const ControlFAB = () => {
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
-              payload: { deltaX: -PAN_DELTA, deltaY: 0 },
+              payload: { deltaX: PAN_DELTA, deltaY: 0 },
               type: ActionType.Pan,
             });
           }}>
@@ -93,7 +93,7 @@ export const ControlFAB = () => {
           onClick={(e) => {
             e.stopPropagation();
             dispatch({
-              payload: { deltaX: PAN_DELTA, deltaY: 0 },
+              payload: { deltaX: -PAN_DELTA, deltaY: 0 },
               type: ActionType.Pan,
             });
           }}>
