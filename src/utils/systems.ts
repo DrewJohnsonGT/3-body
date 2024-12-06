@@ -280,7 +280,7 @@ export const SYSTEMS_MAP: Record<
     title: 'Random 3',
   },
   [System.EMPTY]: {
-    description: 'An empty system - add your own bodies!',
+    description: 'An empty system - just the void of space',
     stable: true,
     systemFunction: EMPTY,
     title: 'Empty',
