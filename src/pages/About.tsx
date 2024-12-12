@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardTitle,
@@ -11,11 +12,12 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import {
+  cafeOutline,
   helpCircleOutline,
   informationCircleOutline,
   personCircleOutline,
 } from 'ionicons/icons';
-import { APP_VERSION } from '~/constants';
+import { APP_VERSION, BUY_ME_A_COFFEE_URL } from '~/constants';
 
 const AboutSection = ({
   body,
@@ -156,6 +158,17 @@ export const AboutPage = () => {
           }
           icon={helpCircleOutline}
         />
+        <IonText
+          style={{ display: 'block', marginBottom: '1rem', marginTop: '2rem' }}>
+          Enjoy the app and want to support my work?
+        </IonText>
+        <IonButton
+          onClick={() => {
+            window.open(BUY_ME_A_COFFEE_URL, '_blank');
+          }}>
+          <IonIcon icon={cafeOutline} style={{ marginRight: '0.5rem' }} />
+          Buy me a coffee
+        </IonButton>
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
           <a href="mailto:DrewJLLC@gmail.com">DrewJLLC@gmail.com</a>
           <br />
