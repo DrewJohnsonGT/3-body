@@ -1,10 +1,10 @@
-export const APP_VERSION = '1.2.10';
-export const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/drewj';
+export const APP_VERSION = "1.3.0";
+export const BUY_ME_A_COFFEE_URL = "https://buymeacoffee.com/drewj";
 
 export const G = 6.6743; // Gravitational constant
 
-export const CANVAS_CONTAINER_ID = 'canvas-container';
-export const APP_NAME = 'N-Body';
+export const CANVAS_CONTAINER_ID = "canvas-container";
+export const APP_NAME = "N-Body";
 
 export const MIN_TRAIL_LENGTH = 1;
 export const MAX_TRAIL_LENGTH = 1000;
