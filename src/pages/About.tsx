@@ -34,8 +34,7 @@ const AboutSection = ({
         border: '2px solid var(--ion-color-medium)',
         margin: '1rem auto',
         maxWidth: '600px',
-      }}
-    >
+      }}>
       <div
         style={{
           alignItems: 'center',
@@ -45,16 +44,14 @@ const AboutSection = ({
           justifyContent: 'space-between',
           minHeight: '75px',
           padding: '1.5rem',
-        }}
-      >
+        }}>
         <IonCardTitle
           style={{
             color: 'var(--ion-color-primary)',
             display: 'flex',
             fontSize: '2rem',
             justifyContent: 'center',
-          }}
-        >
+          }}>
           {title}
         </IonCardTitle>
         <IonIcon
@@ -83,15 +80,13 @@ export const AboutPage = () => {
       }}
       onTouchEnd={(e) => {
         e.stopPropagation();
-      }}
-    >
+      }}>
       <IonHeader translucent={true}>
         <IonToolbar>
           <IonTitle
             style={{
               textAlign: 'center',
-            }}
-          >
+            }}>
             About
           </IonTitle>
         </IonToolbar>
@@ -110,8 +105,7 @@ export const AboutPage = () => {
           body={
             <div
               className="ion-text-center"
-              style={{ display: 'flex', flexDirection: 'column' }}
-            >
+              style={{ display: 'flex', flexDirection: 'column' }}>
               <img
                 src="/images/profile-cropped.jpg"
                 alt="Drew"
@@ -165,20 +159,18 @@ export const AboutPage = () => {
           icon={helpCircleOutline}
         />
         <IonText
-          style={{ display: 'block', marginBottom: '1rem', marginTop: '2rem' }}
-        >
+          style={{ display: 'block', marginBottom: '1rem', marginTop: '2rem' }}>
           Enjoy the app and want to support my work?
         </IonText>
         <IonButton
           onClick={() => {
             window.open(BUY_ME_A_COFFEE_URL, '_blank');
-          }}
-        >
+          }}>
           <IonIcon icon={cafeOutline} style={{ marginRight: '0.5rem' }} />
           Buy me a coffee
         </IonButton>
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <a href="mailto:DrewJLLC@gmail.com">DrewJLLC@gmail.com</a>
+          <a href="mailto:drew@cubic-insights.com">drew@cubic-insights.com</a>
           <br />
           <a href="https://drewj.dev">https://drewj.dev</a>
           <br />
