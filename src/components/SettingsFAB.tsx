@@ -190,9 +190,7 @@ export const SettingsFAB = () => {
             ].map(({ icon, text }, index) => (
               <IonItem key={index} lines="full">
                 <IonIcon icon={icon} slot="start" />
-                <IonText className="ion-text-wrap ion-text-center">
-                  {text}
-                </IonText>
+                <IonText className="ion-text-wrap ion-text-center">{text}</IonText>
               </IonItem>
             ))}
           </IonList>

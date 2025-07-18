@@ -1,4 +1,3 @@
-import { RgbColorPicker } from 'react-colorful';
 import {
   IonButton,
   IonCol,
@@ -19,6 +18,7 @@ import {
   IonText,
   IonToggle,
 } from '@ionic/react';
+import { RgbColorPicker } from 'react-colorful';
 import {
   MAX_CUSTOM_BODY_MASS,
   MAX_GRAVITY_MULTIPLIER,
@@ -27,18 +27,8 @@ import {
   MIN_GRAVITY_MULTIPLIER,
   MIN_TRAIL_LENGTH,
 } from '~/constants';
-import {
-  ActionType,
-  NewBodyColorType,
-  NewBodyType,
-  useAppContext,
-} from '~/Context';
-import {
-  COLOR_PALETTES,
-  ColorPaletteColor,
-  getBackgroundColor,
-  rgbColorToString,
-} from '~/utils/color';
+import { ActionType, NewBodyColorType, NewBodyType, useAppContext } from '~/Context';
+import { COLOR_PALETTES, ColorPaletteColor, getBackgroundColor, rgbColorToString } from '~/utils/color';
 
 const RangeSettingsItem = ({
   label,
@@ -372,10 +362,7 @@ export const Settings = () => {
               {newBodyColorType === 'random' && (
                 <IonRow class="ion-justify-content-center">
                   <IonLabel>
-                    <IonNote
-                      color="medium"
-                      className="ion-text-wrap ion-text-center"
-                    >
+                    <IonNote color="medium" className="ion-text-wrap ion-text-center">
                       New bodies will have a random color
                     </IonNote>
                   </IonLabel>
@@ -385,10 +372,7 @@ export const Settings = () => {
                 <>
                   <IonRow class="ion-justify-content-center">
                     <IonLabel>
-                      <IonNote
-                        color="medium"
-                        className="ion-text-wrap ion-text-center"
-                      >
+                      <IonNote color="medium" className="ion-text-wrap ion-text-center">
                         New bodies will all have this color
                       </IonNote>
                     </IonLabel>
@@ -434,22 +418,15 @@ export const Settings = () => {
                       value={newBodyColorPalette}
                     >
                       {Object.keys(COLOR_PALETTES).map((paletteColor) => (
-                        <IonSelectOption
-                          key={paletteColor}
-                          value={paletteColor}
-                        >
-                          {paletteColor.charAt(0).toUpperCase() +
-                            paletteColor.slice(1).toLocaleLowerCase()}
+                        <IonSelectOption key={paletteColor} value={paletteColor}>
+                          {paletteColor.charAt(0).toUpperCase() + paletteColor.slice(1).toLocaleLowerCase()}
                         </IonSelectOption>
                       ))}
                     </IonSelect>
                   </IonRow>
                   <IonRow class="ion-full-width ion-text-center">
                     <IonLabel>
-                      <IonNote
-                        color="medium"
-                        className="ion-text-wrap ion-text-center"
-                      >
+                      <IonNote color="medium" className="ion-text-wrap ion-text-center">
                         New bodies will have one of these colors
                       </IonNote>
                     </IonLabel>
@@ -470,10 +447,7 @@ export const Settings = () => {
                   </IonRow>
                 </>
               )}
-              <IonRow
-                class="ion-justify-content-center"
-                style={{ margin: '1rem 0' }}
-              >
+              <IonRow class="ion-justify-content-center" style={{ margin: '1rem 0' }}>
                 <IonButton
                   color="secondary"
                   style={{ width: '100%' }}

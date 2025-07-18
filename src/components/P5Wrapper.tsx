@@ -1,25 +1,16 @@
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { RgbColor } from 'react-colorful';
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import P5 from 'p5';
+import { RgbColor } from 'react-colorful';
 import { Body } from '~/classes/Body';
 import { Particle } from '~/classes/Particle';
 import { generateStars } from '~/classes/Star';
 import { CANVAS_CONTAINER_ID, G, STAR_PARALLAX_FACTOR } from '~/constants';
-import {
-  ActionType,
-  NewBodyColorType,
-  NewBodyType,
-  useAppContext,
-} from '~/Context';
+import { ActionType, NewBodyColorType, NewBodyType, useAppContext } from '~/Context';
 import { useThrottle } from '~/hooks/useThrottle';
-import {
-  COLOR_PALETTES,
-  ColorPaletteColor,
-  getRandomColor,
-  hexToP5Color,
-  rgbColorToP5Color,
-} from '~/utils/color';
+import { COLOR_PALETTES, ColorPaletteColor, getRandomColor, hexToP5Color, rgbColorToP5Color } from '~/utils/color';
 import { SYSTEMS_MAP } from '~/utils/systems';
 
 interface Touch {
@@ -65,13 +56,10 @@ const getNewBodyColor = ({
 }) => {
   if (newBodyColorType === 'theme') {
     const paletteColors = COLOR_PALETTES[newBodyColorPalette];
-    const randomColor =
-      paletteColors[Math.floor(P.random(paletteColors.length))];
+    const randomColor = paletteColors[Math.floor(P.random(paletteColors.length))];
     return hexToP5Color(P, randomColor);
   }
-  return newBodyColorType === 'random'
-    ? getRandomColor(P)
-    : rgbColorToP5Color(P, newBodyColor);
+  return newBodyColorType === 'random' ? getRandomColor(P) : rgbColorToP5Color(P, newBodyColor);
 };
 
 const addNewBody = ({
@@ -105,9 +93,7 @@ const addNewBody = ({
     newBodyColorType,
     P,
   });
-  const newBodyMass =
-    mass ||
-    (newBodyMassType === 'random' ? P.random(10, 100) : newBodyCustomMass);
+  const newBodyMass = mass || (newBodyMassType === 'random' ? P.random(10, 100) : newBodyCustomMass);
   const newBody = new Body({
     color,
     mass: newBodyMass,
@@ -136,18 +122,12 @@ const addNewBody = ({
   return { newBody, newParticles };
 };
 
-const calculateGravity = (
-  P: P5,
-  body1: Body,
-  body2: Body,
-  gravityMultiplier: number,
-) => {
+const calculateGravity = (P: P5, body1: Body, body2: Body, gravityMultiplier: number) => {
   const forceVector = P5.Vector.sub(body2.pos, body1.pos);
   const constrainedDistance = P.constrain(forceVector.mag(), 50, 10000);
   forceVector.normalize();
 
-  const gravitationalForceStrength =
-    (G * body1.mass * body2.mass) / Math.pow(constrainedDistance, 2);
+  const gravitationalForceStrength = (G * body1.mass * body2.mass) / Math.pow(constrainedDistance, 2);
   forceVector.mult(gravitationalForceStrength);
   forceVector.mult(gravityMultiplier);
 
@@ -187,95 +167,76 @@ export const P5Wrapper = () => {
   } = useAppContext();
   const divRef = useRef<HTMLDivElement>(null);
 
-  const setup = useCallback(
-    (P: P5) => {
-      const { height, width } = setCanvasSize(P);
-      dispatch({
-        payload: { height, width },
-        type: ActionType.SetScreenSize,
-      });
-      P.frameRate(120);
-      const {
-        newBodiesConfig,
-        trailLength: newSystemTrailLength,
-        zoom: newSystemZoom,
-      } = SYSTEMS_MAP[selectedSystem].systemFunction(P);
-      const newBodyResults = newBodiesConfig.map((config) =>
-        addNewBody({
-          mass: config.mass,
-          newBodyColor,
-          newBodyColorPalette,
-          newBodyColorType,
-          newBodyCustomMass,
-          newBodyMassType,
-          P,
-          pos: config.pos,
-          showTrail: showTrails,
-          trailLength,
-          vel: config.vel,
-        }),
-      );
+  const setup = (P: P5) => {
+    const { height, width } = setCanvasSize(P);
+    dispatch({
+      payload: { height, width },
+      type: ActionType.SetScreenSize,
+    });
+    P.frameRate(120);
+    const {
+      newBodiesConfig,
+      trailLength: newSystemTrailLength,
+      zoom: newSystemZoom,
+    } = SYSTEMS_MAP[selectedSystem].systemFunction(P);
+    const newBodyResults = newBodiesConfig.map((config) =>
+      addNewBody({
+        mass: config.mass,
+        newBodyColor,
+        newBodyColorPalette,
+        newBodyColorType,
+        newBodyCustomMass,
+        newBodyMassType,
+        P,
+        pos: config.pos,
+        showTrail: showTrails,
+        trailLength,
+        vel: config.vel,
+      }),
+    );
 
-      const [newBodies, newParticles] = newBodyResults.reduce<
-        [Body[], Particle[]]
-      >(
-        (acc, { newBody, newParticles }) => {
-          acc[0].push(newBody);
-          acc[1].push(...newParticles);
-          return acc;
-        },
-        [[], []],
-      );
+    const [newBodies, newParticles] = newBodyResults.reduce<[Body[], Particle[]]>(
+      (acc, { newBody, newParticles }) => {
+        acc[0].push(newBody);
+        acc[1].push(...newParticles);
+        return acc;
+      },
+      [[], []],
+    );
+    dispatch({
+      payload: newBodies,
+      type: ActionType.SetBodies,
+    });
+    dispatch({
+      payload: newParticles,
+      type: ActionType.SetParticles,
+    });
+    dispatch({
+      payload: generateStars({
+        centerOffset,
+        P,
+        starCount,
+        starSize,
+        zoom,
+      }),
+      type: ActionType.SetStars,
+    });
+    if (newSystemZoom) {
       dispatch({
-        payload: newBodies,
-        type: ActionType.SetBodies,
+        payload: newSystemZoom,
+        type: ActionType.SetZoom,
       });
+    }
+    if (newSystemTrailLength) {
       dispatch({
-        payload: newParticles,
-        type: ActionType.SetParticles,
+        payload: newSystemTrailLength,
+        type: ActionType.SetTrailLength,
       });
-      dispatch({
-        payload: generateStars({
-          centerOffset,
-          P,
-          starCount,
-          starSize,
-          zoom,
-        }),
-        type: ActionType.SetStars,
-      });
-      if (newSystemZoom) {
-        dispatch({
-          payload: newSystemZoom,
-          type: ActionType.SetZoom,
-        });
-      }
-      if (newSystemTrailLength) {
-        dispatch({
-          payload: newSystemTrailLength,
-          type: ActionType.SetTrailLength,
-        });
-      }
-    },
-    [
-      dispatch,
-      newBodyColor,
-      newBodyColorPalette,
-      newBodyColorType,
-      newBodyCustomMass,
-      newBodyMassType,
-      showTrails,
-      selectedSystem,
-      trailLength,
-      zoom,
-      centerOffset,
-      starCount,
-      starSize,
-    ],
-  );
+    }
+  };
+
   const mouseClicked = useThrottle((event: PointerEvent, P: P5) => {
-    if ((event.target as { className?: string }).className !== 'p5Canvas')
-      return;
+    if ((event.target as { className?: string }).className !== 'p5Canvas') return;
     if (!tapToCreate) return;
     const sx = event.offsetX;
     const sy = event.offsetY;
@@ -315,167 +276,129 @@ export const P5Wrapper = () => {
     });
   }, 100);
 
-  const handlePinchZoomAndPan = useCallback(
-    (P: P5) => {
-      if (P.touches.length === 1) {
-        const touch = P.touches[0] as Touch;
+  const handlePinchZoomAndPan = (P: P5) => {
+    if (P.touches.length === 1) {
+      const touch = P.touches[0] as Touch;
 
-        if (P.prevTouchX !== undefined && P.prevTouchY !== undefined) {
-          // Calculate deltaX and deltaY as difference between current and previous touch positions
-          const deltaX = -(touch.x - P.prevTouchX) / zoom;
-          const deltaY = -(touch.y - P.prevTouchY) / zoom;
+      if (P.prevTouchX !== undefined && P.prevTouchY !== undefined) {
+        // Calculate deltaX and deltaY as difference between current and previous touch positions
+        const deltaX = -(touch.x - P.prevTouchX) / zoom;
+        const deltaY = -(touch.y - P.prevTouchY) / zoom;
 
-          // Dispatch pan action
-          dispatch({
-            payload: { deltaX, deltaY },
-            type: ActionType.Pan,
-          });
-        }
-
-        // Update previous touch positions
-        P.prevTouchX = touch.x;
-        P.prevTouchY = touch.y;
-
-        // Reset previous multi-touch values
-        P.prevTouchDist = undefined;
-      } else if (P.touches.length === 2) {
-        const touch1 = P.touches[0] as Touch;
-        const touch2 = P.touches[1] as Touch;
-
-        // Calculate the current distance between the two touches
-        const currentDist = P.dist(touch1.x, touch1.y, touch2.x, touch2.y);
-
-        if (P.prevTouchDist !== undefined) {
-          // Calculate zoom amount
-          const zoomAmount = currentDist / P.prevTouchDist;
-
-          // Update zoom level
-          const newZoom = zoom * zoomAmount;
-          dispatch({
-            payload: newZoom,
-            type: ActionType.SetZoom,
-          });
-        }
-
-        // Update previous touch distance
-        P.prevTouchDist = currentDist;
-
-        // Reset previous single-touch values
-        P.prevTouchX = undefined;
-        P.prevTouchY = undefined;
-      } else {
-        // Reset when not touching with one or two fingers
-        P.prevTouchDist = undefined;
-        P.prevTouchX = undefined;
-        P.prevTouchY = undefined;
-      }
-    },
-    [dispatch, zoom],
-  );
-
-  const draw = useCallback(
-    (P: P5) => {
-      P.background(0);
-
-      P.push();
-      // Move the origin to the center of the canvas
-      P.translate(P.width / 2, P.height / 2);
-
-      // Apply zoom (scale)
-      P.scale(zoom);
-
-      // Now apply the offset
-      P.translate(-centerOffset.x, -centerOffset.y);
-
-      if (showStars) {
-        P.push();
-        P.translate(
-          -centerOffset.x * STAR_PARALLAX_FACTOR,
-          -centerOffset.y * STAR_PARALLAX_FACTOR,
-        );
-        stars.forEach((star) => {
-          star.display(P);
+        // Dispatch pan action
+        dispatch({
+          payload: { deltaX, deltaY },
+          type: ActionType.Pan,
         });
-        P.pop();
-      }
-      // Initialize force accumulators
-      const forces = bodies.map(() => P.createVector(0, 0));
-
-      // Calculate all forces
-      for (let i = 0; i < bodies.length; i++) {
-        for (let j = i + 1; j < bodies.length; j++) {
-          const force = calculateGravity(
-            P,
-            bodies[i],
-            bodies[j],
-            gravityMultiplier,
-          );
-          forces[i].add(force);
-          forces[j].sub(force); // Equivalent to force.mult(-1) and then adding to j
-        }
       }
 
-      // Apply all forces and update bodies
-      for (let i = 0; i < bodies.length; i++) {
-        if (isRunning) {
-          bodies[i].applyForce(forces[i]);
-          bodies[i].update();
-        }
-        bodies[i].display(P, showBodyGlow);
+      // Update previous touch positions
+      P.prevTouchX = touch.x;
+      P.prevTouchY = touch.y;
+
+      // Reset previous multi-touch values
+      P.prevTouchDist = undefined;
+    } else if (P.touches.length === 2) {
+      const touch1 = P.touches[0] as Touch;
+      const touch2 = P.touches[1] as Touch;
+
+      // Calculate the current distance between the two touches
+      const currentDist = P.dist(touch1.x, touch1.y, touch2.x, touch2.y);
+
+      if (P.prevTouchDist !== undefined) {
+        // Calculate zoom amount
+        const zoomAmount = currentDist / P.prevTouchDist;
+
+        // Update zoom level
+        const newZoom = zoom * zoomAmount;
+        dispatch({
+          payload: newZoom,
+          type: ActionType.SetZoom,
+        });
       }
 
-      // Update and display particles
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const particle = particles[i];
-        if (isRunning) {
-          particle.update();
-        }
-        particle.display(P);
-        if (particle.isDead()) {
-          particles.splice(i, 1);
-        }
-      }
+      // Update previous touch distance
+      P.prevTouchDist = currentDist;
 
+      // Reset previous single-touch values
+      P.prevTouchX = undefined;
+      P.prevTouchY = undefined;
+    } else {
+      // Reset when not touching with one or two fingers
+      P.prevTouchDist = undefined;
+      P.prevTouchX = undefined;
+      P.prevTouchY = undefined;
+    }
+  };
+
+  const draw = (P: P5) => {
+    P.background(0);
+
+    P.push();
+    // Move the origin to the center of the canvas
+    P.translate(P.width / 2, P.height / 2);
+
+    // Apply zoom (scale)
+    P.scale(zoom);
+
+    // Now apply the offset
+    P.translate(-centerOffset.x, -centerOffset.y);
+
+    if (showStars) {
+      P.push();
+      P.translate(-centerOffset.x * STAR_PARALLAX_FACTOR, -centerOffset.y * STAR_PARALLAX_FACTOR);
+      stars.forEach((star) => {
+        star.display(P);
+      });
       P.pop();
-      if (showData) {
-        P.fill(255);
-        P.noStroke();
-        P.textSize(12);
-        P.text(`Zoom: ${String(zoom.toFixed(2))}`, 10, P.height * 0.75 - 100);
-        P.text(
-          `X: ${String(centerOffset.x.toFixed(2))}`,
-          10,
-          P.height * 0.75 - 80,
-        );
-        P.text(
-          `Y: ${String(centerOffset.y.toFixed(2))}`,
-          10,
-          P.height * 0.75 - 60,
-        );
-        P.text(`Bodies: ${String(bodies.length)}`, 10, P.height * 0.75 - 40);
-        P.text(
-          `Particles: ${String(particles.length)}`,
-          10,
-          P.height * 0.75 - 20,
-        );
-      }
+    }
+    // Initialize force accumulators
+    const forces = bodies.map(() => P.createVector(0, 0));
 
-      handlePinchZoomAndPan(P);
-    },
-    [
-      bodies,
-      centerOffset,
-      gravityMultiplier,
-      handlePinchZoomAndPan,
-      isRunning,
-      particles,
-      showBodyGlow,
-      showData,
-      showStars,
-      stars,
-      zoom,
-    ],
-  );
+    // Calculate all forces
+    for (let i = 0; i < bodies.length; i++) {
+      for (let j = i + 1; j < bodies.length; j++) {
+        const force = calculateGravity(P, bodies[i], bodies[j], gravityMultiplier);
+        forces[i].add(force);
+        forces[j].sub(force); // Equivalent to force.mult(-1) and then adding to j
+      }
+    }
+
+    // Apply all forces and update bodies
+    for (let i = 0; i < bodies.length; i++) {
+      if (isRunning) {
+        bodies[i].applyForce(forces[i]);
+        bodies[i].update();
+      }
+      bodies[i].display(P, showBodyGlow);
+    }
+
+    // Update and display particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const particle = particles[i];
+      if (isRunning) {
+        particle.update();
+      }
+      particle.display(P);
+      if (particle.isDead()) {
+        particles.splice(i, 1);
+      }
+    }
+
+    P.pop();
+    if (showData) {
+      P.fill(255);
+      P.noStroke();
+      P.textSize(12);
+      P.text(`Zoom: ${String(zoom.toFixed(2))}`, 10, P.height * 0.75 - 100);
+      P.text(`X: ${String(centerOffset.x.toFixed(2))}`, 10, P.height * 0.75 - 80);
+      P.text(`Y: ${String(centerOffset.y.toFixed(2))}`, 10, P.height * 0.75 - 60);
+      P.text(`Bodies: ${String(bodies.length)}`, 10, P.height * 0.75 - 40);
+      P.text(`Particles: ${String(particles.length)}`, 10, P.height * 0.75 - 20);
+    }
+
+    handlePinchZoomAndPan(P);
+  };
 
   // Re-draw when drawing state changes
   useEffect(() => {
@@ -485,20 +408,7 @@ export const P5Wrapper = () => {
     p.mouseClicked = (event: PointerEvent) => {
       mouseClicked(event, p);
     };
-  }, [
-    isRunning,
-    bodies,
-    particles,
-    stars,
-    gravityMultiplier,
-    zoom,
-    showStars,
-    showData,
-    centerOffset,
-    showBodyGlow,
-    draw,
-    mouseClicked,
-  ]);
+  }, [isRunning, bodies, particles, stars, gravityMultiplier, zoom, showStars, showData, centerOffset, showBodyGlow]);
 
   // Re-draw stars when zoom changes
   useEffect(() => {
@@ -512,7 +422,7 @@ export const P5Wrapper = () => {
       }),
       type: ActionType.SetStars,
     });
-  }, [zoom, starCount, starSize, centerOffset, dispatch]);
+  }, [zoom, starCount, starSize, centerOffset]);
 
   // Re-initialize when selected system changes
   useEffect(() => {
@@ -523,7 +433,7 @@ export const P5Wrapper = () => {
       setup(p);
       dispatch({ type: ActionType.SystemRestarted });
     }
-  }, [restartSelectedSystem, loading, dispatch, setup]);
+  }, [restartSelectedSystem, loading]);
 
   // Alter bodies when trail length changes
   useEffect(() => {
@@ -534,7 +444,7 @@ export const P5Wrapper = () => {
     p.mouseClicked = (event: PointerEvent) => {
       mouseClicked(event, p);
     };
-  }, [trailLength, showTrails, bodies, mouseClicked]);
+  }, [trailLength, showTrails]);
 
   // Initialize P5
   useLayoutEffect(() => {
@@ -563,7 +473,7 @@ export const P5Wrapper = () => {
         p.remove();
       };
     }
-  }, [loading, setup, draw, mouseClicked]);
+  }, [loading]);
 
   useLayoutEffect(() => {
     const handleTouchMove = (event: TouchEvent) => {

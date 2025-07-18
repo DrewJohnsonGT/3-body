@@ -11,30 +11,18 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import {
-  cafeOutline,
-  helpCircleOutline,
-  informationCircleOutline,
-  personCircleOutline,
-} from 'ionicons/icons';
+import { cafeOutline, helpCircleOutline, informationCircleOutline, personCircleOutline } from 'ionicons/icons';
 import { APP_VERSION, BUY_ME_A_COFFEE_URL } from '~/constants';
 
-const AboutSection = ({
-  body,
-  icon,
-  title,
-}: {
-  body: React.ReactNode;
-  icon: string;
-  title: string;
-}) => {
+const AboutSection = ({ body, icon, title }: { body: React.ReactNode; icon: string; title: string }) => {
   return (
     <IonCard
       style={{
         border: '2px solid var(--ion-color-medium)',
         margin: '1rem auto',
         maxWidth: '600px',
-      }}>
+      }}
+    >
       <div
         style={{
           alignItems: 'center',
@@ -44,22 +32,19 @@ const AboutSection = ({
           justifyContent: 'space-between',
           minHeight: '75px',
           padding: '1.5rem',
-        }}>
+        }}
+      >
         <IonCardTitle
           style={{
             color: 'var(--ion-color-primary)',
             display: 'flex',
             fontSize: '2rem',
             justifyContent: 'center',
-          }}>
+          }}
+        >
           {title}
         </IonCardTitle>
-        <IonIcon
-          icon={icon}
-          size="extra-large"
-          color="primary"
-          style={{ color: 'white', fontSize: '4rem' }}
-        />
+        <IonIcon icon={icon} size="extra-large" color="primary" style={{ color: 'white', fontSize: '4rem' }} />
       </div>
       <IonCardContent style={{ lineHeight: '1.6' }}>{body}</IonCardContent>
     </IonCard>
@@ -80,13 +65,15 @@ export const AboutPage = () => {
       }}
       onTouchEnd={(e) => {
         e.stopPropagation();
-      }}>
+      }}
+    >
       <IonHeader translucent={true}>
         <IonToolbar>
           <IonTitle
             style={{
               textAlign: 'center',
-            }}>
+            }}
+          >
             About
           </IonTitle>
         </IonToolbar>
@@ -97,15 +84,11 @@ export const AboutPage = () => {
             <IonTitle size="large">About</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonText color="medium">
-          Learn more about the app and the inspiration behind it.
-        </IonText>
+        <IonText color="medium">Learn more about the app and the inspiration behind it.</IonText>
         <AboutSection
           title="Who"
           body={
-            <div
-              className="ion-text-center"
-              style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="ion-text-center" style={{ display: 'flex', flexDirection: 'column' }}>
               <img
                 src="/images/profile-cropped.jpg"
                 alt="Drew"
@@ -117,12 +100,10 @@ export const AboutPage = () => {
                 }}
               />
               <IonText>
-                My name is Drew, and I&apos;m a software engineer. I&apos;m also
-                a big fan of the book series (and now Netflix show)
+                My name is Drew, and I&apos;m a software engineer. I&apos;m also a big fan of the book series (and now
+                Netflix show)
               </IonText>
-              <a href="https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)">
-                The Three Body Problem
-              </a>
+              <a href="https://en.wikipedia.org/wiki/The_Three-Body_Problem_(novel)">The Three Body Problem</a>
               <IonText>which inspired me to create this app!</IonText>
             </div>
           }
@@ -133,16 +114,13 @@ export const AboutPage = () => {
           body={
             <IonText>
               The three-body problem is a special case of the{' '}
-              <a href="https://en.wikipedia.org/wiki/N-body_problem">
-                N-body problem
-              </a>
-              . It involves determining the motion of three point particles that
-              interact only by their mutual gravitational attraction.
+              <a href="https://en.wikipedia.org/wiki/N-body_problem">N-body problem</a>
+              . It involves determining the motion of three point particles that interact only by their mutual
+              gravitational attraction.
               <br />
               <br />
-              Unlike two-body problems, there is no general closed-form solution
-              for every condition, making it one of the great unsolved problems
-              in physics.
+              Unlike two-body problems, there is no general closed-form solution for every condition, making it one of
+              the great unsolved problems in physics.
             </IonText>
           }
           icon={informationCircleOutline}
@@ -151,21 +129,20 @@ export const AboutPage = () => {
           title="Why"
           body={
             <IonText>
-              I wanted to create a simple simulation of the 3+ body problem to
-              help visualize and appreciate the complexity of these
-              gravitational systems. <br />I hope you enjoy it too!
+              I wanted to create a simple simulation of the 3+ body problem to help visualize and appreciate the
+              complexity of these gravitational systems. <br />I hope you enjoy it too!
             </IonText>
           }
           icon={helpCircleOutline}
         />
-        <IonText
-          style={{ display: 'block', marginBottom: '1rem', marginTop: '2rem' }}>
+        <IonText style={{ display: 'block', marginBottom: '1rem', marginTop: '2rem' }}>
           Enjoy the app and want to support my work?
         </IonText>
         <IonButton
           onClick={() => {
             window.open(BUY_ME_A_COFFEE_URL, '_blank');
-          }}>
+          }}
+        >
           <IonIcon icon={cafeOutline} style={{ marginRight: '0.5rem' }} />
           Buy me a coffee
         </IonButton>

@@ -27,26 +27,17 @@ const CIRCLE: SystemFunction = (P) => {
       {
         mass,
         pos: positions[0],
-        vel: P.createVector(
-          velocityMagnitude * Math.sin(0),
-          -velocityMagnitude * Math.cos(0),
-        ),
+        vel: P.createVector(velocityMagnitude * Math.sin(0), -velocityMagnitude * Math.cos(0)),
       },
       {
         mass,
         pos: positions[2],
-        vel: P.createVector(
-          velocityMagnitude * Math.sin(-P.TWO_PI / 3),
-          -velocityMagnitude * Math.cos(-P.TWO_PI / 3),
-        ),
+        vel: P.createVector(velocityMagnitude * Math.sin(-P.TWO_PI / 3), -velocityMagnitude * Math.cos(-P.TWO_PI / 3)),
       },
       {
         mass,
         pos: positions[1],
-        vel: P.createVector(
-          velocityMagnitude * Math.sin(P.TWO_PI / 3),
-          -velocityMagnitude * Math.cos(P.TWO_PI / 3),
-        ),
+        vel: P.createVector(velocityMagnitude * Math.sin(P.TWO_PI / 3), -velocityMagnitude * Math.cos(P.TWO_PI / 3)),
       },
     ],
     trailLength: 50,
@@ -162,10 +153,7 @@ const CENTRAL_BODY_ORBIT: SystemFunction = (P) => {
 
   const velocities = positions.map((_pos, i) => {
     const angle = (P.TWO_PI / 3) * i;
-    return P.createVector(
-      -velocityMagnitude * Math.sin(angle),
-      velocityMagnitude * Math.cos(angle),
-    );
+    return P.createVector(-velocityMagnitude * Math.sin(angle), velocityMagnitude * Math.cos(angle));
   });
 
   return {
@@ -193,10 +181,7 @@ const RANDOM: SystemFunction = (P) => {
   return {
     newBodiesConfig: Array.from({ length: numBodies }, () => ({
       mass: P.random(1, 50),
-      pos: P.createVector(
-        center.x + P.random(-radius, radius),
-        center.y + P.random(-radius, radius),
-      ),
+      pos: P.createVector(center.x + P.random(-radius, radius), center.y + P.random(-radius, radius)),
       vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
     })),
   };
@@ -209,10 +194,7 @@ const RANDOM_3: SystemFunction = (P) => {
   return {
     newBodiesConfig: Array.from({ length: 3 }, () => ({
       mass: 25,
-      pos: P.createVector(
-        center.x + P.random(-radius, radius),
-        center.y + P.random(-radius, radius),
-      ),
+      pos: P.createVector(center.x + P.random(-radius, radius), center.y + P.random(-radius, radius)),
       vel: P.createVector(P.random(-1, 1), P.random(-1, 1)),
     })),
   };

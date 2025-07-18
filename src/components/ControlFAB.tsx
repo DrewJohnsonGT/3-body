@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  IonFab,
-  IonFabButton,
-  IonFabList,
-  IonIcon,
-  IonToast,
-} from '@ionic/react';
+import { IonFab, IonFabButton, IonFabList, IonIcon, IonToast } from '@ionic/react';
 import {
   add,
   arrowBack,
@@ -32,12 +26,7 @@ export const ControlFAB = () => {
 
   const [isActivated, setIsActivated] = useState(false);
   return (
-    <IonFab
-      activated={isActivated}
-      slot="fixed"
-      vertical="top"
-      horizontal="start"
-    >
+    <IonFab activated={isActivated} slot="fixed" vertical="top" horizontal="start">
       <IonFabButton
         size="small"
         onClick={() => {
@@ -128,11 +117,7 @@ export const ControlFAB = () => {
         <IonFabButton
           id="reset-pan"
           size="small"
-          color={
-            centerOffset.x !== 0 || centerOffset.y !== 0
-              ? 'primary'
-              : 'secondary'
-          }
+          color={centerOffset.x !== 0 || centerOffset.y !== 0 ? 'primary' : 'secondary'}
           onClick={() => {
             dispatch({
               type: ActionType.ResetPan,

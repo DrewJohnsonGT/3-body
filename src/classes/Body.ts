@@ -76,12 +76,7 @@ export class Body {
     P.noStroke();
     if (showBodyGlow) {
       for (let i = glowSize; i > 0; i -= 5) {
-        P.fill(
-          P.red(this.color),
-          P.green(this.color),
-          P.blue(this.color),
-          glowAlpha,
-        );
+        P.fill(P.red(this.color), P.green(this.color), P.blue(this.color), glowAlpha);
         P.ellipse(this.pos.x, this.pos.y, this.getSize() + i);
       }
     }

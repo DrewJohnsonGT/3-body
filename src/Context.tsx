@@ -1,28 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, {
   createContext,
   useContext,
   useEffect,
   useReducer,
   useState,
-} from 'react';
-import { RgbColor } from 'react-colorful';
-import { Body } from '~/classes/Body';
-import { Particle } from '~/classes/Particle';
-import { Star } from '~/classes/Star';
-import { APP_NAME, MAX_ZOOM, MIN_ZOOM } from '~/constants';
-import { useLocalStorage } from '~/hooks/useLocalStorage';
-import { ColorPaletteColor } from '~/utils/color';
-import { System } from '~/utils/systems';
+} from "react";
+import { RgbColor } from "react-colorful";
+import { Body } from "~/classes/Body";
+import { Particle } from "~/classes/Particle";
+import { Star } from "~/classes/Star";
+import { APP_NAME, MAX_ZOOM, MIN_ZOOM } from "~/constants";
+import { useLocalStorage } from "~/hooks/useLocalStorage";
+import { ColorPaletteColor } from "~/utils/color";
+import { System } from "~/utils/systems";
 
 // Only store certain state in local storage
 const getSettingsState = (allState: State) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { bodies, particles, stars, ...settingsState } = allState;
+  const {
+    bodies: _bodies,
+    particles: _particles,
+    stars: _stars,
+    ...settingsState
+  } = allState;
   return settingsState;
 };
 
-export type NewBodyType = 'custom' | 'random';
-export type NewBodyColorType = 'custom' | 'random' | 'theme';
+export type NewBodyType = "custom" | "random";
+export type NewBodyColorType = "custom" | "random" | "theme";
 
 const DEFAULT_STATE = {
   bodies: [] as Body[],
@@ -32,9 +38,9 @@ const DEFAULT_STATE = {
   loading: true,
   newBodyColor: { b: 255, g: 255, r: 255 } as RgbColor,
   newBodyColorPalette: ColorPaletteColor.YELLOW,
-  newBodyColorType: 'random' as NewBodyColorType,
+  newBodyColorType: "random" as NewBodyColorType,
   newBodyCustomMass: 50,
-  newBodyMassType: 'random' as NewBodyType,
+  newBodyMassType: "random" as NewBodyType,
   particles: [] as Particle[],
   restartSelectedSystem: false,
   screenSize: { height: 500, width: 500 },
@@ -55,37 +61,37 @@ export type State = typeof DEFAULT_STATE;
 export type Dispatch = React.Dispatch<Actions>;
 
 export enum ActionType {
-  AddBody = 'ADD_BODY',
-  MergeLocalStorageState = 'MERGE_LOCAL_STORAGE_STATE',
-  Pan = 'PAN',
-  ResetPan = 'RESET_PAN',
-  ResetSettings = 'RESET_SETTINGS',
-  Restart = 'RESTART',
-  SetBodies = 'SET_BODIES',
-  SetGravityMultiplier = 'SET_GRAVITY_MULTIPLIER',
-  SetIsRunning = 'SET_IS_RUNNING',
-  SetNewBodyColor = 'SET_NEW_BODY_COLOR',
-  SetNewBodyColorPalette = 'SET_NEW_BODY_COLOR_PALETTE',
-  SetNewBodyColorType = 'SET_NEW_BODY_COLOR_TYPE',
-  SetNewBodyMass = 'SET_NEW_BODY_MASS',
-  SetNewBodyMassType = 'SET_NEW_BODY_MASS_TYPE',
-  SetParticles = 'SET_PARTICLES',
-  SetScreenSize = 'SET_SCREEN_SIZE',
-  SetSelectedSystem = 'SET_SELECTED_SYSTEM',
-  SetShowBodyGlow = 'SET_SHOW_BODY_GLOW',
-  SetShowData = 'SET_SHOW_DATA',
-  SetShowStars = 'SET_SHOW_STARS',
-  SetShowTrails = 'SET_SHOW_TRAILS',
-  SetStarCount = 'SET_STAR_COUNT',
-  SetStarSize = 'SET_STAR_SIZE',
-  SetStars = 'SET_STARS',
-  SetTrailLength = 'SET_TRAIL_LENGTH',
-  SetZoom = 'SET_ZOOM',
-  SystemRestarted = 'SYSTEM_RESTARTED',
-  ToggleTapToCreate = 'TOGGLE_TAP_TO_CREATE',
-  Undo = 'UNDO',
-  ZoomIn = 'ZOOM_IN',
-  ZoomOut = 'ZOOM_OUT',
+  AddBody = "ADD_BODY",
+  MergeLocalStorageState = "MERGE_LOCAL_STORAGE_STATE",
+  Pan = "PAN",
+  ResetPan = "RESET_PAN",
+  ResetSettings = "RESET_SETTINGS",
+  Restart = "RESTART",
+  SetBodies = "SET_BODIES",
+  SetGravityMultiplier = "SET_GRAVITY_MULTIPLIER",
+  SetIsRunning = "SET_IS_RUNNING",
+  SetNewBodyColor = "SET_NEW_BODY_COLOR",
+  SetNewBodyColorPalette = "SET_NEW_BODY_COLOR_PALETTE",
+  SetNewBodyColorType = "SET_NEW_BODY_COLOR_TYPE",
+  SetNewBodyMass = "SET_NEW_BODY_MASS",
+  SetNewBodyMassType = "SET_NEW_BODY_MASS_TYPE",
+  SetParticles = "SET_PARTICLES",
+  SetScreenSize = "SET_SCREEN_SIZE",
+  SetSelectedSystem = "SET_SELECTED_SYSTEM",
+  SetShowBodyGlow = "SET_SHOW_BODY_GLOW",
+  SetShowData = "SET_SHOW_DATA",
+  SetShowStars = "SET_SHOW_STARS",
+  SetShowTrails = "SET_SHOW_TRAILS",
+  SetStarCount = "SET_STAR_COUNT",
+  SetStarSize = "SET_STAR_SIZE",
+  SetStars = "SET_STARS",
+  SetTrailLength = "SET_TRAIL_LENGTH",
+  SetZoom = "SET_ZOOM",
+  SystemRestarted = "SYSTEM_RESTARTED",
+  ToggleTapToCreate = "TOGGLE_TAP_TO_CREATE",
+  Undo = "UNDO",
+  ZoomIn = "ZOOM_IN",
+  ZoomOut = "ZOOM_OUT",
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -327,7 +333,7 @@ export const AppContextProvider = ({
   const [state, dispatch] = useReducer(reducer, DEFAULT_STATE);
   const { get, set } = useLocalStorage<Partial<State>>(
     `${APP_NAME.toLowerCase()}-settings`,
-    {},
+    {}
   );
   const [hasLoaded, setHasLoaded] = useState(false);
 
@@ -338,9 +344,9 @@ export const AppContextProvider = ({
         setHasLoaded(true);
       })
       .catch((e: unknown) => {
-        console.log('Error getting local storage', e);
+        console.log("Error getting local storage", e);
       });
-  }, [get]);
+  }, []);
 
   useEffect(() => {
     if (!hasLoaded) {
@@ -348,9 +354,9 @@ export const AppContextProvider = ({
     }
     const settingsState = getSettingsState(state);
     set(settingsState).catch((e: unknown) => {
-      console.log('Error setting local storage', e);
+      console.log("Error setting local storage", e);
     });
-  }, [state, get, set, hasLoaded]);
+  }, [state]);
 
   return (
     <AppContext.Provider value={{ dispatch, state }}>

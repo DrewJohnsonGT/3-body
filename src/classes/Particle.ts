@@ -35,12 +35,7 @@ export class Particle {
   display(P: P5) {
     P.push();
     P.strokeWeight(this.size);
-    P.stroke(
-      P.red(this.color),
-      P.green(this.color),
-      P.blue(this.color),
-      this.lifespan + 25,
-    );
+    P.stroke(P.red(this.color), P.green(this.color), P.blue(this.color), this.lifespan + 25);
     P.point(this.pos.x, this.pos.y);
     P.pop();
   }

@@ -1,3 +1,4 @@
+import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -9,6 +10,9 @@ import {
   setupIonicReact,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { home, informationCircle, planet, settings } from 'ionicons/icons';
+import { AppContextProvider } from '~/Context';
+import { AboutPage, HomePage, SettingsPage, SystemsPage } from '~/pages';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/normalize.css';
@@ -18,10 +22,6 @@ import '@ionic/react/css/palettes/dark.class.css';
 import '@ionic/react/css/structure.css';
 import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/typography.css';
-import { Redirect, Route } from 'react-router-dom';
-import { home, informationCircle, planet, settings } from 'ionicons/icons';
-import { AppContextProvider } from '~/Context';
-import { AboutPage, HomePage, SettingsPage, SystemsPage } from '~/pages';
 
 setupIonicReact();
 
