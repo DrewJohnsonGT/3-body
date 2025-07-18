@@ -66,7 +66,8 @@ export const SettingsFAB = () => {
         horizontal="end"
         onClick={() => {
           setIsActive(!isActive);
-        }}>
+        }}
+      >
         <IonFabButton size="small">
           <IonIcon icon={menu} />
         </IonFabButton>
@@ -80,7 +81,8 @@ export const SettingsFAB = () => {
                 payload: !isRunning,
                 type: ActionType.SetIsRunning,
               });
-            }}>
+            }}
+          >
             <IonIcon icon={isRunning ? pause : play} />
           </IonFabButton>
           <IonFabButton
@@ -89,7 +91,8 @@ export const SettingsFAB = () => {
             onClick={(e) => {
               e.stopPropagation();
               dispatch({ type: ActionType.Restart });
-            }}>
+            }}
+          >
             <IonIcon icon={refresh} />
           </IonFabButton>
           <IonFabButton color="primary" id="open-modal">
@@ -99,7 +102,8 @@ export const SettingsFAB = () => {
             color="primary"
             onClick={() => {
               setIsHelpModalOpen(true);
-            }}>
+            }}
+          >
             <IonIcon icon={helpCircleOutline} />
           </IonFabButton>
         </IonFabList>
@@ -111,7 +115,8 @@ export const SettingsFAB = () => {
             onClick={(e) => {
               e.stopPropagation();
               dispatch({ type: ActionType.Undo });
-            }}>
+            }}
+          >
             <IonIcon icon={arrowUndo} />
           </IonFabButton>
         </IonFabList>
@@ -144,7 +149,8 @@ export const SettingsFAB = () => {
         isOpen={isHelpModalOpen}
         onDidDismiss={() => {
           setIsHelpModalOpen(false);
-        }}>
+        }}
+      >
         <IonHeader>
           <IonToolbar>
             <IonTitle>How to use</IonTitle>
@@ -152,7 +158,8 @@ export const SettingsFAB = () => {
               <IonButton
                 onClick={() => {
                   setIsHelpModalOpen(false);
-                }}>
+                }}
+              >
                 Close
               </IonButton>
             </IonButtons>
@@ -164,7 +171,8 @@ export const SettingsFAB = () => {
               display: 'flex',
               flexDirection: 'column',
               padding: 0,
-            }}>
+            }}
+          >
             {[
               {
                 icon: add,
@@ -192,7 +200,8 @@ export const SettingsFAB = () => {
             className="ion-text-wrap ion-padding ion-text-center"
             style={{
               display: 'block',
-            }}>
+            }}
+          >
             Use the buttons below to control the simulation.
           </IonText>
           <IonList style={{ listStyleType: 'none', padding: 0 }}>
@@ -206,7 +215,8 @@ export const SettingsFAB = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     width: '100%',
-                  }}>
+                  }}
+                >
                   <span style={{ marginRight: 'auto' }}>{description}</span>
                   {icons.map((icon) => (
                     <IonFabButton size="small" color="primary" key={icon}>

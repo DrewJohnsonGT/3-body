@@ -15,10 +15,10 @@ export class Particle {
     vel,
   }: {
     color: P5.Color;
+    lifespan: number;
     pos: P5.Vector;
     size: number;
     vel: P5.Vector;
-    lifespan: number;
   }) {
     this.pos = pos.copy();
     this.vel = vel.copy();

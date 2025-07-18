@@ -29,5 +29,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "capacitor.config.ts"]
+  "include": ["src", "capacitor.config.ts", "./eslint.config.js"]
 }

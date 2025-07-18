@@ -3,8 +3,8 @@ import { G } from '~/constants';
 
 type SystemFunction = (P: P5) => {
   newBodiesConfig: { mass: number; pos: P5.Vector; vel: P5.Vector }[];
-  zoom?: number;
   trailLength?: number;
+  zoom?: number;
 };
 
 const CIRCLE: SystemFunction = (P) => {
@@ -225,22 +225,22 @@ const EMPTY: SystemFunction = () => {
 };
 
 export enum System {
-  CIRCLE = 'Circle',
-  INFINITY_SIGN = 'Infinity Sign',
-  FIGURE_EIGHT = 'Figure Eight',
   CENTRAL_BODY_ORBIT = 'Central Body',
+  CIRCLE = 'Circle',
+  EMPTY = 'Empty',
+  FIGURE_EIGHT = 'Figure Eight',
+  INFINITY_SIGN = 'Infinity Sign',
   RANDOM = 'Random',
   RANDOM_3 = 'Random 3',
-  EMPTY = 'Empty',
 }
 
 export const SYSTEMS_MAP: Record<
   System,
   {
-    systemFunction: SystemFunction;
-    title: string;
     description: string;
     stable: boolean;
+    systemFunction: SystemFunction;
+    title: string;
   }
 > = {
   [System.CIRCLE]: {

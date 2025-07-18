@@ -3,13 +3,13 @@ import P5 from 'p5';
 
 export enum ColorPaletteColor {
   BLUE = 'BLUE',
+  GRAY = 'GRAY',
   GREEN = 'GREEN',
   ORANGE = 'ORANGE',
   PINK = 'PINK',
   PURPLE = 'PURPLE',
   RED = 'RED',
   YELLOW = 'YELLOW',
-  GRAY = 'GRAY',
 }
 export const COLOR_PALETTES: Record<ColorPaletteColor, string[]> = {
   [ColorPaletteColor.BLUE]: [

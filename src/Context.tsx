@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import React, {
   createContext,
   useContext,
@@ -22,8 +21,8 @@ const getSettingsState = (allState: State) => {
   return settingsState;
 };
 
-export type NewBodyType = 'random' | 'custom';
-export type NewBodyColorType = 'random' | 'theme' | 'custom';
+export type NewBodyType = 'custom' | 'random';
+export type NewBodyColorType = 'custom' | 'random' | 'theme';
 
 const DEFAULT_STATE = {
   bodies: [] as Body[],
@@ -56,37 +55,37 @@ export type State = typeof DEFAULT_STATE;
 export type Dispatch = React.Dispatch<Actions>;
 
 export enum ActionType {
-  Restart = 'RESTART',
-  SetIsRunning = 'SET_IS_RUNNING',
   AddBody = 'ADD_BODY',
-  SetBodies = 'SET_BODIES',
-  SetParticles = 'SET_PARTICLES',
-  SetSelectedSystem = 'SET_SELECTED_SYSTEM',
-  SetGravityMultiplier = 'SET_GRAVITY_MULTIPLIER',
-  SetShowTrails = 'SET_SHOW_TRAILS',
-  SetTrailLength = 'SET_TRAIL_LENGTH',
-  ZoomIn = 'ZOOM_IN',
-  ZoomOut = 'ZOOM_OUT',
-  ToggleTapToCreate = 'TOGGLE_TAP_TO_CREATE',
-  SystemRestarted = 'SYSTEM_RESTARTED',
-  SetNewBodyColorType = 'SET_NEW_BODY_COLOR_TYPE',
-  SetNewBodyMassType = 'SET_NEW_BODY_MASS_TYPE',
-  SetNewBodyMass = 'SET_NEW_BODY_MASS',
-  SetNewBodyColor = 'SET_NEW_BODY_COLOR',
   MergeLocalStorageState = 'MERGE_LOCAL_STORAGE_STATE',
-  SetStars = 'SET_STARS',
-  SetShowStars = 'SET_SHOW_STARS',
-  SetNewBodyColorPalette = 'SET_NEW_BODY_COLOR_PALETTE',
-  SetScreenSize = 'SET_SCREEN_SIZE',
-  SetZoom = 'SET_ZOOM',
-  SetStarCount = 'SET_STAR_COUNT',
-  SetStarSize = 'SET_STAR_SIZE',
   Pan = 'PAN',
   ResetPan = 'RESET_PAN',
-  SetShowData = 'SET_SHOW_DATA',
-  Undo = 'UNDO',
   ResetSettings = 'RESET_SETTINGS',
+  Restart = 'RESTART',
+  SetBodies = 'SET_BODIES',
+  SetGravityMultiplier = 'SET_GRAVITY_MULTIPLIER',
+  SetIsRunning = 'SET_IS_RUNNING',
+  SetNewBodyColor = 'SET_NEW_BODY_COLOR',
+  SetNewBodyColorPalette = 'SET_NEW_BODY_COLOR_PALETTE',
+  SetNewBodyColorType = 'SET_NEW_BODY_COLOR_TYPE',
+  SetNewBodyMass = 'SET_NEW_BODY_MASS',
+  SetNewBodyMassType = 'SET_NEW_BODY_MASS_TYPE',
+  SetParticles = 'SET_PARTICLES',
+  SetScreenSize = 'SET_SCREEN_SIZE',
+  SetSelectedSystem = 'SET_SELECTED_SYSTEM',
   SetShowBodyGlow = 'SET_SHOW_BODY_GLOW',
+  SetShowData = 'SET_SHOW_DATA',
+  SetShowStars = 'SET_SHOW_STARS',
+  SetShowTrails = 'SET_SHOW_TRAILS',
+  SetStarCount = 'SET_STAR_COUNT',
+  SetStarSize = 'SET_STAR_SIZE',
+  SetStars = 'SET_STARS',
+  SetTrailLength = 'SET_TRAIL_LENGTH',
+  SetZoom = 'SET_ZOOM',
+  SystemRestarted = 'SYSTEM_RESTARTED',
+  ToggleTapToCreate = 'TOGGLE_TAP_TO_CREATE',
+  Undo = 'UNDO',
+  ZoomIn = 'ZOOM_IN',
+  ZoomOut = 'ZOOM_OUT',
 }
 
 interface Payloads extends Record<ActionType, unknown> {
@@ -128,8 +127,8 @@ export type ActionMap<M extends Record<ActionType, unknown>> = {
         type: Key;
       }
     : {
-        type: Key;
         payload: M[Key];
+        type: Key;
       };
 };
 
@@ -341,7 +340,7 @@ export const AppContextProvider = ({
       .catch((e: unknown) => {
         console.log('Error getting local storage', e);
       });
-  }, []);
+  }, [get]);
 
   useEffect(() => {
     if (!hasLoaded) {
@@ -351,7 +350,7 @@ export const AppContextProvider = ({
     set(settingsState).catch((e: unknown) => {
       console.log('Error setting local storage', e);
     });
-  }, [state]);
+  }, [state, get, set, hasLoaded]);
 
   return (
     <AppContext.Provider value={{ dispatch, state }}>

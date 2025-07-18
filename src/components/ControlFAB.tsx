@@ -36,12 +36,14 @@ export const ControlFAB = () => {
       activated={isActivated}
       slot="fixed"
       vertical="top"
-      horizontal="start">
+      horizontal="start"
+    >
       <IonFabButton
         size="small"
         onClick={() => {
           setIsActivated(!isActivated);
-        }}>
+        }}
+      >
         <IonIcon icon={expandOutline} />
       </IonFabButton>
       <IonFabList side="end">
@@ -54,7 +56,8 @@ export const ControlFAB = () => {
               payload: { deltaX: 0, deltaY: -PAN_DELTA },
               type: ActionType.Pan,
             });
-          }}>
+          }}
+        >
           <IonIcon icon={arrowUp} />
         </IonFabButton>
         <IonFabButton
@@ -66,7 +69,8 @@ export const ControlFAB = () => {
               payload: { deltaX: 0, deltaY: PAN_DELTA },
               type: ActionType.Pan,
             });
-          }}>
+          }}
+        >
           <IonIcon icon={arrowDown} />
         </IonFabButton>
         <IonFabButton
@@ -78,7 +82,8 @@ export const ControlFAB = () => {
               payload: { deltaX: -PAN_DELTA, deltaY: 0 },
               type: ActionType.Pan,
             });
-          }}>
+          }}
+        >
           <IonIcon icon={arrowBack} />
         </IonFabButton>
         <IonFabButton
@@ -90,7 +95,8 @@ export const ControlFAB = () => {
               payload: { deltaX: PAN_DELTA, deltaY: 0 },
               type: ActionType.Pan,
             });
-          }}>
+          }}
+        >
           <IonIcon icon={arrowForward} />
         </IonFabButton>
       </IonFabList>
@@ -103,7 +109,8 @@ export const ControlFAB = () => {
             dispatch({
               type: ActionType.ZoomIn,
             });
-          }}>
+          }}
+        >
           <IonIcon icon={add} />
         </IonFabButton>
         <IonFabButton
@@ -114,7 +121,8 @@ export const ControlFAB = () => {
             dispatch({
               type: ActionType.ZoomOut,
             });
-          }}>
+          }}
+        >
           <IonIcon icon={remove} />
         </IonFabButton>
         <IonFabButton
@@ -129,7 +137,8 @@ export const ControlFAB = () => {
             dispatch({
               type: ActionType.ResetPan,
             });
-          }}>
+          }}
+        >
           <IonIcon icon={locate} />
         </IonFabButton>
         <IonFabButton
@@ -141,7 +150,8 @@ export const ControlFAB = () => {
               payload: 1,
               type: ActionType.SetZoom,
             });
-          }}>
+          }}
+        >
           <IonIcon icon={zoom > 1 ? resize : contract} />
         </IonFabButton>
       </IonFabList>

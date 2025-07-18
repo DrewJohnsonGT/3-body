@@ -38,13 +38,15 @@ export const SystemsPage = () => {
       }}
       onTouchEnd={(e) => {
         e.stopPropagation();
-      }}>
+      }}
+    >
       <IonHeader translucent={true}>
         <IonToolbar>
           <IonTitle
             style={{
               textAlign: 'center',
-            }}>
+            }}
+          >
             Systems
           </IonTitle>
         </IonToolbar>
@@ -69,7 +71,8 @@ export const SystemsPage = () => {
                 border: `2px solid ${isSelected ? 'var(--ion-color-primary)' : 'var(--ion-color-medium)'}`,
                 margin: '1rem auto',
                 maxWidth: '600px',
-              }}>
+              }}
+            >
               <div
                 style={{
                   alignItems: 'center',
@@ -77,7 +80,8 @@ export const SystemsPage = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   maxHeight: '150px',
-                }}>
+                }}
+              >
                 <img
                   alt={key}
                   src={getSystemPreviewFileName(key)}
@@ -93,7 +97,8 @@ export const SystemsPage = () => {
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                  }}>
+                  }}
+                >
                   {value.title}
                   <IonChip color={value.stable ? 'success' : 'danger'}>
                     {value.stable ? 'Stable' : 'Chaotic'}
@@ -108,7 +113,8 @@ export const SystemsPage = () => {
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                  }}>
+                  }}
+                >
                   <IonButton
                     size="small"
                     fill="outline"
@@ -121,7 +127,8 @@ export const SystemsPage = () => {
                       dispatch({
                         type: ActionType.Restart,
                       });
-                    }}>
+                    }}
+                  >
                     View
                   </IonButton>
                   <IonButton
@@ -133,7 +140,8 @@ export const SystemsPage = () => {
                         payload: key as System,
                         type: ActionType.SetSelectedSystem,
                       });
-                    }}>
+                    }}
+                  >
                     {isSelected ? 'Default' : 'Set as default'}
                   </IonButton>
                 </IonRow>

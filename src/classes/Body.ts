@@ -20,12 +20,12 @@ export class Body {
     trailLength = 50,
     vel = new P5.Vector(),
   }: {
+    color?: P5.Color;
     mass?: number;
     pos?: P5.Vector;
-    vel?: P5.Vector;
-    color?: P5.Color;
-    trailLength?: number;
     showTrail?: boolean;
+    trailLength?: number;
+    vel?: P5.Vector;
   }) {
     this.mass = mass;
     this.pos = pos;

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { RgbColorPicker } from 'react-colorful';
 import {
   IonButton,
@@ -49,13 +48,13 @@ const RangeSettingsItem = ({
   value,
 }: {
   label: string;
-  value: number;
-  subLabel?: string;
   onIonChange: (value: number) => void;
   rangeProps: {
     max: number;
     min: number;
   };
+  subLabel?: string;
+  value: number;
 }) => (
   <IonItem>
     <IonGrid>
@@ -112,7 +111,8 @@ export const Settings = () => {
           margin: 'auto',
           maxWidth: '600px',
           padding: 0,
-        }}>
+        }}
+      >
         <IonItemGroup>
           <IonItemDivider>
             <IonLabel>Display</IonLabel>
@@ -127,7 +127,8 @@ export const Settings = () => {
                   payload: !showTrails,
                   type: ActionType.SetShowTrails,
                 });
-              }}>
+              }}
+            >
               <IonLabel>
                 <IonText>Show trails</IonText>
                 <br />
@@ -147,7 +148,8 @@ export const Settings = () => {
                   payload: !showData,
                   type: ActionType.SetShowData,
                 });
-              }}>
+              }}
+            >
               <IonLabel>
                 <IonText>Show data</IonText>
                 <br />
@@ -167,7 +169,8 @@ export const Settings = () => {
                   payload: !showBodyGlow,
                   type: ActionType.SetShowBodyGlow,
                 });
-              }}>
+              }}
+            >
               <IonLabel>
                 <IonText>Show body glow</IonText>
                 <br />
@@ -203,7 +206,8 @@ export const Settings = () => {
                   payload: !showStars,
                   type: ActionType.SetShowStars,
                 });
-              }}>
+              }}
+            >
               <IonLabel>
                 <IonText>Show stars</IonText>
                 <br />
@@ -279,7 +283,8 @@ export const Settings = () => {
                 dispatch({
                   type: ActionType.ToggleTapToCreate,
                 });
-              }}>
+              }}
+            >
               <IonLabel>
                 <IonText>Tap to create body</IonText>
                 <br />
@@ -300,12 +305,14 @@ export const Settings = () => {
                 <IonSegment
                   value={newBodyMassType}
                   onIonChange={({ detail }) => {
-                    detail.value &&
+                    if (detail.value) {
                       dispatch({
                         payload: detail.value as NewBodyType,
                         type: ActionType.SetNewBodyMassType,
                       });
-                  }}>
+                    }
+                  }}
+                >
                   <IonSegmentButton value="random">
                     <IonLabel>Random</IonLabel>
                   </IonSegmentButton>
@@ -343,12 +350,14 @@ export const Settings = () => {
                 <IonSegment
                   value={newBodyColorType}
                   onIonChange={({ detail }) => {
-                    detail.value &&
+                    if (detail.value) {
                       dispatch({
                         payload: detail.value as NewBodyColorType,
                         type: ActionType.SetNewBodyColorType,
                       });
-                  }}>
+                    }
+                  }}
+                >
                   <IonSegmentButton value="random">
                     <IonLabel>Random</IonLabel>
                   </IonSegmentButton>
@@ -365,7 +374,8 @@ export const Settings = () => {
                   <IonLabel>
                     <IonNote
                       color="medium"
-                      className="ion-text-wrap ion-text-center">
+                      className="ion-text-wrap ion-text-center"
+                    >
                       New bodies will have a random color
                     </IonNote>
                   </IonLabel>
@@ -377,7 +387,8 @@ export const Settings = () => {
                     <IonLabel>
                       <IonNote
                         color="medium"
-                        className="ion-text-wrap ion-text-center">
+                        className="ion-text-wrap ion-text-center"
+                      >
                         New bodies will all have this color
                       </IonNote>
                     </IonLabel>
@@ -413,17 +424,20 @@ export const Settings = () => {
                       aria-label="New Body Theme Color"
                       interface="popover"
                       onIonChange={(e) => {
-                        e.detail.value &&
+                        if (e.detail.value) {
                           dispatch({
                             payload: e.detail.value as ColorPaletteColor,
                             type: ActionType.SetNewBodyColorPalette,
                           });
+                        }
                       }}
-                      value={newBodyColorPalette}>
+                      value={newBodyColorPalette}
+                    >
                       {Object.keys(COLOR_PALETTES).map((paletteColor) => (
                         <IonSelectOption
                           key={paletteColor}
-                          value={paletteColor}>
+                          value={paletteColor}
+                        >
                           {paletteColor.charAt(0).toUpperCase() +
                             paletteColor.slice(1).toLocaleLowerCase()}
                         </IonSelectOption>
@@ -434,7 +448,8 @@ export const Settings = () => {
                     <IonLabel>
                       <IonNote
                         color="medium"
-                        className="ion-text-wrap ion-text-center">
+                        className="ion-text-wrap ion-text-center"
+                      >
                         New bodies will have one of these colors
                       </IonNote>
                     </IonLabel>
@@ -457,13 +472,15 @@ export const Settings = () => {
               )}
               <IonRow
                 class="ion-justify-content-center"
-                style={{ margin: '1rem 0' }}>
+                style={{ margin: '1rem 0' }}
+              >
                 <IonButton
                   color="secondary"
                   style={{ width: '100%' }}
                   onClick={() => {
                     dispatch({ type: ActionType.ResetSettings });
-                  }}>
+                  }}
+                >
                   Reset to Default Settings
                 </IonButton>
               </IonRow>

@@ -25,11 +25,11 @@ function generateStarCoordinates({
   tileY,
   zoom,
 }: {
+  starCount: number;
+  starSize: number;
   tileX: number;
   tileY: number;
-  starCount: number;
   zoom: number;
-  starSize: number;
 }) {
   const seed = generateSeed(tileX, tileY);
   const rand = LCG(seed);
@@ -114,7 +114,7 @@ export class Star {
   public y: number;
   public size: number;
 
-  constructor({ size, x, y }: { x: number; y: number; size: number }) {
+  constructor({ size, x, y }: { size: number; x: number; y: number }) {
     this.x = x;
     this.y = y;
     this.size = size;

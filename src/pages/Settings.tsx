@@ -15,13 +15,15 @@ export const SettingsPage = () => {
       }}
       onTouchEnd={(e) => {
         e.stopPropagation();
-      }}>
+      }}
+    >
       <IonHeader translucent={true}>
         <IonToolbar>
           <IonTitle
             style={{
               textAlign: 'center',
-            }}>
+            }}
+          >
             Settings
           </IonTitle>
         </IonToolbar>
