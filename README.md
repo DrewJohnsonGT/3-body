@@ -77,8 +77,7 @@ Select `Build` -> `Generate Signed App Bundle / APK`
 
 Fill out the information
 
-Then continue and build the release bundle This will produce a
-`/android/app/release/app-release.aab` file
+Then continue and build the release bundle This will produce a `/android/app/release/app-release.aab` file
 
 ## Building iOS Archive
 
@@ -95,18 +94,15 @@ Open in Xcode
 pnpm exec cap open ios
 ```
 
-In `Signing & Capabilities` make sure Team is selected In the top bar make sure
-`Any iOS Device` is selected
+In `Signing & Capabilities` make sure Team is selected In the top bar make sure `Any iOS Device` is selected
 
 Then select `Product` -> `Archive`
 
-Once the archive is complete, select `Distribute App` and follow the steps to
-upload to the App Store or to TestFlight
+Once the archive is complete, select `Distribute App` and follow the steps to upload to the App Store or to TestFlight
 
 ## Versioning
 
-`capacitor-set-version` can be used to easily set the version of the app in the
-iOS and Android projects.
+`capacitor-set-version` can be used to easily set the version of the app in the iOS and Android projects.
 
 ````bash
 npx capacitor-set-version -v 1.0.0 -b 1 # Set version to 1.0.0 and build number to 1
